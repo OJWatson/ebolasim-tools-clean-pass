@@ -5,7 +5,10 @@
 Main commands:
 
 ```text
+ebolasim upstream show
+ebolasim upstream fetch --out build/upstream
 ebolasim build SOURCE_DIR --out build/linux
+ebolasim bundled
 ebolasim example tiny examples/tiny
 ebolasim command examples/tiny/manifest-save.yml --exe build/linux/ebola-spatial-linux
 ebolasim run examples/tiny/manifest-save.yml --exe build/linux/ebola-spatial-linux --root examples/tiny --out runs/tiny

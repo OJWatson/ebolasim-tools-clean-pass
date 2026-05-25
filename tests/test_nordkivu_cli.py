@@ -1,6 +1,9 @@
 import json
 from pathlib import Path
 
+import yaml
+
+from ebolasim_tools.bundled import detect_platform_id, stage_bundled_executable
 from ebolasim_tools.cli import main
 from ebolasim_tools.command import build_command_plan
 from ebolasim_tools.manifest import ManifestInputs, ManifestOutputs, RunManifest
@@ -179,3 +182,56 @@ def test_cli_command_dry_run(tmp_path, capsys):
     payload = json.loads(capsys.readouterr().out)
     assert payload["validation"]["ok"] is True
     assert payload["command"][0] == "exe"
+
+
+def test_cli_upstream_show(tmp_path, capsys):
+    lock = tmp_path / "upstream.lock.yml"
+    lock.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": 1,
+                "upstream": {
+                    "name": "ebolasim_public",
+                    "repository": "https://example.invalid/ebolasim_public",
+                    "ref_type": "commit",
+                    "ref": "1234567890abcdef1234567890abcdef12345678",
+                    "archive_url": "file:///tmp/upstream.tar.gz",
+                    "archive_sha256": "a" * 64,
+                    "strip_prefix": "upstream-src",
+                },
+            },
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    assert main(["upstream", "show", "--lock", str(lock), "--pretty"]) == 0
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["name"] == "ebolasim_public"
+    assert payload["ref_type"] == "commit"
+
+
+def test_cli_bundled_ok(tmp_path, capsys):
+    package_root = tmp_path / "pkg"
+    executable = tmp_path / "ebola-spatial-linux"
+    executable.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    executable.chmod(0o755)
+    stage_bundled_executable(
+        executable,
+        platform_id=detect_platform_id(),
+        package_root=package_root,
+    )
+    assert (
+        main(
+            [
+                "bundled",
+                "--package-root",
+                str(package_root),
+                "--platform-id",
+                detect_platform_id(),
+                "--pretty",
+            ]
+        )
+        == 0
+    )
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["ok"] is True

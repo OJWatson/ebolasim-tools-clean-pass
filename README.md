@@ -14,15 +14,24 @@ This package deliberately treats the model as an external executable. It helps w
 - summarise CSV outputs;
 - inspect density and saved-network binary headers.
 
-It does not redistribute the original model source. Provide the legacy source tree yourself when building.
+It does not redistribute the original model source. CI/release automation fetches a pinned public upstream
+archive, applies this package's patch set, compiles the Linux executable, and bundles that executable in
+release artifacts and platform wheels.
 
 ## Quickstart
 
 ```bash
 python -m pip install -e .
 
-# Build the original model source on Linux.
-ebolasim build /path/to/ebolasim_public-master --out build/linux --overwrite --pretty
+# Show lock metadata for the pinned public upstream source.
+ebolasim upstream show --pretty
+
+# Fetch and verify the pinned upstream source archive.
+ebolasim upstream fetch --out build/upstream --pretty
+
+# Build the original model source on Linux (either fetched or user-provided).
+# Use result.source_dir from `ebolasim upstream fetch` output.
+ebolasim build /path/to/fetched/source --out build/linux --overwrite --pretty
 
 # Generate a small example input bundle.
 ebolasim example tiny examples/tiny --overwrite --pretty
@@ -40,6 +49,9 @@ ebolasim run examples/tiny/manifest-save.yml \
 
 # Summarise generated outputs.
 ebolasim outputs summary examples/tiny/outputs/save --pretty
+
+# Check whether this installation already includes a bundled executable.
+ebolasim bundled --pretty
 ```
 
 ## Public Python API
@@ -53,8 +65,22 @@ run = run_model(example.save_manifest, executable=build.executable, root=example
 summary = summarise_outputs("examples/tiny/outputs/save")
 ```
 
+## CI and release build pipeline
+
+`tools/ci/build_release_bundle.py` is the canonical make-like pipeline used by GitHub Actions:
+
+1. fetch the pinned upstream archive from `legacy-src/upstream.lock.yml`;
+2. verify source archive SHA256 and extract source;
+3. apply bundled patches and compile `ebola-spatial-linux`;
+4. run a seeded tiny simulation smoke check;
+5. stage the executable as package data under `src/ebolasim_tools/_bundled/<platform>/`;
+6. write reproducibility metadata and checksums to `dist/release-bundle/`.
+
+The CI workflow reruns this bundle build twice and compares binary SHA256 values for reproducibility.
+
 ## What changed in this package pass
 
 The previous phase-specific command set has been removed from the public package. The maintained surface is now the user workflow: build, patch, parameters, manifests, commands, runs, outputs, binary inspection and examples.
 
-Historical phase artefacts, generated run folders and compiled binaries are not included in the source package. The useful Linux patch set is preserved under `legacy-src/patches` and as package data.
+Historical phase artefacts and generated run folders are not included in the source package. The useful
+Linux patch set is preserved under `legacy-src/patches` and as package data.
