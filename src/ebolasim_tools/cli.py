@@ -13,6 +13,7 @@ from typing import Any
 from ._version import __version__
 from .binary import inspect_density_header, inspect_network_header
 from .build import build_model, inspect_source
+from .bundled import resolve_bundled_executable
 from .command import build_command_plan
 from .examples import write_tiny_example
 from .manifest import read_manifest, validate_manifest
@@ -21,6 +22,7 @@ from .outputs import plot_output_timeseries, summarise_outputs
 from .params import ParameterSet, tiny_parameter_set
 from .patches import apply_patches, copy_source_tree, read_patch_inventory
 from .run import run_model
+from .upstream import fetch_upstream_source, read_upstream_lock
 
 
 def _print(payload: Any, *, pretty: bool = False) -> None:
@@ -53,6 +55,23 @@ def build_parser() -> argparse.ArgumentParser:
     patch.add_argument("--patch-dir", type=Path)
     patch.add_argument("--overwrite", action="store_true")
     patch.add_argument("--pretty", action="store_true")
+
+    upstream = sub.add_parser(
+        "upstream", help="Inspect or fetch the pinned upstream legacy source."
+    )
+    upstream_sub = upstream.add_subparsers(dest="upstream_command", required=True)
+    upstream_show = upstream_sub.add_parser("show", help="Print upstream lock metadata.")
+    upstream_show.add_argument("--lock", type=Path)
+    upstream_show.add_argument("--pretty", action="store_true")
+    upstream_fetch = upstream_sub.add_parser(
+        "fetch", help="Fetch and verify the pinned upstream legacy source archive."
+    )
+    upstream_fetch.add_argument("--out", required=True, type=Path)
+    upstream_fetch.add_argument("--lock", type=Path)
+    upstream_fetch.add_argument("--timeout", type=float, default=120)
+    upstream_fetch.add_argument("--overwrite", action="store_true")
+    upstream_fetch.add_argument("--allow-placeholders", action="store_true")
+    upstream_fetch.add_argument("--pretty", action="store_true")
 
     build = sub.add_parser("build", help="Patch and compile the legacy source on Linux.")
     build.add_argument("source_dir", type=Path)
@@ -157,6 +176,14 @@ def build_parser() -> argparse.ArgumentParser:
     outputs_plot.add_argument("--y", default="I")
     outputs_plot.add_argument("--pretty", action="store_true")
 
+    bundled = sub.add_parser(
+        "bundled", help="Inspect whether a platform-specific bundled executable is available."
+    )
+    bundled.add_argument("--platform-id")
+    bundled.add_argument("--target", default="ebola-spatial-linux")
+    bundled.add_argument("--package-root", type=Path)
+    bundled.add_argument("--pretty", action="store_true")
+
     return parser
 
 
@@ -185,6 +212,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         result = apply_patches(target, patch_dir=args.patch_dir)
         _print(result, pretty=args.pretty)
         return 0 if result.ok else 1
+
+    if args.command == "upstream":
+        if args.upstream_command == "show":
+            _print(read_upstream_lock(args.lock), pretty=args.pretty)
+            return 0
+        if args.upstream_command == "fetch":
+            result = fetch_upstream_source(
+                output_dir=args.out,
+                lock_path=args.lock,
+                timeout=args.timeout,
+                overwrite=args.overwrite,
+                allow_placeholders=args.allow_placeholders,
+            )
+            _print(result, pretty=args.pretty)
+            return 0 if result.ok else 1
 
     if args.command == "build":
         result = build_model(
@@ -292,6 +334,15 @@ def main(argv: Sequence[str] | None = None) -> int:
             path = plot_output_timeseries(args.csv, args.out, y_column=args.y)
             _print({"path": path.as_posix()}, pretty=args.pretty)
             return 0
+
+    if args.command == "bundled":
+        result = resolve_bundled_executable(
+            platform_id=args.platform_id,
+            target=args.target,
+            package_root=args.package_root,
+        )
+        _print(result, pretty=args.pretty)
+        return 0 if result.ok else 1
 
     parser.error("unhandled command")
     return 2

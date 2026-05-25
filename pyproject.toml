@@ -36,6 +36,7 @@ package-dir = {"" = "src"}
 where = ["src"]
 
 [tool.setuptools.package-data]
+"ebolasim_tools" = ["_bundled/**/*"]
 "ebolasim_tools.legacy_patches" = ["*.patch", "*.md", "*.yml"]
 
 [tool.pytest.ini_options]

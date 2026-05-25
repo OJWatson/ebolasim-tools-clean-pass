@@ -1,0 +1,12 @@
+schema_version: 1
+upstream:
+  name: ebolasim_public
+  repository: https://github.com/PLACEHOLDER/ebolasim_public
+  ref_type: commit
+  ref: 0000000000000000000000000000000000000000
+  archive_url: https://github.com/PLACEHOLDER/ebolasim_public/archive/0000000000000000000000000000000000000000.tar.gz
+  archive_sha256: 0000000000000000000000000000000000000000000000000000000000000000
+  strip_prefix: ebolasim_public-0000000000000000000000000000000000000000
+notes:
+  - Fill this file with the real public upstream repository and commit before enabling release workflows.
+  - The archive SHA256 must match the downloaded source archive exactly.

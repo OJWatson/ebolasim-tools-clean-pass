@@ -10,3 +10,5 @@ runs/
 artifacts/
 legacy-src/original/
 legacy-src/linux/
+src/ebolasim_tools/_bundled/*
+!src/ebolasim_tools/_bundled/.gitkeep

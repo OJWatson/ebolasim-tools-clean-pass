@@ -1,0 +1,11 @@
+schema_version: 1
+upstream:
+  name: ebolasim_public
+  repository: https://github.com/PLACEHOLDER/ebolasim_public
+  ref_type: commit
+  ref: 0000000000000000000000000000000000000000
+  archive_url: https://github.com/PLACEHOLDER/ebolasim_public/archive/0000000000000000000000000000000000000000.tar.gz
+  archive_sha256: 0000000000000000000000000000000000000000000000000000000000000000
+  strip_prefix: ebolasim_public-0000000000000000000000000000000000000000
+notes:
+  - Keep this package-data lock file in sync with legacy-src/upstream.lock.yml.
