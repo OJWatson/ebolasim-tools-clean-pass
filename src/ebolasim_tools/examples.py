@@ -1,0 +1,185 @@
+"""Example input bundle generation."""
+
+from __future__ import annotations
+
+import json
+from dataclasses import asdict, dataclass
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+from .binary import write_density_file
+from .manifest import (
+    ManifestInputs,
+    ManifestLegacyArgs,
+    ManifestOutputs,
+    ManifestSource,
+    RunManifest,
+    write_manifest,
+)
+from .params import ParameterSet, tiny_parameter_set
+
+
+@dataclass(frozen=True)
+class TinyExampleSpec:
+    name: str = "TinyDistrict"
+    population: int = 24
+    grid_width: int = 4
+    admin_units: int = 2
+    paramset: int = 1
+    sampling_time: int = 7
+    realisations: int = 1
+    threads: int = 1
+    country: str = "COUNTRY_WA"
+    seeds: tuple[int, int, int, int] = (98798150, 729101, 1234567, 7654321)
+    reproduction_number: float = 4.0
+
+    @property
+    def cell_count(self) -> int:
+        return self.grid_width * self.grid_width
+
+    @property
+    def output_stem(self) -> str:
+        return f"paramset_{self.paramset}.0"
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["cell_count"] = self.cell_count
+        payload["seeds"] = list(self.seeds)
+        return payload
+
+
+@dataclass(frozen=True)
+class TinyExample:
+    root: str
+    spec: TinyExampleSpec
+    files: list[str]
+    save_manifest: str
+    load_manifest: str
+    parameter_file: str
+    density_file: str
+    network_file: str
+
+    def to_dict(self) -> dict[str, Any]:
+        payload = asdict(self)
+        payload["spec"] = self.spec.to_dict()
+        return payload
+
+    def to_json(self, *, pretty: bool = False) -> str:
+        return json.dumps(self.to_dict(), indent=2 if pretty else None, sort_keys=True)
+
+
+def _density_records(spec: TinyExampleSpec) -> list[tuple[float, float, float, int, int]]:
+    records: list[tuple[float, float, float, int, int]] = []
+    base_pop = spec.population // spec.cell_count
+    remainder = spec.population % spec.cell_count
+    for y in range(spec.grid_width):
+        for x in range(spec.grid_width):
+            index = y * spec.grid_width + x
+            population = base_pop + (1 if index < remainder else 0)
+            admin = 1 + (index % spec.admin_units)
+            records.append(
+                (
+                    (x + 0.5) / spec.grid_width,
+                    (y + 0.5) / spec.grid_width,
+                    float(population),
+                    1,
+                    admin,
+                )
+            )
+    return records
+
+
+def tiny_parameters(spec: TinyExampleSpec | None = None) -> ParameterSet:
+    spec = spec or TinyExampleSpec()
+    return tiny_parameter_set(
+        population=spec.population,
+        sampling_time=spec.sampling_time,
+        realisations=spec.realisations,
+        reproduction_number=spec.reproduction_number,
+    )
+
+
+def _manifest(root: Path, spec: TinyExampleSpec, *, network_mode: str) -> RunManifest:
+    output_dir = f"outputs/{network_mode}"
+    return RunManifest(
+        inputs=ManifestInputs(
+            parameter_file="params/p_TinyDistrict.txt",
+            preparameter_file="params/preFP_TinyDistrict.txt",
+            density_file="inputs/TinyDistrict_density.bin",
+            network_file="inputs/TinyDistrict_network.bin",
+            network_mode=network_mode,
+        ),
+        outputs=ManifestOutputs(
+            output_base=f"{output_dir}/{spec.output_stem}", output_dir=output_dir
+        ),
+        country=spec.country,
+        threads=spec.threads,
+        paramset=spec.paramset,
+        executable="ebola-spatial-linux",
+        legacy_args=ManifestLegacyArgs(r0_scale="1.0", clp={1: "0", 2: "0"}),
+        seeds=list(spec.seeds),
+        source=ManifestSource(
+            kind="synthetic_tiny",
+            bundle_root=".",
+            notes="Generated lightweight simulator-compatible tiny example.",
+        ),
+        metadata={"not_calibrated": True, "example": spec.name},
+    )
+
+
+def write_tiny_example(
+    root: str | Path, *, spec: TinyExampleSpec | None = None, overwrite: bool = False
+) -> TinyExample:
+    """Write a small simulator-compatible example input bundle."""
+
+    spec = spec or TinyExampleSpec()
+    target = Path(root)
+    if target.exists() and any(target.iterdir()) and not overwrite:
+        raise FileExistsError(f"example directory already exists and is not empty: {target}")
+    target.mkdir(parents=True, exist_ok=True)
+    (target / "params").mkdir(exist_ok=True)
+    (target / "inputs").mkdir(exist_ok=True)
+    (target / "outputs" / "save").mkdir(parents=True, exist_ok=True)
+    (target / "outputs" / "load").mkdir(parents=True, exist_ok=True)
+    parameter_file = target / "params" / "p_TinyDistrict.txt"
+    preparameter_file = target / "params" / "preFP_TinyDistrict.txt"
+    density_file = target / "inputs" / "TinyDistrict_density.bin"
+    network_file = target / "inputs" / "TinyDistrict_network.bin"
+    tiny_parameters(spec).write(parameter_file)
+    ParameterSet({"Scenario name": spec.name, "Generated by": "ebolasim-tools"}).write(
+        preparameter_file
+    )
+    write_density_file(density_file, _density_records(spec))
+    network_file.write_bytes(b"")
+    save_manifest = target / "manifest-save.yml"
+    load_manifest = target / "manifest-load.yml"
+    write_manifest(_manifest(target, spec, network_mode="save"), save_manifest)
+    write_manifest(_manifest(target, spec, network_mode="load"), load_manifest)
+    (target / "metadata.yml").write_text(
+        yaml.safe_dump(spec.to_dict(), sort_keys=False), encoding="utf-8"
+    )
+    (target / "README.md").write_text(
+        (
+            "# TinyDistrict\n\n"
+            "A small, synthetic, not-calibrated example for exercising the legacy executable.\n"
+        ),
+        encoding="utf-8",
+    )
+    files = sorted(
+        path.relative_to(target).as_posix() for path in target.rglob("*") if path.is_file()
+    )
+    return TinyExample(
+        root=target.as_posix(),
+        spec=spec,
+        files=files,
+        save_manifest=save_manifest.as_posix(),
+        load_manifest=load_manifest.as_posix(),
+        parameter_file=parameter_file.as_posix(),
+        density_file=density_file.as_posix(),
+        network_file=network_file.as_posix(),
+    )
+
+
+__all__ = ["TinyExample", "TinyExampleSpec", "tiny_parameters", "write_tiny_example"]

@@ -1,0 +1,16 @@
+# ebolasim-tools patch: 0002-variadic-error-macro
+# Summary: Make ERR_CRITICAL compatible with formatted calls already present in the source.
+# Target files: SpatialSim.h
+# Model logic change: no
+# Compile only: true
+--- a/SpatialSim.h
++++ b/SpatialSim.h
+@@ -55,7 +55,7 @@
+   #define COUNTRY_THAILAND 1
+   #define COUNTRY_UK 1
+ */
+-#define ERR_CRITICAL(x) {fprintf(stderr,x);exit(1);}
++#define ERR_CRITICAL(...) do { fprintf(stderr, __VA_ARGS__); exit(1); } while (0)
+ /*
+   #define HOST_TREATED(x) (0)
+   #define HOST_TO_BE_TREATED(x) (0)

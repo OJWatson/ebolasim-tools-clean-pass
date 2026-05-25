@@ -1,0 +1,16 @@
+# ebolasim-tools patch: 0006-output-header-tab-escape
+# Summary: Correct one tab escape in the main output header and remove the GCC unknown-escape diagnostic.
+# Target files: SpatialSim.c
+# Model logic change: no
+# Compile only: false
+--- a/SpatialSim.c
++++ b/SpatialSim.c
+@@ -7981,7 +7981,7 @@
+ 	{
+ 		sprintf(outname, "%s.controls.xls", OutFile);
+ 		if (!(dat = fopen(outname, "w"))) ERR_CRITICAL("Unable to open output file\n");
+-		fprintf(dat, "t\tS\tincC\tincTC\tincFC\tincFI\tincETU\tincH\cumT\tcumUT\tcumTP\tcumV\tincHQ\tincAC\tincAH\tincAA\tincACS\tincAPC\tincAPA\tincAPCS");
++		fprintf(dat, "t\tS\tincC\tincTC\tincFC\tincFI\tincETU\tincH\tcumT\tcumUT\tcumTP\tcumV\tincHQ\tincAC\tincAH\tincAA\tincACS\tincAPC\tincAPA\tincAPCS");
+ 		for (j = 0; j < NUM_PLACE_TYPES; j++) fprintf(dat, "\tprClosed_%i", j);
+ 		fprintf(dat, "\n");
+ 		for (i = 0; i < P.NumSamples; i++)

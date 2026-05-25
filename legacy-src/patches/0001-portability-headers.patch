@@ -1,0 +1,18 @@
+# ebolasim-tools patch: 0001-portability-headers
+# Summary: Add minimal standard headers needed by Linux/C++ compatibility builds.
+# Target files: SpatialSim.h
+# Model logic change: no
+# Compile only: true
+--- a/SpatialSim.h
++++ b/SpatialSim.h
+@@ -38,6 +38,10 @@
+ #include <string.h>
+ #include <signal.h>
+ #include <time.h>
++#include <errno.h>
++#ifdef __cplusplus
++#include <algorithm>
++#endif
+ 
+ /* ranf defines */
+ #define Xm1 2147483563

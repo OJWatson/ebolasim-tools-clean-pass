@@ -1,0 +1,6 @@
+site_name: ebolasim-tools
+nav:
+  - Home: index.md
+  - Building on Linux: building-linux.md
+  - Parameter files: parameters.md
+  - Development history: history.md

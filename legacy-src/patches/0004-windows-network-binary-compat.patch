@@ -1,0 +1,58 @@
+# ebolasim-tools patch: 0004-windows-network-binary-compat
+# Summary: Read and write saved-network seed headers with Windows-compatible 32-bit fields on Unix.
+# Target files: SpatialSim.c
+# Model logic change: no
+# Compile only: false
+--- a/SpatialSim.c
++++ b/SpatialSim.c
+@@ -6896,13 +6896,23 @@
+ {
+ 	int i,j,k,l,m,n,npt,i2;
+ 	long s1,s2;
++#ifdef UNIX
++	int s1_32,s2_32;
++#endif
+ 	FILE *dat;
+ 
+ 	if(!(dat=fopen(NetworkFile,"rb"))) ERR_CRITICAL("Unable to open network file\n");
+ 	npt=NUM_PLACE_TYPES_NOAIR;
+ 	fread_big(&i,sizeof(int),1,dat);
++#ifdef UNIX
++	fread_big(&s1_32,sizeof(int),1,dat);
++	fread_big(&s2_32,sizeof(int),1,dat);
++	s1=(long) s1_32;
++	s2=(long) s2_32;
++#else
+ 	fread_big(&s1,sizeof(long),1,dat);
+ 	fread_big(&s2,sizeof(long),1,dat);
++#endif
+ 	if(i!=npt) ERR_CRITICAL("Number of place types does not match saved value\n");
+ 	if((s1!=P.seed1)||(s2!=P.seed2)) ERR_CRITICAL("Random number seeds do not match saved values\n");
+ 	k=(P.N+999999)/1000000;
+@@ -6943,6 +6953,9 @@
+ void SavePeopleToPlaces(char *NetworkFile)
+ {
+ 	int i,j,npt;
++#ifdef UNIX
++	int seed1_32,seed2_32;
++#endif
+ 	FILE *dat;
+ 
+ 	npt=NUM_PLACE_TYPES_NOAIR;
+@@ -6950,8 +6963,16 @@
+ 	if(P.PlaceTypeNum>0)
+ 		{
+ 		fwrite_big(&npt,sizeof(int),1,dat);
++#ifdef UNIX
++		seed1_32=(int) P.seed1;
++		seed2_32=(int) P.seed2;
++		if(((long) seed1_32!=P.seed1)||((long) seed2_32!=P.seed2)) ERR_CRITICAL("Network seeds are outside the portable int32 range\n");
++		fwrite_big(&seed1_32,sizeof(int),1,dat);
++		fwrite_big(&seed2_32,sizeof(int),1,dat);
++#else
+ 		fwrite_big(&P.seed1,sizeof(long),1,dat);
+ 		fwrite_big(&P.seed2,sizeof(long),1,dat);
++#endif
+ 		for(i=0;i<P.N;i++)
+ 			{
+ 			if((i+1)%100000==0) fprintf(stderr,"%i saved            \r",i+1);

@@ -1,0 +1,54 @@
+# ebolasim-tools patch: 0005-const-char-input-names
+# Summary: Make read-only XML/input parameter name arguments const-correct for Linux/C++ builds.
+# Target files: SpatialSim.c
+# Model logic change: no
+# Compile only: true
+--- a/SpatialSim.c
++++ b/SpatialSim.c
+@@ -6,7 +6,7 @@
+ 
+ void ReadParams(char *,char *);
+ void ReadInterventions(char *);
+-int GetXMLNode(FILE *,char *,char *,char *,int);
++int GetXMLNode(FILE *,const char *,const char *,char *,int);
+ void ReadAirTravel(char *);
+ void SetupModel(char *,char *,char *,char *);
+ void SetupPopulation(char *,char *,char *);
+@@ -100,8 +100,8 @@
+ double dist2_mm(microcell *, microcell *);
+ double dist2_mm_min(microcell *, microcell *); //added min distance from microcell to microcell for origin-destination matrix: ggilani 28/01/15
+ double dist2_raw(double,double,double,double);
+-int GetInputParameter(FILE *,FILE *,char *,char *,void *, int,int,int);
+-int GetInputParameter2(FILE *,FILE *,char *,char *,void *, int,int,int);
++int GetInputParameter(FILE *,FILE *,const char *,const char *,void *, int,int,int);
++int GetInputParameter2(FILE *,FILE *,const char *,const char *,void *, int,int,int);
+ int GetInputParameter3(FILE*, const char*, const char*, void*, int, int, int);
+ //int GetInputParameter3(FILE *,char *,char *,void *, int,int,int);
+ void CaptureBitmap(int,int);
+@@ -2482,7 +2482,7 @@
+ 	fclose(dat);
+ }
+ 
+-int GetXMLNode(FILE *dat,char *NodeName,char *ParentName,char *Value,int ResetFilePos)
++int GetXMLNode(FILE *dat,const char *NodeName,const char *ParentName,char *Value,int ResetFilePos)
+ {
+ // ResetFilePos=1 leaves dat cursor in same position as when function was called. 0 leaves it at end of NodeName closure
+ // GetXMLNode returns 1 if NodeName found, 0 otherwise. If NodeName not found, ParentName closure must be
+@@ -15561,7 +15561,7 @@
+ 		}
+ }
+ 
+-int GetInputParameter(FILE *dat,FILE *dat2,char *SItemName,char *ItemType,void *ItemPtr, int NumItem,int NumItem2,int Offset)
++int GetInputParameter(FILE *dat,FILE *dat2,const char *SItemName,const char *ItemType,void *ItemPtr, int NumItem,int NumItem2,int Offset)
+ {
+ 	int FindFlag;
+ 	
+@@ -15574,7 +15574,7 @@
+ 	return FindFlag;
+ }
+ 
+-int GetInputParameter2(FILE *dat,FILE *dat2,char *SItemName,char *ItemType,void *ItemPtr, int NumItem,int NumItem2,int Offset)
++int GetInputParameter2(FILE *dat,FILE *dat2,const char *SItemName,const char *ItemType,void *ItemPtr, int NumItem,int NumItem2,int Offset)
+ {
+ 	int FindFlag=0;
+ 
