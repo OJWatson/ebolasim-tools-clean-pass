@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+          python -m pip install build
+
+      - name: Validate upstream lock is pinned
+        run: |
+          python - <<'PY'
+          from ebolasim_tools.upstream import read_upstream_lock
+          lock = read_upstream_lock("legacy-src/upstream.lock.yml")
+          if lock.is_placeholder:
+              raise SystemExit(
+                  "legacy-src/upstream.lock.yml still has placeholder values. "
+                  "Pin the public upstream repository, ref, archive URL, and SHA256."
+              )
+          print(lock.to_json(pretty=True))
+          PY
+
+      - name: Build verified release bundle
+        run: |
+          python tools/ci/build_release_bundle.py \
+            --overwrite \
+            --workdir build/release \
+            --bundle-dir dist/release-bundle \
+            --package-root src/ebolasim_tools
+
+      - name: Build wheel and sdist
+        run: python -m build
+
+      - name: Package release bundle
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import tarfile
+
+          out = Path("dist/release-bundle.tar.gz")
+          with tarfile.open(out, "w:gz") as archive:
+              archive.add("dist/release-bundle", arcname="release-bundle")
+          print(out.as_posix())
+          PY
+
+      - name: Upload workflow artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
+            dist/release-bundle/
+
+      - name: Publish GitHub release assets
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            dist/*.whl
+            dist/*.tar.gz
