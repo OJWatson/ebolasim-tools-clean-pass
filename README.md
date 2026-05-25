@@ -78,6 +78,10 @@ summary = summarise_outputs("examples/tiny/outputs/save")
 
 The CI workflow reruns this bundle build twice and compares binary SHA256 values for reproducibility.
 
+## Remaining completion plan
+
+The outstanding steps to finish this workstream are tracked in `docs/ci-release-completion-plan.md`.
+
 ## What changed in this package pass
 
 The previous phase-specific command set has been removed from the public package. The maintained surface is now the user workflow: build, patch, parameters, manifests, commands, runs, outputs, binary inspection and examples.

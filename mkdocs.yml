@@ -2,5 +2,6 @@ site_name: ebolasim-tools
 nav:
   - Home: index.md
   - Building on Linux: building-linux.md
+  - CI/Release Completion Plan: ci-release-completion-plan.md
   - Parameter files: parameters.md
   - Development history: history.md
