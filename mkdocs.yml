@@ -13,7 +13,7 @@ plugins:
 nav:
   - Getting started: index.ipynb
   - Parameters: parameters.ipynb
-  - Ebola2 validation:
-      - Overview: vignettes/ebola2/comparison.ipynb
-      - Evidence summary: vignettes/ebola2/evidence/comparison_summary.md
+  - Single admin unit validation:
+      - Overview: vignettes/sadv/comparison.ipynb
+      - Evidence summary: vignettes/sadv/evidence/comparison_summary.md
   - Maintainers: maintainers.ipynb

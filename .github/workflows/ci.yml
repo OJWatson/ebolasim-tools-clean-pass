@@ -64,7 +64,7 @@ jobs:
         run: uv sync --frozen --extra dev --extra docs --extra plot
 
       - name: Lint
-        run: uv run ruff check src tests tools/ci tools/dev setup.py docs/vignettes/ebola2/replay_ebola2.py
+        run: uv run ruff check src tests tools/ci tools/dev setup.py docs/vignettes/sadv/replay_sadv.py
 
       - name: Unit tests
         run: uv run pytest -q

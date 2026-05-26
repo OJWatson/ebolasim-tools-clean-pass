@@ -67,14 +67,16 @@ def parameter_reference_markdown() -> str:
     """Render the complete parameter reference as a Markdown table."""
 
     lines = [
-        "| Parameter | Category | Type | Required | Default | Description |",
-        "|---|---|---|---|---|---|",
+        "| Exact C parameter file key | C target | Category | Type | Required | "
+        "Default | Description |",
+        "|---|---|---|---|---|---|---|",
     ]
     for entry in parameter_reference():
         default = "" if entry.default is None else f"`{entry.default}`"
+        c_target = "" if entry.c_target is None else f"`{entry.c_target}`"
         required = "yes" if entry.required else "no"
         lines.append(
-            f"| `{entry.name}` | {entry.category} | {entry.type} | {required} | "
+            f"| `{entry.name}` | {c_target} | {entry.category} | {entry.type} | {required} | "
             f"{default} | {entry.description} |"
         )
     return "\n".join(lines)

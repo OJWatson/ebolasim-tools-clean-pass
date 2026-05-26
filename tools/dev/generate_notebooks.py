@@ -191,6 +191,8 @@ def parameters() -> list[dict[str, Any]]:
             EbolaSim parameter files use exact bracketed names. This package
             does not rename them: the strings shown here are the names searched
             for by the upstream C model in `ReadParams()`.
+            Use these exact C parameter file keys when calling `Pars.set()` or
+            editing a parameter file; they are not Python aliases.
 
             Some parameters are always required when the relevant code path is
             reached. Others are optional and have defaults assigned by the C
@@ -248,9 +250,10 @@ def parameters() -> list[dict[str, Any]]:
             ## Complete Reference
 
             The descriptions are conservative summaries derived from the
-            upstream parameter names and grouped by subsystem. The exact name,
-            type, required/default status, and source line are the auditable
-            parts to use when editing parameter files.
+            upstream parameter names and grouped by subsystem. The exact C
+            parameter file key is what appears inside square brackets in a
+            parameter file. The C target shows the upstream variable populated
+            by that key where it could be extracted from `ReadParams()`.
             """
         ),
         code(
@@ -346,34 +349,49 @@ def maintainers() -> list[dict[str, Any]]:
     ]
 
 
-def ebola2() -> list[dict[str, Any]]:
+def sadv() -> list[dict[str, Any]]:
     return [
         md(
             """
-            # Ebola2 validation
+            # Single admin unit validation
 
-            This notebook documents a replay of `ignore/Ebola2.zip`, a local
-            reference bundle containing input files, batch launch files, and
-            previous EbolaSim outputs for a single-administrative-unit North
-            Kivu run.
+            This notebook validates the package against a full single
+            administrative unit EbolaSim run, not the tiny synthetic demo data.
+            The reference scenario contains 900,000 individuals and was run
+            with the public `mrc-ide/ebolasim_public` codebase, the associated
+            input parameter files, demography/population input, and network
+            input from `ignore/Ebola2.zip`.
 
             The zip is intentionally not committed. The committed evidence in
-            `docs/vignettes/ebola2/evidence` records how paramsets 1 and 2 were
-            rerun with this package, compares all 10,000 reference CSVs, and
-            stores a compact subset of reference/generated files for review.
+            `docs/vignettes/sadv/evidence` includes command metadata, a
+            comparison summary, and selected reference/generated outputs for
+            paramsets 1 and 2. That lets the docs and tests compare package
+            output against the reference run without putting the full private
+            bundle in git.
             """
         ),
         code(
             """
-            from collections import Counter
             import csv
             import importlib.util
             import json
             import os
-            from pathlib import Path
             import sys
+            from collections import Counter
+            from pathlib import Path
 
             import matplotlib.pyplot as plt
+
+            from ebolasim import read_results, resolve_executable
+            from ebolasim_tools.command import build_command_plan
+            from ebolasim_tools.manifest import (
+                ManifestInputs,
+                ManifestModelArgs,
+                ManifestOutputs,
+                ManifestSource,
+                RunManifest,
+            )
+            from ebolasim_tools.run import run_model
 
             def find_repo_root(start=None):
                 start = Path.cwd() if start is None else Path(start)
@@ -383,9 +401,9 @@ def ebola2() -> list[dict[str, Any]]:
                 raise RuntimeError("could not locate repository root")
 
             ROOT = find_repo_root()
-            EVIDENCE = ROOT / "docs/vignettes/ebola2/evidence"
-            REPLAY_PATH = ROOT / "docs/vignettes/ebola2/replay_ebola2.py"
-            spec = importlib.util.spec_from_file_location("ebola2_replay_notebook", REPLAY_PATH)
+            EVIDENCE = ROOT / "docs/vignettes/sadv/evidence"
+            REPLAY_PATH = ROOT / "docs/vignettes/sadv/replay_sadv.py"
+            spec = importlib.util.spec_from_file_location("sadv_replay_notebook", REPLAY_PATH)
             replay = importlib.util.module_from_spec(spec)
             sys.modules[spec.name] = replay
             spec.loader.exec_module(replay)
@@ -407,19 +425,20 @@ def ebola2() -> list[dict[str, Any]]:
         ),
         md(
             """
-            When `ignore/Ebola2.zip` is present, the replay script extracts it
-            into an ignored work directory, reads the Windows batch files, and
-            rewrites only the output paths so reference outputs are never
-            overwritten.
+            The original run is described by Windows batch files in the zip.
+            The replay reads those files, preserves `/P`, `/PP`, `/D`, `/S`,
+            `/R`, `/CLP1..13`, the four random seeds, and `OMP_NUM_THREADS`,
+            and rewrites only `/O` so reference outputs are never overwritten.
             """
         ),
         code(
             """
             zip_path = ROOT / "ignore/Ebola2.zip"
+            bundle_root = None
             if zip_path.is_file():
                 extracted = replay.safe_extract_zip(
                     zip_path,
-                    ROOT / "artifacts/ebola2-notebook/extracted",
+                    ROOT / "artifacts/sadv-notebook/extracted",
                 )
                 bundle_root = replay.find_ebola_dir(extracted)
                 print(f"Bundle root: {bundle_root}")
@@ -439,10 +458,10 @@ def ebola2() -> list[dict[str, Any]]:
         ),
         md(
             """
-            The generated command plans preserve `/P`, `/PP`, `/D`, `/S`, `/R`,
-            `/CLP1..13`, the four seeds, and `OMP_NUM_THREADS`. The only
-            intentional rewrite is `/O`, which points to an ignored generated
-            output directory.
+            The two committed paramsets differ only in the reproduction-number
+            scale passed to `/R`: paramset 1 uses `1.17`, and paramset 2 uses
+            `1`. Both use the same parameter file placeholders, CLP launch
+            substitutions, and random seeds.
             """
         ),
         code(
@@ -463,6 +482,122 @@ def ebola2() -> list[dict[str, Any]]:
                 }
                 for plan in command_plans
             ]
+            """
+        ),
+        md(
+            """
+            The CLP values replace `#1..#13` placeholders in the parameter
+            file. They control the operational scenario layered on top of the
+            fixed demography and network inputs.
+
+            | Placeholder | Meaning |
+            |---|---|
+            | `#1` | ETU bed capacity values |
+            | `#2` | Contact tracing capacity values |
+            | `#3` | Detected cases required to trigger outbreak alert |
+            | `#4` | Mean detection delay |
+            | `#5..#10` | Vaccine delivery capacity, stock, and timing values |
+            | `#11` | Burial capacity values |
+            | `#12` | Pre-outbreak HCW/FLW vaccination proportion |
+            | `#13` | Relative susceptibility of vaccinated HCWs/FLWs |
+            """
+        ),
+        md(
+            """
+            A user-facing package workflow does not need to parse the batch
+            files directly once these inputs are known. Build a `RunManifest`
+            that points at the real C-model input files, turn it into a command
+            plan for inspection, then call `run_model()` and read the outputs.
+            """
+        ),
+        code(
+            """
+            PARAMETER_FILE = "Ervebo/Gavi/Data/p_R1.80_NordKivu_HCWring_midAccept.txt"
+            PREPARAMETER_FILE = "Ervebo/Gavi/Data/preFPNordKivu_HCWring_singleAdUnit.txt"
+            DENSITY_FILE = "Ervebo/Populations/NordKivu_MSF_LS2018.bin"
+            NETWORK_FILE = "Ervebo/Populations/NordKivu_MSF_Network_HCW_singleAdUnt.bin"
+            SEEDS = [98798150, 729101, 17389101, 4797132]
+
+            def manifest_for_paramset(paramset, root, output_root):
+                plan = next(item for item in command_plans if item["paramset"] == paramset)
+                launch_values = plan["launch_values"]
+                output_dir = Path(output_root) / f"paramset_{paramset}"
+                return RunManifest(
+                    inputs=ManifestInputs(
+                        parameter_file=PARAMETER_FILE,
+                        preparameter_file=PREPARAMETER_FILE,
+                        density_file=DENSITY_FILE,
+                        network_file=NETWORK_FILE,
+                        network_mode="save",
+                    ),
+                    outputs=ManifestOutputs(
+                        output_base=(output_dir / f"paramset_{paramset}").as_posix(),
+                        output_dir=output_dir.as_posix(),
+                    ),
+                    paramset=paramset,
+                    threads=4,
+                    model_args=ManifestModelArgs(
+                        r0_scale=launch_values[1],
+                        clp={
+                            index: value
+                            for index, value in enumerate(launch_values[2:], start=1)
+                        },
+                    ),
+                    seeds=SEEDS,
+                    source=ManifestSource(
+                        kind="single_admin_unit_validation",
+                        bundle_root=Path(root).as_posix(),
+                    ),
+                    metadata={"source_bundle": "ignore/Ebola2.zip"},
+                )
+
+            example_root = bundle_root if bundle_root is not None else ROOT / "Ebola2"
+            example_manifest = manifest_for_paramset(
+                1,
+                example_root,
+                ROOT / "artifacts/sadv-package-run/generated",
+            )
+            example_plan = build_command_plan(
+                example_manifest,
+                executable=resolve_executable(required=False) or "ebola-spatial-linux",
+                root=example_root,
+                working_directory=example_root,
+                threads=example_manifest.threads,
+            )
+
+            {
+                "parameter_file": example_manifest.inputs.parameter_file,
+                "density_file": example_manifest.inputs.density_file,
+                "network_file": example_manifest.inputs.network_file,
+                "r0_scale": example_manifest.model_args.r0_scale,
+                "clp_count": len(example_manifest.model_args.clp),
+                "seeds": example_manifest.seeds,
+                "shell_command": example_plan.shell_command,
+            }
+            """
+        ),
+        code(
+            """
+            if os.environ.get("EBOLASIM_RUN_SADV") == "1" and bundle_root is not None:
+                result = run_model(
+                    example_manifest,
+                    executable=resolve_executable(),
+                    root=bundle_root,
+                    run_dir=ROOT / "artifacts/sadv-package-run/logs/paramset_1",
+                    timeout=120,
+                    threads=example_manifest.threads,
+                )
+                results = read_results(result.output_dir)
+                {
+                    "classification": result.classification,
+                    "output_files": len(result.output_files),
+                    "summary": results.summary,
+                }
+            else:
+                print(
+                    "Package-run cell skipped. Set EBOLASIM_RUN_SADV=1 "
+                    "and provide ignore/Ebola2.zip to execute it."
+                )
             """
         ),
         md(
@@ -537,10 +672,10 @@ def ebola2() -> list[dict[str, Any]]:
         ),
         code(
             """
-            if os.environ.get("EBOLASIM_RUN_EBOLA2") == "1" and zip_path.is_file():
+            if os.environ.get("EBOLASIM_RUN_SADV") == "1" and zip_path.is_file():
                 exit_code = replay.main([
                     "--zip", zip_path.as_posix(),
-                    "--workdir", (ROOT / "artifacts/ebola2-replay").as_posix(),
+                    "--workdir", (ROOT / "artifacts/sadv-replay").as_posix(),
                     "--evidence-dir", EVIDENCE.as_posix(),
                     "--paramsets", "1", "2",
                     "--threads", "4",
@@ -548,7 +683,7 @@ def ebola2() -> list[dict[str, Any]]:
                 print(f"Replay exit code: {exit_code}")
             else:
                 print(
-                    "Full replay skipped. Set EBOLASIM_RUN_EBOLA2=1 "
+                    "Full replay skipped. Set EBOLASIM_RUN_SADV=1 "
                     "and provide ignore/Ebola2.zip."
                 )
             """
@@ -561,7 +696,7 @@ def main() -> int:
     write_notebook(docs / "index.ipynb", getting_started())
     write_notebook(docs / "parameters.ipynb", parameters())
     write_notebook(docs / "maintainers.ipynb", maintainers())
-    write_notebook(docs / "vignettes/ebola2/comparison.ipynb", ebola2())
+    write_notebook(docs / "vignettes/sadv/comparison.ipynb", sadv())
     return 0
 
 

@@ -19,8 +19,8 @@ def test_mkdocs_nav_points_to_notebooks():
 
     assert "index.ipynb" in nav_paths
     assert "parameters.ipynb" in nav_paths
-    assert "vignettes/ebola2/comparison.ipynb" in nav_paths
-    assert "vignettes/ebola2/evidence/comparison_summary.md" in nav_paths
+    assert "vignettes/sadv/comparison.ipynb" in nav_paths
+    assert "vignettes/sadv/evidence/comparison_summary.md" in nav_paths
     assert all(path.endswith((".ipynb", ".md")) for path in nav_paths)
 
 
@@ -29,7 +29,7 @@ def test_documentation_notebooks_are_valid_json():
         Path("docs/index.ipynb"),
         Path("docs/parameters.ipynb"),
         Path("docs/maintainers.ipynb"),
-        Path("docs/vignettes/ebola2/comparison.ipynb"),
+        Path("docs/vignettes/sadv/comparison.ipynb"),
     ]:
         notebook = json.loads(path.read_text(encoding="utf-8"))
         assert notebook["nbformat"] == 4
