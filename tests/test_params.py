@@ -1,7 +1,7 @@
 import pytest
 
-from ebolasim_tools import ParameterSet, tiny_parameter_set
-from ebolasim_tools.params import ParameterFormatError
+from ebolasim import demo_pars
+from ebolasim_tools.params import ParameterFormatError, ParameterSet, tiny_parameter_set
 
 
 def test_parameter_set_round_trip(tmp_path):
@@ -48,3 +48,10 @@ def test_tiny_parameter_set_contains_required_runtime_keys():
         assert key in params
     assert params.get_int("Population size") == 24
     assert len(params) > 60
+
+
+def test_demo_pars_default_is_realistic_for_docs():
+    pars = demo_pars()
+    assert pars.raw.get_int("Population size") == 2400
+    assert pars.raw.get_int("Number of realisations") == 20
+    assert pars.raw.get_int("Sampling time") == 90

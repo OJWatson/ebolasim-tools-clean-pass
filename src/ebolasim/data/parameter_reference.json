@@ -1,0 +1,6088 @@
+[
+  {
+    "c_target": "P.TimeStep",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Floating point parameter controlling update timestep.",
+    "format": "%lf",
+    "name": "Update timestep",
+    "required": true,
+    "source_lines": [
+      728
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SampleStep",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Floating point parameter controlling sampling timestep.",
+    "format": "%lf",
+    "name": "Sampling timestep",
+    "required": true,
+    "source_lines": [
+      729
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SampleTime",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Floating point parameter controlling sampling time.",
+    "format": "%lf",
+    "name": "Sampling time",
+    "required": true,
+    "source_lines": [
+      738
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.N",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Integer parameter controlling population size.",
+    "format": "%i",
+    "name": "Population size",
+    "required": true,
+    "source_lines": [
+      740
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.NR",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Count used by the model for realisations.",
+    "format": "%i",
+    "name": "Number of realisations",
+    "required": true,
+    "source_lines": [
+      741
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.NRN",
+    "category": "Core simulation control",
+    "default": "P.NR",
+    "description": "Count used by the model for non-extinct realisations.",
+    "format": "%i",
+    "name": "Number of non-extinct realisations",
+    "required": false,
+    "source_lines": [
+      742
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.SmallEpidemicCases",
+    "category": "Core simulation control",
+    "default": "-1",
+    "description": "Upper bound used for number of cases defining small outbreak.",
+    "format": "%i",
+    "name": "Maximum number of cases defining small outbreak",
+    "required": false,
+    "source_lines": [
+      743
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.NC",
+    "category": "Spatial grid, kernels, and maps",
+    "default": null,
+    "description": "Count used by the model for spatial cells.",
+    "format": "%i",
+    "name": "Number of spatial cells",
+    "required": true,
+    "source_lines": [
+      744
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.NMCL",
+    "category": "Spatial grid, kernels, and maps",
+    "default": null,
+    "description": "Count used by the model for micro-cells per spatial cell width.",
+    "format": "%i",
+    "name": "Number of micro-cells per spatial cell width",
+    "required": true,
+    "source_lines": [
+      745
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ResetSeeds",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Integer parameter controlling reset seeds for every run.",
+    "format": "%i",
+    "name": "Reset seeds for every run",
+    "required": false,
+    "source_lines": [
+      747
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.KeepSameSeeds",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Integer parameter controlling keep same seeds for every run.",
+    "format": "%i",
+    "name": "Keep same seeds for every run",
+    "required": false,
+    "source_lines": [
+      750
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoFixedSeeds",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Integer parameter controlling use fixed input seeds.",
+    "format": "%i",
+    "name": "Use fixed input seeds",
+    "required": false,
+    "source_lines": [
+      751
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ResetSeedsPostIntervention",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Integer parameter controlling reset seeds after intervention.",
+    "format": "%i",
+    "name": "Reset seeds after intervention",
+    "required": false,
+    "source_lines": [
+      753
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TimeToResetSeeds",
+    "category": "Interventions and behaviour",
+    "default": "1e6",
+    "description": "Model time controlling when reset seeds after intervention occurs.",
+    "format": "%i",
+    "name": "Time to reset seeds after intervention",
+    "required": false,
+    "source_lines": [
+      756
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoHouseholds",
+    "category": "Households",
+    "default": "0",
+    "description": "Toggle controlling whether households is included in the simulation.",
+    "format": "%i",
+    "name": "Include households",
+    "required": false,
+    "source_lines": [
+      758
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.HouseholdSizeDistrib",
+    "category": "Households",
+    "default": null,
+    "description": "Vector or matrix parameter defining the household size distribution.",
+    "format": "%lf",
+    "name": "Household size distribution",
+    "required": true,
+    "source_lines": [
+      761
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HouseholdTrans",
+    "category": "Transmission",
+    "default": null,
+    "description": "Rate parameter controlling household attack rate.",
+    "format": "%lf",
+    "name": "Household attack rate",
+    "required": true,
+    "source_lines": [
+      762
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HouseholdTransPow",
+    "category": "Transmission",
+    "default": null,
+    "description": "Floating point parameter controlling household transmission denominator power.",
+    "format": "%lf",
+    "name": "Household transmission denominator power",
+    "required": true,
+    "source_lines": [
+      763
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MedianIncome",
+    "category": "Households",
+    "default": "10000",
+    "description": "Median value used for household income.",
+    "format": "%lf",
+    "name": "Median household income",
+    "required": false,
+    "source_lines": [
+      764
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.IncomeWeibullPower",
+    "category": "Households",
+    "default": "1.5",
+    "description": "Floating point parameter controlling household income weibull power.",
+    "format": "%lf",
+    "name": "Household income weibull power",
+    "required": false,
+    "source_lines": [
+      765
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoHouseholdOutput",
+    "category": "Households",
+    "default": "0",
+    "description": "Toggle or setting controlling whether household file is written to output files.",
+    "format": "%i",
+    "name": "Output household file",
+    "required": false,
+    "source_lines": [
+      766
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoAdUnits",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle controlling whether administrative units within countries is included in the simulation.",
+    "format": "%i",
+    "name": "Include administrative units within countries",
+    "required": false,
+    "source_lines": [
+      782
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CountryDivisor",
+    "category": "Core simulation control",
+    "default": "1",
+    "description": "Integer parameter controlling divisor for countries.",
+    "format": "%i",
+    "name": "Divisor for countries",
+    "required": false,
+    "source_lines": [
+      783
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoCountryOutput",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle or setting controlling whether country file is written to output files.",
+    "format": "%i",
+    "name": "Output country file",
+    "required": false,
+    "source_lines": [
+      784
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "AdunitNames",
+    "category": "Administrative units and countries",
+    "default": null,
+    "description": "String parameter controlling codes and country/province names for admin units.",
+    "format": "%s",
+    "name": "Codes and country/province names for admin units",
+    "required": false,
+    "source_lines": [
+      798
+    ],
+    "type": "string"
+  },
+  {
+    "c_target": "nc",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Count used by the model for countries to include.",
+    "format": "%i",
+    "name": "Number of countries to include",
+    "required": false,
+    "source_lines": [
+      799
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "CountryNames",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "String parameter controlling list of names of countries to include.",
+    "format": "%s",
+    "name": "List of names of countries to include",
+    "required": true,
+    "source_lines": [
+      805
+    ],
+    "type": "string"
+  },
+  {
+    "c_target": "P.NumAdunits",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Count used by the model for level 1 administrative units to include.",
+    "format": "%i",
+    "name": "Number of level 1 administrative units to include",
+    "required": false,
+    "source_lines": [
+      823
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AdunitLevel1Divisor",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling divisor for level 1 administrative units.",
+    "format": "%i",
+    "name": "Divisor for level 1 administrative units",
+    "required": false,
+    "source_lines": [
+      824
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AdunitLevel1Mask",
+    "category": "Administrative units and countries",
+    "default": "1000000000",
+    "description": "Integer parameter controlling mask for level 1 administrative units.",
+    "format": "%i",
+    "name": "Mask for level 1 administrative units",
+    "required": false,
+    "source_lines": [
+      825
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "AdunitList",
+    "category": "Administrative units and countries",
+    "default": null,
+    "description": "Integer parameter controlling list of level 1 administrative units to include.",
+    "format": "%i",
+    "name": "List of level 1 administrative units to include",
+    "required": true,
+    "source_lines": [
+      831
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MedianIncomeByAdunit",
+    "category": "Households",
+    "default": null,
+    "description": "Median value used for income of level 1 administrative units.",
+    "format": "%lf",
+    "name": "Median income of level 1 administrative units",
+    "required": false,
+    "source_lines": [
+      844
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoAdunitOutput",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle or setting controlling whether incidence by administrative unit is written to output files.",
+    "format": "%i",
+    "name": "Output incidence by administrative unit",
+    "required": false,
+    "source_lines": [
+      855
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoAdunitBoundaryOutput",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Integer parameter controlling draw administrative unit boundaries on maps.",
+    "format": "%i",
+    "name": "Draw administrative unit boundaries on maps",
+    "required": false,
+    "source_lines": [
+      856
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoCorrectAdunitPop",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Integer parameter controlling correct administrative unit populations.",
+    "format": "%i",
+    "name": "Correct administrative unit populations",
+    "required": false,
+    "source_lines": [
+      857
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoSpecifyPop",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling fix population size at specified value.",
+    "format": "%i",
+    "name": "Fix population size at specified value",
+    "required": false,
+    "source_lines": [
+      858
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AdunitBitmapDivisor",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling divisor for administrative unit codes for boundary plotting on bitmaps.",
+    "format": "%i",
+    "name": "Divisor for administrative unit codes for boundary plotting on bitmaps",
+    "required": false,
+    "source_lines": [
+      860
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoOutputPlaceDistForOneAdunit",
+    "category": "Households",
+    "default": "0",
+    "description": "Vector or matrix parameter defining the only output household to place distance distribution for one administrative unit.",
+    "format": "%i",
+    "name": "Only output household to place distance distribution for one administrative unit",
+    "required": false,
+    "source_lines": [
+      861
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.OutputPlaceDistAdunit",
+    "category": "Households",
+    "default": "0",
+    "description": "Vector or matrix parameter defining the administrative unit for which household to place distance distribution to be output.",
+    "format": "%i",
+    "name": "Administrative unit for which household to place distance distribution to be output",
+    "required": false,
+    "source_lines": [
+      864
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoSummaryOutput",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether summary results is written to output files.",
+    "format": "%i",
+    "name": "Output summary results",
+    "required": false,
+    "source_lines": [
+      870
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoAge",
+    "category": "Age and demography",
+    "default": "1",
+    "description": "Toggle controlling whether age is included in the simulation.",
+    "format": "%i",
+    "name": "Include age",
+    "required": false,
+    "source_lines": [
+      872
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoAgeOutput",
+    "category": "Age and demography",
+    "default": "0",
+    "description": "Toggle or setting controlling whether age file is written to output files.",
+    "format": "%i",
+    "name": "Output age file",
+    "required": false,
+    "source_lines": [
+      888
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoWholeHouseholdImmunity",
+    "category": "Households",
+    "default": "0",
+    "description": "Integer parameter controlling initial immunity applied to all household members.",
+    "format": "%i",
+    "name": "Initial immunity applied to all household members",
+    "required": false,
+    "source_lines": [
+      890
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.InitialImmunity",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Vector or matrix parameter defining the initial immunity profile by age.",
+    "format": "%lf",
+    "name": "Initial immunity profile by age",
+    "required": false,
+    "source_lines": [
+      893
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelativeSpatialContact",
+    "category": "Transmission",
+    "default": null,
+    "description": "Multiplier relative to baseline for spatial contact rates by age.",
+    "format": "%lf",
+    "name": "Relative spatial contact rates by age",
+    "required": false,
+    "source_lines": [
+      896
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AgeInfectiousness",
+    "category": "Transmission",
+    "default": null,
+    "description": "Floating point parameter controlling age-dependent infectiousness.",
+    "format": "%lf",
+    "name": "Age-dependent infectiousness",
+    "required": false,
+    "source_lines": [
+      899
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AgeSusceptibility",
+    "category": "Transmission",
+    "default": null,
+    "description": "Floating point parameter controlling age-dependent susceptibility.",
+    "format": "%lf",
+    "name": "Age-dependent susceptibility",
+    "required": false,
+    "source_lines": [
+      902
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PropAgeGroup",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Vector or matrix parameter defining the age distribution of population.",
+    "format": "%lf",
+    "name": "Age distribution of population",
+    "required": true,
+    "source_lines": [
+      905
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelativeTravelRate",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Multiplier relative to baseline for travel rates by age.",
+    "format": "%lf",
+    "name": "Relative travel rates by age",
+    "required": false,
+    "source_lines": [
+      918
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.WAIFW_Matrix",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Vector or matrix parameter defining the wAIFW matrix.",
+    "format": "%lf",
+    "name": "WAIFW matrix",
+    "required": false,
+    "source_lines": [
+      921
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.UpdatesPerDemogUpdate",
+    "category": "Age and demography",
+    "default": "P.UpdatesPerSample",
+    "description": "Integer parameter controlling time steps per demography update (SIR only).",
+    "format": "%i",
+    "name": "Time steps per demography update (SIR only)",
+    "required": false,
+    "source_lines": [
+      951
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MortalityByAge",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Probability assigned to probability of death by year of age.",
+    "format": "%lf",
+    "name": "Probability of death by year of age",
+    "required": false,
+    "source_lines": [
+      952
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RoutineImmunisationStartTime",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Model time at which routine immunisation starts.",
+    "format": "%lf",
+    "name": "Start time for routine immunisation",
+    "required": false,
+    "source_lines": [
+      998
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RoutineImmunisationEffectiveCoverage",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling routine immunisation effective coverage.",
+    "format": "%lf",
+    "name": "Routine immunisation effective coverage",
+    "required": false,
+    "source_lines": [
+      999
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RoutineImmunisationMinAge",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Lower bound used for age in years for routine immunisation.",
+    "format": "%lf",
+    "name": "Minimum age in years for routine immunisation",
+    "required": false,
+    "source_lines": [
+      1000
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RoutineImmunisationMaxAge",
+    "category": "Vaccination and prophylaxis",
+    "default": "3",
+    "description": "Upper bound used for age in years for routine immunisation.",
+    "format": "%lf",
+    "name": "Maximum age in years for routine immunisation",
+    "required": false,
+    "source_lines": [
+      1001
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIAStartTime",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Model time at which sIA starts.",
+    "format": "%lf",
+    "name": "Start time for SIA",
+    "required": false,
+    "source_lines": [
+      1005
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIAEffectiveCoverage",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling sIA effective coverage.",
+    "format": "%lf",
+    "name": "SIA effective coverage",
+    "required": false,
+    "source_lines": [
+      1006
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIADuration",
+    "category": "Vaccination and prophylaxis",
+    "default": "7",
+    "description": "Floating point parameter controlling sIA campaign duration in days.",
+    "format": "%lf",
+    "name": "SIA campaign duration in days",
+    "required": false,
+    "source_lines": [
+      1007
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIAMinAge",
+    "category": "Vaccination and prophylaxis",
+    "default": "2",
+    "description": "Lower bound used for age in years for SIA.",
+    "format": "%lf",
+    "name": "Minimum age in years for SIA",
+    "required": false,
+    "source_lines": [
+      1008
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIAMaxAge",
+    "category": "Vaccination and prophylaxis",
+    "default": "10",
+    "description": "Upper bound used for age in years for SIA.",
+    "format": "%lf",
+    "name": "Maximum age in years for SIA",
+    "required": false,
+    "source_lines": [
+      1009
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIARepeatInterval",
+    "category": "Vaccination and prophylaxis",
+    "default": "1e10",
+    "description": "Floating point parameter controlling repeat interval for SIA in years.",
+    "format": "%lf",
+    "name": "Repeat interval for SIA in years",
+    "required": false,
+    "source_lines": [
+      1010
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DistribNetCountry",
+    "category": "Vaccination and prophylaxis",
+    "default": "-1",
+    "description": "Vector or matrix parameter defining the country code for vaccination distribution network (-1 for all).",
+    "format": "%i",
+    "name": "Country code for vaccination distribution network (-1 for all)",
+    "required": false,
+    "source_lines": [
+      1022
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RoutineCoverageNonDistrCountry",
+    "category": "Vaccination and prophylaxis",
+    "default": "P.RoutineImmunisationEffectiveCoverage",
+    "description": "Floating point parameter controlling routine immunisation effective coverage for countries outside modelled supply chain.",
+    "format": "%lf",
+    "name": "Routine immunisation effective coverage for countries outside modelled supply chain",
+    "required": false,
+    "source_lines": [
+      1023
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SIADoAllCountries",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling apply SIAs to countries outside modelled supply chain.",
+    "format": "%i",
+    "name": "Apply SIAs to countries outside modelled supply chain",
+    "required": false,
+    "source_lines": [
+      1024
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccDosesPerPhial",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Integer parameter controlling vaccine doses per phial (to calculate wastage).",
+    "format": "%i",
+    "name": "Vaccine doses per phial (to calculate wastage)",
+    "required": false,
+    "source_lines": [
+      1025
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccPhialLifetime",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Floating point parameter controlling vaccine phial lifetime once opened in days.",
+    "format": "%lf",
+    "name": "Vaccine phial lifetime once opened in days",
+    "required": false,
+    "source_lines": [
+      1026
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoInitEquilib",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling start at SIR equilibrium.",
+    "format": "%i",
+    "name": "Start at SIR equilibrium",
+    "required": false,
+    "source_lines": [
+      1036
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoSpatial",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Toggle controlling whether spatial transmission is included in the simulation.",
+    "format": "%i",
+    "name": "Include spatial transmission",
+    "required": false,
+    "source_lines": [
+      1047
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MoveKernelType",
+    "category": "Spatial grid, kernels, and maps",
+    "default": null,
+    "description": "Integer parameter controlling kernel type.",
+    "format": "%i",
+    "name": "Kernel type",
+    "required": true,
+    "source_lines": [
+      1048
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MoveKernelScale",
+    "category": "Spatial grid, kernels, and maps",
+    "default": null,
+    "description": "Scale parameter for kernel scale.",
+    "format": "%lf",
+    "name": "Kernel scale",
+    "required": true,
+    "source_lines": [
+      1049
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveKernelP3",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Floating point parameter controlling kernel 3rd param.",
+    "format": "%lf",
+    "name": "Kernel 3rd param",
+    "required": false,
+    "source_lines": [
+      1054
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveKernelP4",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Floating point parameter controlling kernel 4th param.",
+    "format": "%lf",
+    "name": "Kernel 4th param",
+    "required": false,
+    "source_lines": [
+      1055
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveKernelShape",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1.0",
+    "description": "Floating point parameter controlling kernel Shape.",
+    "format": "%lf",
+    "name": "Kernel Shape",
+    "required": false,
+    "source_lines": [
+      1056
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportKernelType",
+    "category": "Places, travel, and mixing groups",
+    "default": "P.MoveKernelType",
+    "description": "Integer parameter controlling airport Kernel Type.",
+    "format": "%i",
+    "name": "Airport Kernel Type",
+    "required": false,
+    "source_lines": [
+      1061
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AirportKernelScale",
+    "category": "Places, travel, and mixing groups",
+    "default": "P.MoveKernelScale",
+    "description": "Scale parameter for airport Kernel Scale.",
+    "format": "%lf",
+    "name": "Airport Kernel Scale",
+    "required": false,
+    "source_lines": [
+      1062
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportKernelShape",
+    "category": "Places, travel, and mixing groups",
+    "default": "P.MoveKernelShape",
+    "description": "Floating point parameter controlling airport Kernel Shape.",
+    "format": "%lf",
+    "name": "Airport Kernel Shape",
+    "required": false,
+    "source_lines": [
+      1063
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportKernelP3",
+    "category": "Places, travel, and mixing groups",
+    "default": "P.MoveKernelP3",
+    "description": "Floating point parameter controlling airport Kernel 3rd param.",
+    "format": "%lf",
+    "name": "Airport Kernel 3rd param",
+    "required": false,
+    "source_lines": [
+      1064
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportKernelP4",
+    "category": "Places, travel, and mixing groups",
+    "default": "P.MoveKernelP4",
+    "description": "Floating point parameter controlling airport Kernel 4th param.",
+    "format": "%lf",
+    "name": "Airport Kernel 4th param",
+    "required": false,
+    "source_lines": [
+      1065
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoPlaces",
+    "category": "Places, travel, and mixing groups",
+    "default": "P.PlaceTypeNum=P.DoAirports=0",
+    "description": "Toggle controlling whether places is included in the simulation.",
+    "format": "%i",
+    "name": "Include places",
+    "required": false,
+    "source_lines": [
+      1066
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypeNum",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Count used by the model for types of places.",
+    "format": "%i",
+    "name": "Number of types of places",
+    "required": true,
+    "source_lines": [
+      1069
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypeAgeMin",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Lower bound used for age for age group 1 in place types.",
+    "format": "%i",
+    "name": "Minimum age for age group 1 in place types",
+    "required": true,
+    "source_lines": [
+      1075
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypeAgeMax",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Upper bound used for age for age group 1 in place types.",
+    "format": "%i",
+    "name": "Maximum age for age group 1 in place types",
+    "required": true,
+    "source_lines": [
+      1076
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypePropAgeGroup",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Fraction or probability assigned to age group 1 in place types.",
+    "format": "%lf",
+    "name": "Proportion of age group 1 in place types",
+    "required": true,
+    "source_lines": [
+      1077
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypePropAgeGroup2",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Fraction or probability assigned to age group 2 in place types.",
+    "format": "%lf",
+    "name": "Proportion of age group 2 in place types",
+    "required": false,
+    "source_lines": [
+      1078
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeAgeMin2",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Lower bound used for age for age group 2 in place types.",
+    "format": "%i",
+    "name": "Minimum age for age group 2 in place types",
+    "required": true,
+    "source_lines": [
+      1089
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypeAgeMax2",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Upper bound used for age for age group 2 in place types.",
+    "format": "%i",
+    "name": "Maximum age for age group 2 in place types",
+    "required": true,
+    "source_lines": [
+      1090
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypePropAgeGroup3",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Fraction or probability assigned to age group 3 in place types.",
+    "format": "%lf",
+    "name": "Proportion of age group 3 in place types",
+    "required": false,
+    "source_lines": [
+      1092
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeAgeMin3",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Lower bound used for age for age group 3 in place types.",
+    "format": "%i",
+    "name": "Minimum age for age group 3 in place types",
+    "required": true,
+    "source_lines": [
+      1103
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypeAgeMax3",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Upper bound used for age for age group 3 in place types.",
+    "format": "%i",
+    "name": "Maximum age for age group 3 in place types",
+    "required": true,
+    "source_lines": [
+      1104
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceTypeKernelShape",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Floating point parameter controlling kernel shape params for place types.",
+    "format": "%lf",
+    "name": "Kernel shape params for place types",
+    "required": false,
+    "source_lines": [
+      1106
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeKernelScale",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Scale parameter for kernel scale params for place types.",
+    "format": "%lf",
+    "name": "Kernel scale params for place types",
+    "required": true,
+    "source_lines": [
+      1115
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeKernelP3",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Floating point parameter controlling kernel 3rd param for place types.",
+    "format": "%lf",
+    "name": "Kernel 3rd param for place types",
+    "required": false,
+    "source_lines": [
+      1116
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeKernelP4",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Floating point parameter controlling kernel 4th param for place types.",
+    "format": "%lf",
+    "name": "Kernel 4th param for place types",
+    "required": true,
+    "source_lines": [
+      1125
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeNearestNeighb",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Count used by the model for closest places people pick from (0=all) for place types.",
+    "format": "%i",
+    "name": "Number of closest places people pick from (0=all) for place types",
+    "required": false,
+    "source_lines": [
+      1126
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.InhibitInterAdunitPlaceAssignment",
+    "category": "Administrative units and countries",
+    "default": null,
+    "description": "Floating point parameter controlling degree to which crossing administrative unit boundaries to go to places is inhibited.",
+    "format": "%lf",
+    "name": "Degree to which crossing administrative unit boundaries to go to places is inhibited",
+    "required": false,
+    "source_lines": [
+      1131
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeDoHousehold",
+    "category": "Households",
+    "default": null,
+    "description": "Toggle controlling whether the model applies place type members have household contacts.",
+    "format": "%i",
+    "name": "Do place type members have household contacts",
+    "required": false,
+    "source_lines": [
+      1137
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceHouseholdOverlap",
+    "category": "Households",
+    "default": null,
+    "description": "Toggle controlling whether the model applies place and household membership overlap.",
+    "format": "%i",
+    "name": "Do place and household membership overlap",
+    "required": false,
+    "source_lines": [
+      1144
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceHouseholdDivisor",
+    "category": "Households",
+    "default": "2.0",
+    "description": "Floating point parameter controlling divisor for households into places.",
+    "format": "%lf",
+    "name": "Divisor for households into places",
+    "required": false,
+    "source_lines": [
+      1150
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoAirports",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Toggle controlling whether air travel is included in the simulation.",
+    "format": "%i",
+    "name": "Include air travel",
+    "required": false,
+    "source_lines": [
+      1153
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AirportTrafficScale",
+    "category": "Outputs and diagnostics",
+    "default": "1.0",
+    "description": "Scale parameter for scaling factor for input file to convert to daily traffic.",
+    "format": "%lf",
+    "name": "Scaling factor for input file to convert to daily traffic",
+    "required": false,
+    "source_lines": [
+      1159
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HotelPropLocal",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Fraction or probability assigned to hotel attendees who are local.",
+    "format": "%lf",
+    "name": "Proportion of hotel attendees who are local",
+    "required": false,
+    "source_lines": [
+      1160
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.JourneyDurationDistrib",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the distribution of duration of air journeys.",
+    "format": "%lf",
+    "name": "Distribution of duration of air journeys",
+    "required": false,
+    "source_lines": [
+      1161
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.LocalJourneyDurationDistrib",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the distribution of duration of local journeys.",
+    "format": "%lf",
+    "name": "Distribution of duration of local journeys",
+    "required": false,
+    "source_lines": [
+      1167
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeMeanSize",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Mean value used for size of place types.",
+    "format": "%lf",
+    "name": "Mean size of place types",
+    "required": true,
+    "source_lines": [
+      1198
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeGroupSizeParam1",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the param 1 of place group size distribution.",
+    "format": "%lf",
+    "name": "Param 1 of place group size distribution",
+    "required": true,
+    "source_lines": [
+      1199
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeSizePower",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the power of place size distribution.",
+    "format": "%lf",
+    "name": "Power of place size distribution",
+    "required": false,
+    "source_lines": [
+      1200
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeSizeSD",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the standard deviation of place size distribution.",
+    "format": "%lf",
+    "name": "Standard deviation of place size distribution",
+    "required": false,
+    "source_lines": [
+      1204
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeSizeOffset",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the offset of place size distribution.",
+    "format": "%lf",
+    "name": "Offset of place size distribution",
+    "required": false,
+    "source_lines": [
+      1207
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeSizeMax",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Upper bound used for of place size distribution.",
+    "format": "%lf",
+    "name": "Maximum of place size distribution",
+    "required": false,
+    "source_lines": [
+      1210
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypePropBetweenGroupLinks",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Fraction or probability assigned to between group place links.",
+    "format": "%lf",
+    "name": "Proportion of between group place links",
+    "required": true,
+    "source_lines": [
+      1213
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeKernelType",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Integer parameter controlling kernel type for place types.",
+    "format": "%i",
+    "name": "Kernel type for place types",
+    "required": false,
+    "source_lines": [
+      1214
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceExclusivityMatrix",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Vector or matrix parameter defining the place overlap matrix.",
+    "format": "%lf",
+    "name": "Place overlap matrix",
+    "required": true,
+    "source_lines": [
+      1217
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceTypeTrans",
+    "category": "Transmission",
+    "default": null,
+    "description": "Multiplier relative to baseline for transmission rates for place types.",
+    "format": "%lf",
+    "name": "Relative transmission rates for place types",
+    "required": true,
+    "source_lines": [
+      1219
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.Seasonality",
+    "category": "Transmission",
+    "default": null,
+    "description": "Floating point parameter controlling daily seasonality coefficients.",
+    "format": "%lf",
+    "name": "Daily seasonality coefficients",
+    "required": false,
+    "source_lines": [
+      1222
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolInfectMutationRate",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Probability assigned to mutation probability per infection of step increase in infectiousness.",
+    "format": "%lf",
+    "name": "Mutation probability per infection of step increase in infectiousness",
+    "required": false,
+    "source_lines": [
+      1239
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolInfectStep",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Floating point parameter controlling step size of increase in infectiousness due to mutation.",
+    "format": "%lf",
+    "name": "Step size of increase in infectiousness due to mutation",
+    "required": false,
+    "source_lines": [
+      1240
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolInfectMax",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Upper bound used for increase in infectiousness due to mutation.",
+    "format": "%lf",
+    "name": "Maximum increase in infectiousness due to mutation",
+    "required": false,
+    "source_lines": [
+      1241
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.NumSeedLocations",
+    "category": "Seeding and importation",
+    "default": "1",
+    "description": "Count used by the model for seed locations.",
+    "format": "%i",
+    "name": "Number of seed locations",
+    "required": false,
+    "source_lines": [
+      1243
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.NumInitialInfections",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Integer parameter controlling initial number of infecteds.",
+    "format": "%i",
+    "name": "Initial number of infecteds",
+    "required": true,
+    "source_lines": [
+      1249
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.LocationInitialInfection",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Floating point parameter controlling location of initial infecteds.",
+    "format": "%lf",
+    "name": "Location of initial infecteds",
+    "required": true,
+    "source_lines": [
+      1250
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MinPopDensForInitialInfection",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Lower bound used for population in microcell of initial infection.",
+    "format": "%i",
+    "name": "Minimum population in microcell of initial infection",
+    "required": false,
+    "source_lines": [
+      1251
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxPopDensForInitialInfection",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Upper bound used for population in microcell of initial infection.",
+    "format": "%i",
+    "name": "Maximum population in microcell of initial infection",
+    "required": true,
+    "source_lines": [
+      1252
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoRandomInitialInfectionLoc",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Integer parameter controlling randomise initial infection location.",
+    "format": "%i",
+    "name": "Randomise initial infection location",
+    "required": true,
+    "source_lines": [
+      1253
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoAllInitialInfectioninSameLoc",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Integer parameter controlling all initial infections located in same microcell.",
+    "format": "%i",
+    "name": "All initial infections located in same microcell",
+    "required": true,
+    "source_lines": [
+      1254
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.InitialInfectionsAdminUnit",
+    "category": "Administrative units and countries",
+    "default": null,
+    "description": "Integer parameter controlling administrative unit to seed initial infection into.",
+    "format": "%i",
+    "name": "Administrative unit to seed initial infection into",
+    "required": false,
+    "source_lines": [
+      1257
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.R0",
+    "category": "Transmission",
+    "default": null,
+    "description": "Floating point parameter controlling reproduction number.",
+    "format": "%lf",
+    "name": "Reproduction number",
+    "required": true,
+    "source_lines": [
+      1262
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.InfectiousPeriod",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling infectious period.",
+    "format": "%lf",
+    "name": "Infectious period",
+    "required": true,
+    "source_lines": [
+      1263
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoSIS",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling assume SIS model.",
+    "format": "%i",
+    "name": "Assume SIS model",
+    "required": false,
+    "source_lines": [
+      1264
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.InfectiousnessSD",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Floating point parameter controlling sD of individual variation in infectiousness.",
+    "format": "%lf",
+    "name": "SD of individual variation in infectiousness",
+    "required": false,
+    "source_lines": [
+      1265
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SuscReductionFactorPerInfection",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Floating point parameter controlling factor by which susceptibility is multiplied per infection.",
+    "format": "%lf",
+    "name": "Factor by which susceptibility is multiplied per infection",
+    "required": false,
+    "source_lines": [
+      1274
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoROutput",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether r0 file is written to output files.",
+    "format": "%i",
+    "name": "Output R0 file",
+    "required": false,
+    "source_lines": [
+      1279
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoInftypeOutput",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether infection type file is written to output files.",
+    "format": "%i",
+    "name": "Output infection type file",
+    "required": false,
+    "source_lines": [
+      1280
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoInfectiousnessProfile",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Integer parameter controlling model time varying infectiousness.",
+    "format": "%i",
+    "name": "Model time varying infectiousness",
+    "required": false,
+    "source_lines": [
+      1282
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.R0DensityScalePower",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Scale parameter for power of scaling of spatial R0 with density.",
+    "format": "%lf",
+    "name": "Power of scaling of spatial R0 with density",
+    "required": false,
+    "source_lines": [
+      1283
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.infectious_prof",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Vector or matrix parameter defining the infectiousness profile.",
+    "format": "%lf",
+    "name": "Infectiousness profile",
+    "required": false,
+    "source_lines": [
+      1286
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.infectious_icdf",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling infectious period inverse CDF.",
+    "format": "%lf",
+    "name": "Infectious period inverse CDF",
+    "required": false,
+    "source_lines": [
+      1311
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoMortality",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether mortality is included in the simulation.",
+    "format": "%i",
+    "name": "Include mortality",
+    "required": false,
+    "source_lines": [
+      1324
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoEventMortality",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether event-dependent mortality is included in the simulation.",
+    "format": "%i",
+    "name": "Include event-dependent mortality",
+    "required": false,
+    "source_lines": [
+      1327
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RecoveryAmp",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Floating point parameter controlling amplitude of recovery function.",
+    "format": "%lf",
+    "name": "Amplitude of recovery function",
+    "required": false,
+    "source_lines": [
+      1330
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RecoveryShape",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Floating point parameter controlling weibull shape of recovery function.",
+    "format": "%lf",
+    "name": "Weibull shape of recovery function",
+    "required": false,
+    "source_lines": [
+      1331
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RecoveryScale",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Scale parameter for weibull scale of recovery function.",
+    "format": "%lf",
+    "name": "Weibull scale of recovery function",
+    "required": false,
+    "source_lines": [
+      1332
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DiseaseMortalityVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Multiplier relative to baseline for mortality of vaccinated cases dying.",
+    "format": "%lf",
+    "name": "Relative mortality of vaccinated cases dying",
+    "required": false,
+    "source_lines": [
+      1345
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.LethalInfectiousPeriod",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Multiplier relative to baseline for duration of infectiousness for dying cases.",
+    "format": "%lf",
+    "name": "Relative duration of infectiousness for dying cases",
+    "required": false,
+    "source_lines": [
+      1346
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoAgeMortality",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether age-dependent mortality is included in the simulation.",
+    "format": "%i",
+    "name": "Include age-dependent mortality",
+    "required": false,
+    "source_lines": [
+      1348
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AgeMortality",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling mortality by age.",
+    "format": "%lf",
+    "name": "Mortality by age",
+    "required": false,
+    "source_lines": [
+      1351
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DiseaseMortality",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Fraction or probability assigned to cases dying.",
+    "format": "%lf",
+    "name": "Proportion of cases dying",
+    "required": false,
+    "source_lines": [
+      1355
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoFuneralTransmission",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether funeral transmission is included in the simulation.",
+    "format": "%i",
+    "name": "Include funeral transmission",
+    "required": false,
+    "source_lines": [
+      1359
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.FuneralTransmissionDuration",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Duration, in model time units unless otherwise stated, for funeral transmission.",
+    "format": "%lf",
+    "name": "Duration of funeral transmission",
+    "required": false,
+    "source_lines": [
+      1362
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelativeInfectiousnessFuneral",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Multiplier relative to baseline for infectiousness of a funeral transmission.",
+    "format": "%lf",
+    "name": "Relative infectiousness of a funeral transmission",
+    "required": false,
+    "source_lines": [
+      1363
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.FuneralControlCellIncThresh",
+    "category": "Clinical pathways and outcomes",
+    "default": "1000000000",
+    "description": "Floating point parameter controlling safe burial trigger incidence per cell.",
+    "format": "%lf",
+    "name": "Safe burial trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      1364
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.FuneralControlTimeStartBase",
+    "category": "Clinical pathways and outcomes",
+    "default": "USHRT_MAX / P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling safe burial start time.",
+    "format": "%lf",
+    "name": "Safe burial start time",
+    "required": false,
+    "source_lines": [
+      1365
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelInfSafeFuneral",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Multiplier relative to baseline for infectiousness of a safe burial.",
+    "format": "%lf",
+    "name": "Relative infectiousness of a safe burial",
+    "required": false,
+    "source_lines": [
+      1366
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ProportionSafeFuneral",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Fraction or probability assigned to burials conducted safely.",
+    "format": "%lf",
+    "name": "Proportion of burials conducted safely",
+    "required": false,
+    "source_lines": [
+      1367
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AdunitSDBCapacity",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Integer parameter controlling daily burials per admin unit.",
+    "format": "%i",
+    "name": "Daily burials per admin unit",
+    "required": false,
+    "source_lines": [
+      1368
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DelayToSDB",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before increase burial capacity.",
+    "format": "%lf",
+    "name": "Delay to increase burial capacity",
+    "required": false,
+    "source_lines": [
+      1369
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CapacityToMoreSDB",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Floating point parameter controlling capacity when burial capacity increases.",
+    "format": "%lf",
+    "name": "Capacity when burial capacity increases",
+    "required": false,
+    "source_lines": [
+      1370
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.incCapacitySDB",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Integer parameter controlling increase in burial capacity.",
+    "format": "%i",
+    "name": "Increase in burial capacity",
+    "required": false,
+    "source_lines": [
+      1371
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoHospitalisation",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether hospitalisation is included in the simulation.",
+    "format": "%i",
+    "name": "Include hospitalisation",
+    "required": false,
+    "source_lines": [
+      1423
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.HospitalisationTime",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Mean value used for time to hospitalisation.",
+    "format": "%lf",
+    "name": "Mean time to hospitalisation",
+    "required": false,
+    "source_lines": [
+      1428
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HospWaitingTime",
+    "category": "Clinical pathways and outcomes",
+    "default": "0.25",
+    "description": "Floating point parameter controlling hospital waiting time.",
+    "format": "%lf",
+    "name": "Hospital waiting time",
+    "required": false,
+    "source_lines": [
+      1429
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.hospital_icdf",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Model time controlling when hospitalisation inverse CDF occurs.",
+    "format": "%lf",
+    "name": "Time to hospitalisation inverse CDF",
+    "required": false,
+    "source_lines": [
+      1430
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.NMeanTimeToHosp",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Count used by the model for times to hospitalisation.",
+    "format": "%i",
+    "name": "Number of times to hospitalisation",
+    "required": false,
+    "source_lines": [
+      1438
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ChangePointMeanTimeToHosp",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling change points times to hospitalisation.",
+    "format": "%lf",
+    "name": "Change points times to hospitalisation",
+    "required": true,
+    "source_lines": [
+      1442
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MeanTimeToHosp",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling times to hospitalisation.",
+    "format": "%lf",
+    "name": "Times to hospitalisation",
+    "required": true,
+    "source_lines": [
+      1443
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PropHospSeekPreOutbreak",
+    "category": "Core simulation control",
+    "default": "0.5",
+    "description": "Fraction or probability assigned to cases seeking care before outbreak declared.",
+    "format": "%lf",
+    "name": "Proportion of cases seeking care before outbreak declared",
+    "required": false,
+    "source_lines": [
+      1448
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelChangeHospSeekPostOutbreak",
+    "category": "Core simulation control",
+    "default": "1",
+    "description": "Multiplier relative to baseline for change in care seeking behaviour after outbreak declared.",
+    "format": "%lf",
+    "name": "Relative change in care seeking behaviour after outbreak declared",
+    "required": false,
+    "source_lines": [
+      1449
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoETUByAdUnit",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies eTUs by admin unit.",
+    "format": "%i",
+    "name": "Do ETUs by admin unit",
+    "required": false,
+    "source_lines": [
+      1466
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "AdunitETUCapacity",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Integer parameter controlling initial bed capacity per ETU admin unit.",
+    "format": "%i",
+    "name": "Initial bed capacity per ETU admin unit",
+    "required": false,
+    "source_lines": [
+      1470
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "AdunitETUTime",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling time ETU beds available per admin unit.",
+    "format": "%lf",
+    "name": "Time ETU beds available per admin unit",
+    "required": false,
+    "source_lines": [
+      1474
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoReactETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies reactive ETU bed allocation.",
+    "format": "%i",
+    "name": "Do reactive ETU bed allocation",
+    "required": false,
+    "source_lines": [
+      1492
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ETUCellIncThresh",
+    "category": "Clinical pathways and outcomes",
+    "default": "1000000000",
+    "description": "Floating point parameter controlling reactive ETU bed allocation trigger incidence per cell.",
+    "format": "%lf",
+    "name": "Reactive ETU bed allocation trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      1497
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ETUTimeStartBase",
+    "category": "Clinical pathways and outcomes",
+    "default": "USHRT_MAX / P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling reactive ETU bed allocation start time.",
+    "format": "%lf",
+    "name": "Reactive ETU bed allocation start time",
+    "required": false,
+    "source_lines": [
+      1498
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.InitCasesToETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "1e6",
+    "description": "Integer parameter controlling initial number of detected cases to trigger ETU beds in an admin unit.",
+    "format": "%i",
+    "name": "Initial number of detected cases to trigger ETU beds in an admin unit",
+    "required": false,
+    "source_lines": [
+      1500
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.InitDelayToETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Floating point parameter controlling initial time to install ETU beds.",
+    "format": "%lf",
+    "name": "Initial time to install ETU beds",
+    "required": false,
+    "source_lines": [
+      1501
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.InitNumETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Integer parameter controlling initial number of ETU beds.",
+    "format": "%i",
+    "name": "Initial number of ETU beds",
+    "required": false,
+    "source_lines": [
+      1502
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapacityToMoreETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Floating point parameter controlling hospital capacity reached before increasing ETU bed numbers.",
+    "format": "%lf",
+    "name": "Hospital capacity reached before increasing ETU bed numbers",
+    "required": false,
+    "source_lines": [
+      1503
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SubDelayToETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Floating point parameter controlling subsequent time to install ETU beds.",
+    "format": "%lf",
+    "name": "Subsequent time to install ETU beds",
+    "required": false,
+    "source_lines": [
+      1504
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SubNumETUBeds",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Integer parameter controlling subsequent number of additional ETU beds.",
+    "format": "%i",
+    "name": "Subsequent number of additional ETU beds",
+    "required": false,
+    "source_lines": [
+      1505
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoOutputETUCapacity",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle or setting controlling whether eTU capacity is written to output files.",
+    "format": "%i",
+    "name": "Output ETU capacity",
+    "required": false,
+    "source_lines": [
+      1507
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.IncludeHospitalPlaceType",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether hospitals as places is included in the simulation.",
+    "format": "%i",
+    "name": "Include hospitals as places",
+    "required": false,
+    "source_lines": [
+      1513
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoKeyworkerOutput",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether keyworker file is written to output files.",
+    "format": "%i",
+    "name": "Output keyworker file",
+    "required": false,
+    "source_lines": [
+      1516
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.HospPlaceTypeNum",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Integer parameter controlling hospital place type number.",
+    "format": "%i",
+    "name": "Hospital place type number",
+    "required": true,
+    "source_lines": [
+      1517
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.HospCaseCapacity",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Integer parameter controlling max number of beds for Ebola cases in hospital.",
+    "format": "%i",
+    "name": "Max number of beds for Ebola cases in hospital",
+    "required": true,
+    "source_lines": [
+      1518
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.HCWPerThousand",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Count used by the model for hCWs per 1000 population.",
+    "format": "%lf",
+    "name": "Number of HCWs per 1000 population",
+    "required": true,
+    "source_lines": [
+      1519
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PropHCWFLWVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": null,
+    "description": "Fraction or probability assigned to hCWs and FLWs vaccinated before outbreak.",
+    "format": "%lf",
+    "name": "Proportion of HCWs and FLWs vaccinated before outbreak",
+    "required": true,
+    "source_lines": [
+      1520
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HCWVaccSuscDrop",
+    "category": "Vaccination and prophylaxis",
+    "default": "-1",
+    "description": "Multiplier relative to baseline for susceptibility of HCWs and FLWs vaccinated before outbreak.",
+    "format": "%lf",
+    "name": "Relative susceptibility of HCWs and FLWs vaccinated before outbreak",
+    "required": false,
+    "source_lines": [
+      1521
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RevaccHCWs",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling revaccinate HCW and FLWs after outbreak alert.",
+    "format": "%i",
+    "name": "Revaccinate HCW and FLWs after outbreak alert",
+    "required": false,
+    "source_lines": [
+      1522
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DayHCWFLWVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": null,
+    "description": "Count used by the model for days between HCW and FLW vaccination and outbreak.",
+    "format": "%i",
+    "name": "Number of days between HCW and FLW vaccination and outbreak",
+    "required": true,
+    "source_lines": [
+      1523
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MinAgeHCWFLW",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Integer parameter controlling min age for HCWs and FLWs.",
+    "format": "%i",
+    "name": "Min age for HCWs and FLWs",
+    "required": true,
+    "source_lines": [
+      1524
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxAgeHCWFLW",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Integer parameter controlling max age for HCWs and FLWs.",
+    "format": "%i",
+    "name": "Max age for HCWs and FLWs",
+    "required": true,
+    "source_lines": [
+      1525
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.IncludeFLWs",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Toggle controlling whether fLWs is included in the simulation.",
+    "format": "%i",
+    "name": "Include FLWs",
+    "required": false,
+    "source_lines": [
+      1526
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.FLWPerThousand",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Count used by the model for fLWs per 1000 population.",
+    "format": "%lf",
+    "name": "Number of FLWs per 1000 population",
+    "required": true,
+    "source_lines": [
+      1529
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelSuscFLW",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Multiplier relative to baseline for suspectibility of FLWs.",
+    "format": "%lf",
+    "name": "Relative suspectibility of FLWs",
+    "required": true,
+    "source_lines": [
+      1530
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": null,
+    "category": "Transmission",
+    "default": "1",
+    "description": "Multiplier relative to baseline for susceptibility of HCWs and FLWs due to PPE post outbreak detection.",
+    "format": "%lf",
+    "name": "Relative susceptibility of HCWs and FLWs due to PPE post outbreak detection",
+    "required": false,
+    "source_lines": [
+      1532
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelativeInfectiousnessETU",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Multiplier relative to baseline for infectiousness of an ETU case.",
+    "format": "%lf",
+    "name": "Relative infectiousness of an ETU case",
+    "required": false,
+    "source_lines": [
+      1535
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoInterruptIntervention",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies interrupt interventions.",
+    "format": "%i",
+    "name": "Do interrupt interventions",
+    "required": false,
+    "source_lines": [
+      1538
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.NDaysInterrupt",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Count used by the model for days of interruptions.",
+    "format": "%i",
+    "name": "Number of days of interruptions",
+    "required": false,
+    "source_lines": [
+      1541
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DaysInterruptIntervention",
+    "category": "Core simulation control",
+    "default": null,
+    "description": "Integer parameter controlling days of interruptions.",
+    "format": "%i",
+    "name": "Days of interruptions",
+    "required": true,
+    "source_lines": [
+      1545
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoPrevDependTrans",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies prevalence dependent transmission.",
+    "format": "%i",
+    "name": "Do prevalence dependent transmission",
+    "required": false,
+    "source_lines": [
+      1549
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoPrevDepTransTotalCases",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies prevalence dependent transmission by total cases.",
+    "format": "%i",
+    "name": "Do prevalence dependent transmission by total cases",
+    "required": false,
+    "source_lines": [
+      1554
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoPrevDepTransCurrInf",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies prevalence dependent transmission by current infections.",
+    "format": "%i",
+    "name": "Do prevalence dependent transmission by current infections",
+    "required": false,
+    "source_lines": [
+      1555
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PrevDependTransThresh",
+    "category": "Transmission",
+    "default": "1.0",
+    "description": "Threshold value controlling threshold for prevalence dependent transmission.",
+    "format": "%lf",
+    "name": "Threshold for prevalence dependent transmission",
+    "required": false,
+    "source_lines": [
+      1561,
+      1562
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoLatent",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether latent period is included in the simulation.",
+    "format": "%i",
+    "name": "Include latent period",
+    "required": false,
+    "source_lines": [
+      1565
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.LatentPeriod",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling latent period.",
+    "format": "%lf",
+    "name": "Latent period",
+    "required": true,
+    "source_lines": [
+      1568
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.latent_icdf",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling latent period inverse CDF.",
+    "format": "%lf",
+    "name": "Latent period inverse CDF",
+    "required": false,
+    "source_lines": [
+      1569
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoSymptoms",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether symptoms is included in the simulation.",
+    "format": "%i",
+    "name": "Include symptoms",
+    "required": false,
+    "source_lines": [
+      1579
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ProportionSymptomatic",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling proportion symptomatic by age group.",
+    "format": "%lf",
+    "name": "Proportion symptomatic by age group",
+    "required": true,
+    "source_lines": [
+      1591
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ProportionSymptomatic",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling proportion symptomatic.",
+    "format": "%lf",
+    "name": "Proportion symptomatic",
+    "required": true,
+    "source_lines": [
+      1594
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.LatentToSymptDelay",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling delay from end of latent period to start of symptoms.",
+    "format": "%lf",
+    "name": "Delay from end of latent period to start of symptoms",
+    "required": true,
+    "source_lines": [
+      1598
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SymptSpatialContactRate",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Multiplier relative to baseline for rate of random contacts if symptomatic.",
+    "format": "%lf",
+    "name": "Relative rate of random contacts if symptomatic",
+    "required": true,
+    "source_lines": [
+      1599
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SymptInfectiousness",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling symptomatic infectiousness relative to asymptomatic.",
+    "format": "%lf",
+    "name": "Symptomatic infectiousness relative to asymptomatic",
+    "required": true,
+    "source_lines": [
+      1600
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoRealSymptWithdrawal",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Integer parameter controlling model symptomatic withdrawal to home as true absenteeism.",
+    "format": "%i",
+    "name": "Model symptomatic withdrawal to home as true absenteeism",
+    "required": false,
+    "source_lines": [
+      1601
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.SymptPlaceTypeContactRate",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Multiplier relative to baseline for level of place attendance if symptomatic.",
+    "format": "%lf",
+    "name": "Relative level of place attendance if symptomatic",
+    "required": true,
+    "source_lines": [
+      1604
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseAbsentChildAgeCutoff",
+    "category": "Age and demography",
+    "default": "0",
+    "description": "Upper bound used for age of child at home for whom one adult also stays at home.",
+    "format": "%i",
+    "name": "Maximum age of child at home for whom one adult also stays at home",
+    "required": false,
+    "source_lines": [
+      1616
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CaseAbsentChildPropAdultCarers",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Fraction or probability assigned to children at home for whom one adult also stays at home.",
+    "format": "%lf",
+    "name": "Proportion of children at home for whom one adult also stays at home",
+    "required": false,
+    "source_lines": [
+      1617
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseAbsenteeismDelay",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Floating point parameter controlling delay in starting place absenteeism for cases who withdraw.",
+    "format": "%lf",
+    "name": "Delay in starting place absenteeism for cases who withdraw",
+    "required": false,
+    "source_lines": [
+      1621
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseAbsenteeismDuration",
+    "category": "Places, travel, and mixing groups",
+    "default": "7",
+    "description": "Duration, in model time units unless otherwise stated, for place absenteeism for cases who withdraw.",
+    "format": "%lf",
+    "name": "Duration of place absenteeism for cases who withdraw",
+    "required": false,
+    "source_lines": [
+      1623
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.FalsePositiveRate",
+    "category": "Core simulation control",
+    "default": "0.0",
+    "description": "Rate parameter controlling false positive rate.",
+    "format": "%lf",
+    "name": "False positive rate",
+    "required": false,
+    "source_lines": [
+      1625
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.FalsePositivePerCapitaIncidence",
+    "category": "Core simulation control",
+    "default": "0.0",
+    "description": "Floating point parameter controlling false positive per capita incidence.",
+    "format": "%lf",
+    "name": "False positive per capita incidence",
+    "required": false,
+    "source_lines": [
+      1626
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.FalsePositiveAgeRate",
+    "category": "Age and demography",
+    "default": null,
+    "description": "Floating point parameter controlling false positive relative incidence by age.",
+    "format": "%lf",
+    "name": "False positive relative incidence by age",
+    "required": false,
+    "source_lines": [
+      1627
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.BoundingBox",
+    "category": "Spatial grid, kernels, and maps",
+    "default": null,
+    "description": "Floating point parameter controlling bounding box for bitmap.",
+    "format": "%lf",
+    "name": "Bounding box for bitmap",
+    "required": false,
+    "source_lines": [
+      1630
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SpatialBoundingBox",
+    "category": "Spatial grid, kernels, and maps",
+    "default": null,
+    "description": "Floating point parameter controlling spatial domain for simulation.",
+    "format": "%lf",
+    "name": "Spatial domain for simulation",
+    "required": false,
+    "source_lines": [
+      1635
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.cwidth",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1.0/120.0",
+    "description": "Floating point parameter controlling grid size.",
+    "format": "%lf",
+    "name": "Grid size",
+    "required": false,
+    "source_lines": [
+      1640
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoUTM_coords",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling use long/lat coord system.",
+    "format": "%i",
+    "name": "Use long/lat coord system",
+    "required": false,
+    "source_lines": [
+      1641
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.BitmapScale",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1.0",
+    "description": "Scale parameter for bitmap scale.",
+    "format": "%lf",
+    "name": "Bitmap scale",
+    "required": false,
+    "source_lines": [
+      1642
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.BitmapAspectScale",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1.0",
+    "description": "Scale parameter for bitmap y:x aspect scaling.",
+    "format": "%lf",
+    "name": "Bitmap y:x aspect scaling",
+    "required": false,
+    "source_lines": [
+      1643
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.BitmapMovieFrame",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "250",
+    "description": "Integer parameter controlling bitmap movie frame interval.",
+    "format": "%i",
+    "name": "Bitmap movie frame interval",
+    "required": false,
+    "source_lines": [
+      1644
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.OutputBitmap",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Toggle or setting controlling whether bitmap is written to output files.",
+    "format": "%i",
+    "name": "Output bitmap",
+    "required": false,
+    "source_lines": [
+      1645
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.OutputBitmapDetected",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle or setting controlling whether bitmap detected is written to output files.",
+    "format": "%i",
+    "name": "Output bitmap detected",
+    "required": false,
+    "source_lines": [
+      1646
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoImmuneBitmap",
+    "category": "Age and demography",
+    "default": "0",
+    "description": "Toggle or setting controlling whether immunity on bitmap is written to output files.",
+    "format": "%i",
+    "name": "Output immunity on bitmap",
+    "required": false,
+    "source_lines": [
+      1647
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoInfectionTree",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether infection tree is written to output files.",
+    "format": "%i",
+    "name": "Output infection tree",
+    "required": false,
+    "source_lines": [
+      1648
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoOneGen",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies one generation.",
+    "format": "%i",
+    "name": "Do one generation",
+    "required": false,
+    "source_lines": [
+      1649
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.OutputAll",
+    "category": "Outputs and diagnostics",
+    "default": "1",
+    "description": "Toggle or setting controlling whether every realisation is written to output files.",
+    "format": "%i",
+    "name": "Output every realisation",
+    "required": false,
+    "source_lines": [
+      1650
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxCorrSample",
+    "category": "Core simulation control",
+    "default": "1000000000",
+    "description": "Upper bound used for number to sample for correlations.",
+    "format": "%i",
+    "name": "Maximum number to sample for correlations",
+    "required": false,
+    "source_lines": [
+      1651
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoSI",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling assume SI model.",
+    "format": "%i",
+    "name": "Assume SI model",
+    "required": false,
+    "source_lines": [
+      1652
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoPeriodicBoundaries",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling assume periodic boundary conditions.",
+    "format": "%i",
+    "name": "Assume periodic boundary conditions",
+    "required": false,
+    "source_lines": [
+      1653
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.OutputNonExtinct",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Integer parameter controlling only output non-extinct realisations.",
+    "format": "%i",
+    "name": "Only output non-extinct realisations",
+    "required": false,
+    "source_lines": [
+      1654
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoControlOutput",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether control file is written to output files.",
+    "format": "%i",
+    "name": "Output control file",
+    "required": false,
+    "source_lines": [
+      1656
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoPerCapitaTriggers",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Threshold value controlling use cases per thousand threshold for area controls.",
+    "format": "%i",
+    "name": "Use cases per thousand threshold for area controls",
+    "required": false,
+    "source_lines": [
+      1657
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoGlobalTriggers",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Integer parameter controlling use global triggers for interventions.",
+    "format": "%i",
+    "name": "Use global triggers for interventions",
+    "required": false,
+    "source_lines": [
+      1658
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.IncThreshPop",
+    "category": "Core simulation control",
+    "default": "1000",
+    "description": "Threshold value controlling divisor for per-capita area threshold (default 1000).",
+    "format": "%i",
+    "name": "Divisor for per-capita area threshold (default 1000)",
+    "required": false,
+    "source_lines": [
+      1659
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.GlobalIncThreshPop",
+    "category": "Core simulation control",
+    "default": "1000",
+    "description": "Threshold value controlling divisor for per-capita global threshold (default 1000).",
+    "format": "%i",
+    "name": "Divisor for per-capita global threshold (default 1000)",
+    "required": false,
+    "source_lines": [
+      1660
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TriggersSamplingInterval",
+    "category": "Core simulation control",
+    "default": "10000000",
+    "description": "Count used by the model for sampling intervals over which cumulative incidence measured for global trigger.",
+    "format": "%i",
+    "name": "Number of sampling intervals over which cumulative incidence measured for global trigger",
+    "required": false,
+    "source_lines": [
+      1663
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PostAlertControlPropCasesId",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Fraction or probability assigned to cases detected after surveillance alert.",
+    "format": "%lf",
+    "name": "Proportion of cases detected after surveillance alert",
+    "required": false,
+    "source_lines": [
+      1665
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PreControlClusterIdCaseThreshold",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Count used by the model for detected cases before outbreak alert triggered.",
+    "format": "%i",
+    "name": "Number of detected cases before outbreak alert triggered",
+    "required": false,
+    "source_lines": [
+      1669
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoEarlyCaseDiagnosis",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling only use confirmed cases to trigger alert.",
+    "format": "%i",
+    "name": "Only use confirmed cases to trigger alert",
+    "required": false,
+    "source_lines": [
+      1671
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TargetCountry",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling target country.",
+    "format": "%i",
+    "name": "Target country",
+    "required": false,
+    "source_lines": [
+      1672
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TargetCountry2",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling target country 2.",
+    "format": "%i",
+    "name": "Target country 2",
+    "required": false,
+    "source_lines": [
+      1675
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TargetCountry3",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling target country 3.",
+    "format": "%i",
+    "name": "Target country 3",
+    "required": false,
+    "source_lines": [
+      1676
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RestrictTreatToTarget",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Integer parameter controlling restrict treatment to target country.",
+    "format": "%i",
+    "name": "Restrict treatment to target country",
+    "required": false,
+    "source_lines": [
+      1677
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoPlaceGroupTreat",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Integer parameter controlling only treat mixing groups within places.",
+    "format": "%i",
+    "name": "Only treat mixing groups within places",
+    "required": false,
+    "source_lines": [
+      1678
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TreatCellIncThresh",
+    "category": "Interventions and behaviour",
+    "default": "1000000000",
+    "description": "Floating point parameter controlling treatment trigger incidence per cell.",
+    "format": "%lf",
+    "name": "Treatment trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      1680
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatSuscDrop",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Multiplier relative to baseline for susceptibility of treated individual.",
+    "format": "%lf",
+    "name": "Relative susceptibility of treated individual",
+    "required": false,
+    "source_lines": [
+      1681
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatInfDrop",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Multiplier relative to baseline for infectiousness of treated individual.",
+    "format": "%lf",
+    "name": "Relative infectiousness of treated individual",
+    "required": false,
+    "source_lines": [
+      1682
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatDeathDrop",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Fraction or probability assigned to symptomatic cases resulting in death prevented by treatment.",
+    "format": "%lf",
+    "name": "Proportion of symptomatic cases resulting in death prevented by treatment",
+    "required": false,
+    "source_lines": [
+      1683
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatSympDrop",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Fraction or probability assigned to symptomatic cases prevented by treatment.",
+    "format": "%lf",
+    "name": "Proportion of symptomatic cases prevented by treatment",
+    "required": false,
+    "source_lines": [
+      1684
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatDelayMean",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before treat cell.",
+    "format": "%lf",
+    "name": "Delay to treat cell",
+    "required": false,
+    "source_lines": [
+      1685
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatCaseCourseLength",
+    "category": "Interventions and behaviour",
+    "default": "5",
+    "description": "Duration, in model time units unless otherwise stated, for course of treatment.",
+    "format": "%lf",
+    "name": "Duration of course of treatment",
+    "required": false,
+    "source_lines": [
+      1686
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatProphCourseLength",
+    "category": "Vaccination and prophylaxis",
+    "default": "10",
+    "description": "Duration, in model time units unless otherwise stated, for course of prophylaxis.",
+    "format": "%lf",
+    "name": "Duration of course of prophylaxis",
+    "required": false,
+    "source_lines": [
+      1687
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPropCases",
+    "category": "Clinical pathways and outcomes",
+    "default": "1",
+    "description": "Fraction or probability assigned to detected cases treated.",
+    "format": "%lf",
+    "name": "Proportion of detected cases treated",
+    "required": false,
+    "source_lines": [
+      1688
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PrivateTreatPropCases",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Fraction or probability assigned to detected cases with private stockpile treated.",
+    "format": "%lf",
+    "name": "Proportion of detected cases with private stockpile treated",
+    "required": false,
+    "source_lines": [
+      1689
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PrivateTreatDelayMean",
+    "category": "Households",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before treat households with private stockpiles.",
+    "format": "%lf",
+    "name": "Delay to treat households with private stockpiles",
+    "required": false,
+    "source_lines": [
+      1692
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPropCaseHouseholds",
+    "category": "Households",
+    "default": "0",
+    "description": "Fraction or probability assigned to households of cases treated.",
+    "format": "%lf",
+    "name": "Proportion of households of cases treated",
+    "required": false,
+    "source_lines": [
+      1693
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PrivateTreatPropCaseHouseholds",
+    "category": "Households",
+    "default": "0",
+    "description": "Fraction or probability assigned to households with private stockpiles treated.",
+    "format": "%lf",
+    "name": "Proportion of households with private stockpiles treated",
+    "required": false,
+    "source_lines": [
+      1694
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatHouseholdsDuration",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Duration, in model time units unless otherwise stated, for household prophylaxis policy.",
+    "format": "%lf",
+    "name": "Duration of household prophylaxis policy",
+    "required": false,
+    "source_lines": [
+      1695
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPropRadial",
+    "category": "Core simulation control",
+    "default": "1.0",
+    "description": "Floating point parameter controlling proportion treated.",
+    "format": "%lf",
+    "name": "Proportion treated",
+    "required": false,
+    "source_lines": [
+      1697
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPropRadial",
+    "category": "Vaccination and prophylaxis",
+    "default": "1.0",
+    "description": "Floating point parameter controlling proportion treated in radial prophylaxis.",
+    "format": "%lf",
+    "name": "Proportion treated in radial prophylaxis",
+    "required": false,
+    "source_lines": [
+      1698
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatRadius",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Floating point parameter controlling treatment radius.",
+    "format": "%lf",
+    "name": "Treatment radius",
+    "required": false,
+    "source_lines": [
+      1699
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPlaceGeogDuration",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Duration, in model time units unless otherwise stated, for place/geographic prophylaxis policy.",
+    "format": "%lf",
+    "name": "Duration of place/geographic prophylaxis policy",
+    "required": false,
+    "source_lines": [
+      1700
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatTimeStartBase",
+    "category": "Interventions and behaviour",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling treatment start time.",
+    "format": "%lf",
+    "name": "Treatment start time",
+    "required": false,
+    "source_lines": [
+      1701
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPlaceProbCaseId",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Fraction or probability assigned to places treated after case detected.",
+    "format": "%lf",
+    "name": "Proportion of places treated after case detected",
+    "required": false,
+    "source_lines": [
+      1704
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatPlaceTotalProp",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Fraction or probability assigned to people treated in targeted places.",
+    "format": "%lf",
+    "name": "Proportion of people treated in targeted places",
+    "required": false,
+    "source_lines": [
+      1706
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatMaxCoursesBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "1e20",
+    "description": "Upper bound used for number of doses available.",
+    "format": "%lf",
+    "name": "Maximum number of doses available",
+    "required": false,
+    "source_lines": [
+      1709
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatNewCoursesStartTime",
+    "category": "Interventions and behaviour",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling start time of additional treatment production.",
+    "format": "%lf",
+    "name": "Start time of additional treatment production",
+    "required": false,
+    "source_lines": [
+      1710
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatNewCoursesRate",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Rate parameter controlling rate of additional treatment production (courses per day).",
+    "format": "%lf",
+    "name": "Rate of additional treatment production (courses per day)",
+    "required": false,
+    "source_lines": [
+      1711
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatMaxCoursesPerCase",
+    "category": "Vaccination and prophylaxis",
+    "default": "1000000000",
+    "description": "Upper bound used for number of people targetted with radial prophylaxis per case.",
+    "format": "%i",
+    "name": "Maximum number of people targetted with radial prophylaxis per case",
+    "required": false,
+    "source_lines": [
+      1712
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PropPrivateStockpile",
+    "category": "Households",
+    "default": "0",
+    "description": "Fraction or probability assigned to households buying private stockpile.",
+    "format": "%lf",
+    "name": "Proportion of households buying private stockpile",
+    "required": false,
+    "source_lines": [
+      1713
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PrivateStockpileOrderByIncome",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling income ordering of private stockpile (-1=low to high, 0=random, 1=high to low).",
+    "format": "%i",
+    "name": "Income ordering of private stockpile (-1=low to high, 0=random, 1=high to low)",
+    "required": false,
+    "source_lines": [
+      1714
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.EvolResistNumTypes",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Count used by the model for resistance levels.",
+    "format": "%i",
+    "name": "Number of resistance levels",
+    "required": false,
+    "source_lines": [
+      1716
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.EvolResistTreatMutationRate",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Probability assigned to mutation probability per treated infection of step increase in resistance.",
+    "format": "%lf",
+    "name": "Mutation probability per treated infection of step increase in resistance",
+    "required": false,
+    "source_lines": [
+      1719
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistProphMutationRate",
+    "category": "Transmission",
+    "default": "0",
+    "description": "Probability assigned to mutation probability per prophylaxed infection of step increase in resistance.",
+    "format": "%lf",
+    "name": "Mutation probability per prophylaxed infection of step increase in resistance",
+    "required": false,
+    "source_lines": [
+      1720
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistSeedProp",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Fraction or probability assigned to seed infections with different resistance levels.",
+    "format": "%lf",
+    "name": "Proportion of seed infections with different resistance levels",
+    "required": false,
+    "source_lines": [
+      1727
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistRelInf",
+    "category": "Transmission",
+    "default": null,
+    "description": "Multiplier relative to baseline for infectiousness of resistance levels.",
+    "format": "%lf",
+    "name": "Relative infectiousness of resistance levels",
+    "required": false,
+    "source_lines": [
+      1735
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistRelTreatInfDrop",
+    "category": "Transmission",
+    "default": null,
+    "description": "Floating point parameter controlling reduction in drop in infectiousness from treatment caused by resistance levels.",
+    "format": "%lf",
+    "name": "Reduction in drop in infectiousness from treatment caused by resistance levels",
+    "required": false,
+    "source_lines": [
+      1739
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistRelProphSusc",
+    "category": "Vaccination and prophylaxis",
+    "default": null,
+    "description": "Floating point parameter controlling reduction in drop in susceptiblity from prophylaxis caused by resistance levels.",
+    "format": "%lf",
+    "name": "Reduction in drop in susceptiblity from prophylaxis caused by resistance levels",
+    "required": false,
+    "source_lines": [
+      1743
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistRelTreatSympDrop",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling reduction in drop in symptoms from treatment caused by resistance levels.",
+    "format": "%lf",
+    "name": "Reduction in drop in symptoms from treatment caused by resistance levels",
+    "required": false,
+    "source_lines": [
+      1747
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.EvolResistRelTreatDeathDrop",
+    "category": "Clinical pathways and outcomes",
+    "default": null,
+    "description": "Floating point parameter controlling reduction in drop in deaths from treatment caused by resistance levels.",
+    "format": "%lf",
+    "name": "Reduction in drop in deaths from treatment caused by resistance levels",
+    "required": false,
+    "source_lines": [
+      1751
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TreatByAdminUnit",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling treat administrative units rather than rings.",
+    "format": "%i",
+    "name": "Treat administrative units rather than rings",
+    "required": false,
+    "source_lines": [
+      1764
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.TreatAdminUnitDivisor",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling administrative unit divisor for treatment.",
+    "format": "%i",
+    "name": "Administrative unit divisor for treatment",
+    "required": false,
+    "source_lines": [
+      1765
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccCellIncThresh",
+    "category": "Vaccination and prophylaxis",
+    "default": "1000000000",
+    "description": "Floating point parameter controlling vaccination trigger incidence per cell.",
+    "format": "%lf",
+    "name": "Vaccination trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      1771
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccSuscDrop",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Multiplier relative to baseline for susceptibility of vaccinated individual.",
+    "format": "%lf",
+    "name": "Relative susceptibility of vaccinated individual",
+    "required": false,
+    "source_lines": [
+      1776
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccSuscDrop2",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Multiplier relative to baseline for susceptibility of individual vaccinated after switch time.",
+    "format": "%lf",
+    "name": "Relative susceptibility of individual vaccinated after switch time",
+    "required": false,
+    "source_lines": [
+      1781
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccTimeEfficacySwitch",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling switch time at which vaccine efficacy increases.",
+    "format": "%lf",
+    "name": "Switch time at which vaccine efficacy increases",
+    "required": false,
+    "source_lines": [
+      1782
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccEfficacyDecay",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Rate parameter controlling decay rate of vaccine efficacy (per year).",
+    "format": "%lf",
+    "name": "Decay rate of vaccine efficacy (per year)",
+    "required": false,
+    "source_lines": [
+      1783
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccInfDrop",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Multiplier relative to baseline for infectiousness of vaccinated individual.",
+    "format": "%lf",
+    "name": "Relative infectiousness of vaccinated individual",
+    "required": false,
+    "source_lines": [
+      1785
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccMortDrop",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Fraction or probability assigned to symptomatic cases resulting in death prevented by vaccination.",
+    "format": "%lf",
+    "name": "Proportion of symptomatic cases resulting in death prevented by vaccination",
+    "required": false,
+    "source_lines": [
+      1786
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccSympDrop",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Fraction or probability assigned to symptomatic cases prevented by vaccination.",
+    "format": "%lf",
+    "name": "Proportion of symptomatic cases prevented by vaccination",
+    "required": false,
+    "source_lines": [
+      1787
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccDelayMean",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before vaccinate.",
+    "format": "%lf",
+    "name": "Delay to vaccinate",
+    "required": false,
+    "source_lines": [
+      1788
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccTimeToEfficacy",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling delay from vaccination to full protection.",
+    "format": "%lf",
+    "name": "Delay from vaccination to full protection",
+    "required": false,
+    "source_lines": [
+      1793
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccCampaignInterval",
+    "category": "Vaccination and prophylaxis",
+    "default": "1e10",
+    "description": "Floating point parameter controlling years between rounds of vaccination.",
+    "format": "%lf",
+    "name": "Years between rounds of vaccination",
+    "required": false,
+    "source_lines": [
+      1798
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.BaseVaccDosePerDay",
+    "category": "Vaccination and prophylaxis",
+    "default": "-1",
+    "description": "Integer parameter controlling base vaccine doses per day.",
+    "format": "%i",
+    "name": "Base vaccine doses per day",
+    "required": false,
+    "source_lines": [
+      1799
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxVaccDosePerDay",
+    "category": "Vaccination and prophylaxis",
+    "default": "-1",
+    "description": "Integer parameter controlling max vaccine doses per day.",
+    "format": "%i",
+    "name": "Max vaccine doses per day",
+    "required": false,
+    "source_lines": [
+      1800
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.BaseVaccGeoDosePerDay",
+    "category": "Vaccination and prophylaxis",
+    "default": "-1",
+    "description": "Integer parameter controlling base geo vaccine doses per day.",
+    "format": "%i",
+    "name": "Base geo vaccine doses per day",
+    "required": false,
+    "source_lines": [
+      1801
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxVaccGeoDosePerDay",
+    "category": "Vaccination and prophylaxis",
+    "default": "-1",
+    "description": "Integer parameter controlling max geo vaccine doses per day.",
+    "format": "%i",
+    "name": "Max geo vaccine doses per day",
+    "required": false,
+    "source_lines": [
+      1802
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ResetVaccQueue",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling reset vaccination queue each day.",
+    "format": "%i",
+    "name": "Reset vaccination queue each day",
+    "required": false,
+    "source_lines": [
+      1803
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccMaxRounds",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Upper bound used for number of rounds of vaccination.",
+    "format": "%i",
+    "name": "Maximum number of rounds of vaccination",
+    "required": false,
+    "source_lines": [
+      1805
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccPropCaseHouseholds",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Fraction or probability assigned to households of cases vaccinated.",
+    "format": "%lf",
+    "name": "Proportion of households of cases vaccinated",
+    "required": false,
+    "source_lines": [
+      1808
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccHouseholdsDuration",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Duration, in model time units unless otherwise stated, for household vaccination policy.",
+    "format": "%lf",
+    "name": "Duration of household vaccination policy",
+    "required": false,
+    "source_lines": [
+      1809
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoRingVaccination",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies ring vaccination.",
+    "format": "%i",
+    "name": "Do ring vaccination",
+    "required": false,
+    "source_lines": [
+      1813
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RingVaccCellIncThresh",
+    "category": "Vaccination and prophylaxis",
+    "default": "1000000000",
+    "description": "Floating point parameter controlling ring vaccination trigger incidence per cell.",
+    "format": "%lf",
+    "name": "Ring vaccination trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      1822
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RingVaccTimeStartBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX / P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling ring vaccination start time.",
+    "format": "%lf",
+    "name": "Ring vaccination start time",
+    "required": false,
+    "source_lines": [
+      1823
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.NPropRingVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Count used by the model for proportion of ring to vaccinate.",
+    "format": "%i",
+    "name": "Number of proportion of ring to vaccinate",
+    "required": false,
+    "source_lines": [
+      1825
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ChangePointPropRingVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": null,
+    "description": "Floating point parameter controlling change points proportion of ring to vaccinate.",
+    "format": "%lf",
+    "name": "Change points proportion of ring to vaccinate",
+    "required": true,
+    "source_lines": [
+      1829
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ListPropRingVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": null,
+    "description": "Floating point parameter controlling list of proportions of ring to vaccinate.",
+    "format": "%lf",
+    "name": "List of proportions of ring to vaccinate",
+    "required": true,
+    "source_lines": [
+      1830
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.TimeToIncVaccRing",
+    "category": "Vaccination and prophylaxis",
+    "default": "1e10",
+    "description": "Model time controlling when increase vaccination rings occurs.",
+    "format": "%lf",
+    "name": "Time to increase vaccination rings",
+    "required": false,
+    "source_lines": [
+      1835
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccTimeToEfficacyThirdVaccRing",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling delay from vaccination to full protection third ring.",
+    "format": "%lf",
+    "name": "Delay from vaccination to full protection third ring",
+    "required": false,
+    "source_lines": [
+      1837
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PropRingVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Fraction or probability assigned to ring to vaccinate.",
+    "format": "%lf",
+    "name": "Proportion of ring to vaccinate",
+    "required": false,
+    "source_lines": [
+      1839
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MinVaccAge",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Lower bound used for vaccination age.",
+    "format": "%i",
+    "name": "Minimum vaccination age",
+    "required": false,
+    "source_lines": [
+      1844
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DaysToRemoveCapacity",
+    "category": "Core simulation control",
+    "default": "USHRT_MAX / P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling days with no cases after which capacity is removed.",
+    "format": "%lf",
+    "name": "Days with no cases after which capacity is removed",
+    "required": false,
+    "source_lines": [
+      1847
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccTimeStartBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling vaccination start time.",
+    "format": "%lf",
+    "name": "Vaccination start time",
+    "required": false,
+    "source_lines": [
+      1849
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccProp",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Fraction or probability assigned to population vaccinated.",
+    "format": "%lf",
+    "name": "Proportion of population vaccinated",
+    "required": false,
+    "source_lines": [
+      1850
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccCoverageIncreasePeriod",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling time taken to reach max vaccination coverage (in years).",
+    "format": "%lf",
+    "name": "Time taken to reach max vaccination coverage (in years)",
+    "required": false,
+    "source_lines": [
+      1851
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoGeoVaccination",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies geographic vaccination.",
+    "format": "%i",
+    "name": "Do geographic vaccination",
+    "required": false,
+    "source_lines": [
+      1853
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.OnlyDoGeoVaccWhenNoRing",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling only do geographic vaccination when ring not established.",
+    "format": "%i",
+    "name": "Only do geographic vaccination when ring not established",
+    "required": false,
+    "source_lines": [
+      1856
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoVaccOutput",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Toggle or setting controlling whether vaccine distributions is written to output files.",
+    "format": "%i",
+    "name": "Output vaccine distributions",
+    "required": false,
+    "source_lines": [
+      1858
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoClusterVaccAccept",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies clustered vaccination acceptance by household.",
+    "format": "%i",
+    "name": "Do clustered vaccination acceptance by household",
+    "required": false,
+    "source_lines": [
+      1859
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccRadius",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling vaccination radius.",
+    "format": "%lf",
+    "name": "Vaccination radius",
+    "required": false,
+    "source_lines": [
+      1862,
+      1863
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.LimitGeoVaccDosesPerCase",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling limit vaccine doses per case per cell.",
+    "format": "%i",
+    "name": "Limit vaccine doses per case per cell",
+    "required": false,
+    "source_lines": [
+      1865
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccDosesPerCasePerCell",
+    "category": "Vaccination and prophylaxis",
+    "default": "100",
+    "description": "Integer parameter controlling vaccine doses per case per cell.",
+    "format": "%i",
+    "name": "Vaccine doses per case per cell",
+    "required": false,
+    "source_lines": [
+      1868
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.StopVaccinationPostThreshold",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Threshold value controlling stop vaccination in cells once vaccine acceptance threshold reached.",
+    "format": "%i",
+    "name": "Stop vaccination in cells once vaccine acceptance threshold reached",
+    "required": false,
+    "source_lines": [
+      1869
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PopHighDensityCell",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "500",
+    "description": "Integer parameter controlling population of high density cell.",
+    "format": "%i",
+    "name": "Population of high density cell",
+    "required": false,
+    "source_lines": [
+      1873
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccRadiusHighDensity",
+    "category": "Vaccination and prophylaxis",
+    "default": "500",
+    "description": "Floating point parameter controlling vaccination radius of high density cell.",
+    "format": "%lf",
+    "name": "Vaccination radius of high density cell",
+    "required": false,
+    "source_lines": [
+      1874
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccMinRadius",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Lower bound used for radius from case to vaccinate.",
+    "format": "%lf",
+    "name": "Minimum radius from case to vaccinate",
+    "required": false,
+    "source_lines": [
+      1876
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccMaxCoursesBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "1e20",
+    "description": "Upper bound used for number of vaccine courses available.",
+    "format": "%lf",
+    "name": "Maximum number of vaccine courses available",
+    "required": false,
+    "source_lines": [
+      1877
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccNewCoursesStartTimeBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling start time of additional vaccine production.",
+    "format": "%lf",
+    "name": "Start time of additional vaccine production",
+    "required": false,
+    "source_lines": [
+      1878
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccNewCoursesBoostStartTimeBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX / P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling start time of boosted vaccine production.",
+    "format": "%lf",
+    "name": "Start time of boosted vaccine production",
+    "required": false,
+    "source_lines": [
+      1879
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccNewCoursesEndTime",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling end time of additional vaccine production.",
+    "format": "%lf",
+    "name": "End time of additional vaccine production",
+    "required": false,
+    "source_lines": [
+      1880
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoVaccDailyReplenishment",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies daily vaccine replenishment.",
+    "format": "%i",
+    "name": "Do daily vaccine replenishment",
+    "required": false,
+    "source_lines": [
+      1881
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccNewCoursesRate",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Rate parameter controlling rate of additional vaccine production (courses per day).",
+    "format": "%lf",
+    "name": "Rate of additional vaccine production (courses per day)",
+    "required": false,
+    "source_lines": [
+      1884
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoVaccBulkReplenishment",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies bulk vaccine replenishment.",
+    "format": "%i",
+    "name": "Do bulk vaccine replenishment",
+    "required": false,
+    "source_lines": [
+      1887
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccNewCoursesInitFracBulk",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling init fraction of vaccine doses per delivery.",
+    "format": "%lf",
+    "name": "Init fraction of vaccine doses per delivery",
+    "required": false,
+    "source_lines": [
+      1890
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccNewCoursesInitDelay",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling init time between vaccine doses deliveries (in days).",
+    "format": "%lf",
+    "name": "Init time between vaccine doses deliveries (in days)",
+    "required": false,
+    "source_lines": [
+      1892
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccNewCoursesBulk",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling boosted number of vaccine doses per delivery.",
+    "format": "%lf",
+    "name": "Boosted number of vaccine doses per delivery",
+    "required": false,
+    "source_lines": [
+      1893
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.VaccNewCoursesDelay",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Floating point parameter controlling boosted time between vaccine doses deliveries (in days).",
+    "format": "%lf",
+    "name": "Boosted time between vaccine doses deliveries (in days)",
+    "required": false,
+    "source_lines": [
+      1894
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoMassVacc",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling apply mass rather than reactive vaccination.",
+    "format": "%i",
+    "name": "Apply mass rather than reactive vaccination",
+    "required": false,
+    "source_lines": [
+      1896
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccPriorityGroupAge",
+    "category": "Vaccination and prophylaxis",
+    "default": null,
+    "description": "Integer parameter controlling priority age range for mass vaccination.",
+    "format": "%i",
+    "name": "Priority age range for mass vaccination",
+    "required": false,
+    "source_lines": [
+      1897
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccByAdminUnit",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling vaccinate administrative units rather than rings.",
+    "format": "%i",
+    "name": "Vaccinate administrative units rather than rings",
+    "required": false,
+    "source_lines": [
+      1900
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.VaccAdminUnitDivisor",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Integer parameter controlling administrative unit divisor for vaccination.",
+    "format": "%i",
+    "name": "Administrative unit divisor for vaccination",
+    "required": false,
+    "source_lines": [
+      1901
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MoveRestrCellIncThresh",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1000000000",
+    "description": "Integer parameter controlling movement restrictions trigger incidence per cell.",
+    "format": "%i",
+    "name": "Movement restrictions trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      1908
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MoveDelayMean",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before start movement restrictions.",
+    "format": "%lf",
+    "name": "Delay to start movement restrictions",
+    "required": false,
+    "source_lines": [
+      1909
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveRestrDuration",
+    "category": "Core simulation control",
+    "default": "7",
+    "description": "Duration, in model time units unless otherwise stated, for movement restrictions.",
+    "format": "%lf",
+    "name": "Duration of movement restrictions",
+    "required": false,
+    "source_lines": [
+      1910
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveRestrEffect",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Floating point parameter controlling residual movements after restrictions.",
+    "format": "%lf",
+    "name": "Residual movements after restrictions",
+    "required": false,
+    "source_lines": [
+      1911
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveRestrRadius",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Lower bound used for radius of movement restrictions.",
+    "format": "%lf",
+    "name": "Minimum radius of movement restrictions",
+    "required": false,
+    "source_lines": [
+      1912
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MoveRestrTimeStartBase",
+    "category": "Core simulation control",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling movement restrictions start time.",
+    "format": "%lf",
+    "name": "Movement restrictions start time",
+    "required": false,
+    "source_lines": [
+      1913
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoBlanketMoveRestr",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling impose blanket movement restrictions.",
+    "format": "%i",
+    "name": "Impose blanket movement restrictions",
+    "required": false,
+    "source_lines": [
+      1914
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MoveRestrByAdminUnit",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling movement restrictions in administrative units rather than rings.",
+    "format": "%i",
+    "name": "Movement restrictions in administrative units rather than rings",
+    "required": false,
+    "source_lines": [
+      1917
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MoveRestrAdminUnitDivisor",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling administrative unit divisor for movement restrictions.",
+    "format": "%i",
+    "name": "Administrative unit divisor for movement restrictions",
+    "required": false,
+    "source_lines": [
+      1918
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoDetectDelay",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether delay to case detection is included in the simulation.",
+    "format": "%i",
+    "name": "Include delay to case detection",
+    "required": false,
+    "source_lines": [
+      1924
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoClusterCaseDetection",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies clustered case detection by household.",
+    "format": "%i",
+    "name": "Do clustered case detection by household",
+    "required": false,
+    "source_lines": [
+      1925
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DetectTime",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Mean value used for detection delay.",
+    "format": "%lf",
+    "name": "Mean detection delay",
+    "required": false,
+    "source_lines": [
+      1928
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoContactTracing",
+    "category": "Contact tracing",
+    "default": "0",
+    "description": "Toggle controlling whether contact tracing is included in the simulation.",
+    "format": "%i",
+    "name": "Include contact tracing",
+    "required": false,
+    "source_lines": [
+      2015
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ContactTracingCellIncThresh",
+    "category": "Contact tracing",
+    "default": "1000000000",
+    "description": "Floating point parameter controlling contact tracing trigger incidence per cell.",
+    "format": "%lf",
+    "name": "Contact tracing trigger incidence per cell",
+    "required": false,
+    "source_lines": [
+      2018
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ContactTracingTimeStartBase",
+    "category": "Contact tracing",
+    "default": "USHRT_MAX / P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling contact tracing start time.",
+    "format": "%lf",
+    "name": "Contact tracing start time",
+    "required": false,
+    "source_lines": [
+      2019
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.RelativeInfectiousnessContactTraced",
+    "category": "Contact tracing",
+    "default": null,
+    "description": "Multiplier relative to baseline for infectiousness of contact traced case.",
+    "format": "%lf",
+    "name": "Relative infectiousness of contact traced case",
+    "required": true,
+    "source_lines": [
+      2020
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.contactTraceDuration",
+    "category": "Contact tracing",
+    "default": null,
+    "description": "Duration, in model time units unless otherwise stated, for contact tracing.",
+    "format": "%lf",
+    "name": "Duration of contact tracing",
+    "required": true,
+    "source_lines": [
+      2021
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AdunitCTCapacity",
+    "category": "Contact tracing",
+    "default": "0",
+    "description": "Integer parameter controlling contact tracing capacity per admin unit.",
+    "format": "%i",
+    "name": "Contact tracing capacity per admin unit",
+    "required": true,
+    "source_lines": [
+      2031
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AdunitCTThreshold",
+    "category": "Contact tracing",
+    "default": "0",
+    "description": "Threshold value controlling contact tracing threshold per admin unit.",
+    "format": "%i",
+    "name": "Contact tracing threshold per admin unit",
+    "required": true,
+    "source_lines": [
+      2032
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.AdunitCTCapacityInc",
+    "category": "Contact tracing",
+    "default": "0",
+    "description": "Integer parameter controlling contact tracing increased capacity per admin unit.",
+    "format": "%i",
+    "name": "Contact tracing increased capacity per admin unit",
+    "required": false,
+    "source_lines": [
+      2033
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapacityToMoreCT",
+    "category": "Contact tracing",
+    "default": "1",
+    "description": "Floating point parameter controlling contact tracing capacity reached before increasing teams.",
+    "format": "%lf",
+    "name": "Contact tracing capacity reached before increasing teams",
+    "required": false,
+    "source_lines": [
+      2034
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DelayToCT",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Floating point parameter controlling subsequent time to increase teams.",
+    "format": "%lf",
+    "name": "Subsequent time to increase teams",
+    "required": false,
+    "source_lines": [
+      2035
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.contactTraceCapacity",
+    "category": "Contact tracing",
+    "default": "0",
+    "description": "Integer parameter controlling countrywide capacity for contact tracing.",
+    "format": "%i",
+    "name": "Countrywide capacity for contact tracing",
+    "required": false,
+    "source_lines": [
+      2061
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.contactTraceCaseThreshold",
+    "category": "Contact tracing",
+    "default": "1",
+    "description": "Integer parameter controlling cumulative cases per country before contact tracing begins.",
+    "format": "%i",
+    "name": "Cumulative cases per country before contact tracing begins",
+    "required": true,
+    "source_lines": [
+      2062
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.propContactTraced",
+    "category": "Core simulation control",
+    "default": "1",
+    "description": "Fraction or probability assigned to contacts to trace.",
+    "format": "%lf",
+    "name": "Proportion of contacts to trace",
+    "required": false,
+    "source_lines": [
+      2066
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.propContactLost",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Fraction or probability assigned to contacts lost to follow up.",
+    "format": "%lf",
+    "name": "Proportion of contacts lost to follow up",
+    "required": false,
+    "source_lines": [
+      2067
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HospitalisationTime_contactTrace",
+    "category": "Contact tracing",
+    "default": "1",
+    "description": "Model time controlling when hospitalisation for contact traced case occurs.",
+    "format": "%lf",
+    "name": "Time to hospitalisation for contact traced case",
+    "required": false,
+    "source_lines": [
+      2068
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.NMeanTimeToHospCT",
+    "category": "Contact tracing",
+    "default": "0",
+    "description": "Count used by the model for times to hospitalisation contact traced.",
+    "format": "%i",
+    "name": "Number of times to hospitalisation contact traced",
+    "required": false,
+    "source_lines": [
+      2069
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ChangePointMeanTimeToHospCT",
+    "category": "Contact tracing",
+    "default": null,
+    "description": "Floating point parameter controlling change points times to hospitalisation contact traced.",
+    "format": "%lf",
+    "name": "Change points times to hospitalisation contact traced",
+    "required": true,
+    "source_lines": [
+      2073
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MeanTimeToHospCT",
+    "category": "Contact tracing",
+    "default": null,
+    "description": "Floating point parameter controlling times to hospitalisation contact traced.",
+    "format": "%lf",
+    "name": "Times to hospitalisation contact traced",
+    "required": true,
+    "source_lines": [
+      2074
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.NVaccRings",
+    "category": "Vaccination and prophylaxis",
+    "default": "1",
+    "description": "Count used by the model for rings to vaccinate.",
+    "format": "%i",
+    "name": "Number of rings to vaccinate",
+    "required": false,
+    "source_lines": [
+      2082
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ProbEstablishRing",
+    "category": "Contact tracing",
+    "default": "1",
+    "description": "Probability assigned to probability of establishing vaccination ring/contact tracing.",
+    "format": "%lf",
+    "name": "Probability of establishing vaccination ring/contact tracing",
+    "required": false,
+    "source_lines": [
+      2087
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoCapitalCityEffect",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle controlling whether capital city effect is included in the simulation.",
+    "format": "%i",
+    "name": "Include capital city effect",
+    "required": false,
+    "source_lines": [
+      2091
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapitalCityAdunit",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Integer parameter controlling capital city admin unit.",
+    "format": "%i",
+    "name": "Capital city admin unit",
+    "required": false,
+    "source_lines": [
+      2095
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapitalCityAdunit2",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Integer parameter controlling capital city admin unit 2.",
+    "format": "%i",
+    "name": "Capital city admin unit 2",
+    "required": false,
+    "source_lines": [
+      2096
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapitalCityAdunit3",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Integer parameter controlling capital city admin unit 3.",
+    "format": "%i",
+    "name": "Capital city admin unit 3",
+    "required": false,
+    "source_lines": [
+      2097
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoCapitalCityDistanceEffect",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies capital city distance effect.",
+    "format": "%i",
+    "name": "Do capital city distance effect",
+    "required": false,
+    "source_lines": [
+      2098
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapitalCityDistanceEffect",
+    "category": "Administrative units and countries",
+    "default": "1.0",
+    "description": "Floating point parameter controlling capital city distance effect.",
+    "format": "%lf",
+    "name": "Capital city distance effect",
+    "required": false,
+    "source_lines": [
+      2099
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoCapitalCityPopEffect",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies capital city population effect.",
+    "format": "%i",
+    "name": "Do capital city population effect",
+    "required": false,
+    "source_lines": [
+      2100
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.CapitalCityPopEffect",
+    "category": "Administrative units and countries",
+    "default": "1.0",
+    "description": "Floating point parameter controlling capital city population effect.",
+    "format": "%lf",
+    "name": "Capital city population effect",
+    "required": false,
+    "source_lines": [
+      2101
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoCapitalCityAddEffect",
+    "category": "Administrative units and countries",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies capital city additive effect.",
+    "format": "%i",
+    "name": "Do capital city additive effect",
+    "required": false,
+    "source_lines": [
+      2102
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseCellIncThresh",
+    "category": "Places, travel, and mixing groups",
+    "default": "1000000000",
+    "description": "Integer parameter controlling trigger incidence per cell for place closure.",
+    "format": "%i",
+    "name": "Trigger incidence per cell for place closure",
+    "required": false,
+    "source_lines": [
+      2107
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseDelayMean",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before start place closure.",
+    "format": "%lf",
+    "name": "Delay to start place closure",
+    "required": false,
+    "source_lines": [
+      2108
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseDurationBase",
+    "category": "Places, travel, and mixing groups",
+    "default": "7",
+    "description": "Duration, in model time units unless otherwise stated, for place closure.",
+    "format": "%lf",
+    "name": "Duration of place closure",
+    "required": false,
+    "source_lines": [
+      2109
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseDuration2",
+    "category": "Places, travel, and mixing groups",
+    "default": "7",
+    "description": "Duration, in model time units unless otherwise stated, for second place closure.",
+    "format": "%lf",
+    "name": "Duration of second place closure",
+    "required": false,
+    "source_lines": [
+      2110
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseEffect",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Fraction or probability assigned to places remaining open after closure by place type.",
+    "format": "%lf",
+    "name": "Proportion of places remaining open after closure by place type",
+    "required": false,
+    "source_lines": [
+      2113
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseHouseholdRelContact",
+    "category": "Interventions and behaviour",
+    "default": "1",
+    "description": "Multiplier relative to baseline for houshold contact rate after closure.",
+    "format": "%lf",
+    "name": "Relative houshold contact rate after closure",
+    "required": false,
+    "source_lines": [
+      2117
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseSpatialRelContact",
+    "category": "Transmission",
+    "default": null,
+    "description": "Multiplier relative to baseline for spatial contact rate after closure.",
+    "format": "%lf",
+    "name": "Relative spatial contact rate after closure",
+    "required": false,
+    "source_lines": [
+      2118
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseRadius",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Lower bound used for radius for place closure.",
+    "format": "%lf",
+    "name": "Minimum radius for place closure",
+    "required": false,
+    "source_lines": [
+      2122
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseTimeStartBase",
+    "category": "Places, travel, and mixing groups",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling place closure start time.",
+    "format": "%lf",
+    "name": "Place closure start time",
+    "required": false,
+    "source_lines": [
+      2123
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseTimeStartBase2",
+    "category": "Places, travel, and mixing groups",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling place closure second start time.",
+    "format": "%lf",
+    "name": "Place closure second start time",
+    "required": false,
+    "source_lines": [
+      2124
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoPlaceCloseOnceOnly",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Integer parameter controlling places close only once.",
+    "format": "%i",
+    "name": "Places close only once",
+    "required": false,
+    "source_lines": [
+      2125
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseIncTrig",
+    "category": "Places, travel, and mixing groups",
+    "default": "1",
+    "description": "Threshold value controlling place closure incidence threshold.",
+    "format": "%i",
+    "name": "Place closure incidence threshold",
+    "required": false,
+    "source_lines": [
+      2126
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseFracIncTrig",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Threshold value controlling place closure fractional incidence threshold.",
+    "format": "%lf",
+    "name": "Place closure fractional incidence threshold",
+    "required": false,
+    "source_lines": [
+      2127
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseByAdminUnit",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Integer parameter controlling place closure in administrative units rather than rings.",
+    "format": "%i",
+    "name": "Place closure in administrative units rather than rings",
+    "required": false,
+    "source_lines": [
+      2130
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseAdminUnitDivisor",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Integer parameter controlling administrative unit divisor for place closure.",
+    "format": "%i",
+    "name": "Administrative unit divisor for place closure",
+    "required": false,
+    "source_lines": [
+      2131
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseAdunitPlaceTypes",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Integer parameter controlling place types to close for admin unit closure (0/1 array).",
+    "format": "%i",
+    "name": "Place types to close for admin unit closure (0/1 array)",
+    "required": false,
+    "source_lines": [
+      2132
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PlaceCloseCasePropThresh",
+    "category": "Places, travel, and mixing groups",
+    "default": "2",
+    "description": "Floating point parameter controlling cumulative proportion of place members needing to become sick for admin unit closure.",
+    "format": "%lf",
+    "name": "Cumulative proportion of place members needing to become sick for admin unit closure",
+    "required": false,
+    "source_lines": [
+      2134
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.PlaceCloseAdunitPropThresh",
+    "category": "Places, travel, and mixing groups",
+    "default": "2",
+    "description": "Fraction or probability assigned to places in admin unit needing to pass threshold for place closure.",
+    "format": "%lf",
+    "name": "Proportion of places in admin unit needing to pass threshold for place closure",
+    "required": false,
+    "source_lines": [
+      2135
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SocDistCellIncThresh",
+    "category": "Interventions and behaviour",
+    "default": "1000000000",
+    "description": "Integer parameter controlling trigger incidence per cell for social distancing.",
+    "format": "%i",
+    "name": "Trigger incidence per cell for social distancing",
+    "required": false,
+    "source_lines": [
+      2141
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.SocDistDuration",
+    "category": "Interventions and behaviour",
+    "default": "7",
+    "description": "Duration, in model time units unless otherwise stated, for social distancing.",
+    "format": "%lf",
+    "name": "Duration of social distancing",
+    "required": false,
+    "source_lines": [
+      2142
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SocDistPlaceEffect",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Multiplier relative to baseline for place contact rate given social distancing by place type.",
+    "format": "%lf",
+    "name": "Relative place contact rate given social distancing by place type",
+    "required": false,
+    "source_lines": [
+      2145
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ESocDistPlaceEffect",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Multiplier relative to baseline for place contact rate given enhanced social distancing by place type.",
+    "format": "%lf",
+    "name": "Relative place contact rate given enhanced social distancing by place type",
+    "required": false,
+    "source_lines": [
+      2147
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SocDistHouseholdEffect",
+    "category": "Interventions and behaviour",
+    "default": "1",
+    "description": "Multiplier relative to baseline for houshold contact rate given social distancing.",
+    "format": "%lf",
+    "name": "Relative houshold contact rate given social distancing",
+    "required": false,
+    "source_lines": [
+      2152
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ESocDistHouseholdEffect",
+    "category": "Interventions and behaviour",
+    "default": "1",
+    "description": "Multiplier relative to baseline for houshold contact rate given enhanced social distancing.",
+    "format": "%lf",
+    "name": "Relative houshold contact rate given enhanced social distancing",
+    "required": false,
+    "source_lines": [
+      2153
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SocDistSpatialEffect",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Multiplier relative to baseline for spatial contact rate given social distancing.",
+    "format": "%lf",
+    "name": "Relative spatial contact rate given social distancing",
+    "required": false,
+    "source_lines": [
+      2155
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SocDistRadius",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Lower bound used for radius for social distancing.",
+    "format": "%lf",
+    "name": "Minimum radius for social distancing",
+    "required": false,
+    "source_lines": [
+      2156
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.SocDistTimeStartBase",
+    "category": "Interventions and behaviour",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling social distancing start time.",
+    "format": "%lf",
+    "name": "Social distancing start time",
+    "required": false,
+    "source_lines": [
+      2157
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ESocProportionCompliant",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Floating point parameter controlling proportion compliant with enhanced social distancing.",
+    "format": "%lf",
+    "name": "Proportion compliant with enhanced social distancing",
+    "required": false,
+    "source_lines": [
+      2158
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.ESocDistSpatialEffect",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Multiplier relative to baseline for spatial contact rate given enhanced social distancing.",
+    "format": "%lf",
+    "name": "Relative spatial contact rate given enhanced social distancing",
+    "required": false,
+    "source_lines": [
+      2159
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportCloseEffectiveness",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Floating point parameter controlling airport closure effectiveness.",
+    "format": "%lf",
+    "name": "Airport closure effectiveness",
+    "required": false,
+    "source_lines": [
+      2162
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportCloseTimeStartBase",
+    "category": "Places, travel, and mixing groups",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling airport closure start time.",
+    "format": "%lf",
+    "name": "Airport closure start time",
+    "required": false,
+    "source_lines": [
+      2164
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.AirportCloseDuration",
+    "category": "Places, travel, and mixing groups",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling airport closure duration.",
+    "format": "%lf",
+    "name": "Airport closure duration",
+    "required": false,
+    "source_lines": [
+      2165
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantineTimeStartBase",
+    "category": "Households",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling household quarantine start time.",
+    "format": "%lf",
+    "name": "Household quarantine start time",
+    "required": false,
+    "source_lines": [
+      2169
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantineHouseDelay",
+    "category": "Households",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before start household quarantine.",
+    "format": "%lf",
+    "name": "Delay to start household quarantine",
+    "required": false,
+    "source_lines": [
+      2170
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantineHouseDuration",
+    "category": "Households",
+    "default": "0",
+    "description": "Floating point parameter controlling length of time households are quarantined.",
+    "format": "%lf",
+    "name": "Length of time households are quarantined",
+    "required": false,
+    "source_lines": [
+      2171
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantinePolicyDuration",
+    "category": "Households",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Duration, in model time units unless otherwise stated, for household quarantine policy.",
+    "format": "%lf",
+    "name": "Duration of household quarantine policy",
+    "required": false,
+    "source_lines": [
+      2172
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantineHouseEffect",
+    "category": "Households",
+    "default": "1",
+    "description": "Multiplier relative to baseline for household contact rate after quarantine.",
+    "format": "%lf",
+    "name": "Relative household contact rate after quarantine",
+    "required": false,
+    "source_lines": [
+      2173
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantinePlaceEffect",
+    "category": "Households",
+    "default": null,
+    "description": "Floating point parameter controlling residual place contacts after household quarantine by place type.",
+    "format": "%lf",
+    "name": "Residual place contacts after household quarantine by place type",
+    "required": false,
+    "source_lines": [
+      2176
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantineSpatialEffect",
+    "category": "Transmission",
+    "default": "1",
+    "description": "Floating point parameter controlling residual spatial contacts after household quarantine.",
+    "format": "%lf",
+    "name": "Residual spatial contacts after household quarantine",
+    "required": false,
+    "source_lines": [
+      2179
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantinePropHouseCompliant",
+    "category": "Households",
+    "default": "1",
+    "description": "Floating point parameter controlling household level compliance with quarantine.",
+    "format": "%lf",
+    "name": "Household level compliance with quarantine",
+    "required": false,
+    "source_lines": [
+      2180
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.HQuarantinePropIndivCompliant",
+    "category": "Interventions and behaviour",
+    "default": "1",
+    "description": "Floating point parameter controlling individual level compliance with quarantine.",
+    "format": "%lf",
+    "name": "Individual level compliance with quarantine",
+    "required": false,
+    "source_lines": [
+      2181
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationTimeStartBase",
+    "category": "Interventions and behaviour",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling case isolation start time.",
+    "format": "%lf",
+    "name": "Case isolation start time",
+    "required": false,
+    "source_lines": [
+      2185
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationProp",
+    "category": "Clinical pathways and outcomes",
+    "default": "0",
+    "description": "Fraction or probability assigned to detected cases isolated.",
+    "format": "%lf",
+    "name": "Proportion of detected cases isolated",
+    "required": false,
+    "source_lines": [
+      2186
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationDelay",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Delay, in model time units unless otherwise stated, before start case isolation.",
+    "format": "%lf",
+    "name": "Delay to start case isolation",
+    "required": false,
+    "source_lines": [
+      2187
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationDuration",
+    "category": "Interventions and behaviour",
+    "default": "0",
+    "description": "Duration, in model time units unless otherwise stated, for case isolation.",
+    "format": "%lf",
+    "name": "Duration of case isolation",
+    "required": false,
+    "source_lines": [
+      2188
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationPolicyDuration",
+    "category": "Interventions and behaviour",
+    "default": "1e10",
+    "description": "Duration, in model time units unless otherwise stated, for case isolation policy.",
+    "format": "%lf",
+    "name": "Duration of case isolation policy",
+    "required": false,
+    "source_lines": [
+      2189
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationEffectiveness",
+    "category": "Interventions and behaviour",
+    "default": "1",
+    "description": "Floating point parameter controlling residual contacts after case isolation.",
+    "format": "%lf",
+    "name": "Residual contacts after case isolation",
+    "required": false,
+    "source_lines": [
+      2190
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.CaseIsolationHouseEffectiveness",
+    "category": "Households",
+    "default": null,
+    "description": "Floating point parameter controlling residual household contacts after case isolation.",
+    "format": "%lf",
+    "name": "Residual household contacts after case isolation",
+    "required": false,
+    "source_lines": [
+      2193
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.KeyWorkerPopNum",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Count used by the model for key workers randomly distributed in the population.",
+    "format": "%i",
+    "name": "Number of key workers randomly distributed in the population",
+    "required": false,
+    "source_lines": [
+      2198
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.KeyWorkerPlaceNum",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Count used by the model for key workers in different places by place type.",
+    "format": "%i",
+    "name": "Number of key workers in different places by place type",
+    "required": false,
+    "source_lines": [
+      2199
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.KeyWorkerPropInKeyPlaces",
+    "category": "Places, travel, and mixing groups",
+    "default": null,
+    "description": "Fraction or probability assigned to staff who are key workers per chosen place by place type.",
+    "format": "%lf",
+    "name": "Proportion of staff who are key workers per chosen place by place type",
+    "required": false,
+    "source_lines": [
+      2201
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.KeyWorkerProphCellIncThresh",
+    "category": "Vaccination and prophylaxis",
+    "default": "1000000000",
+    "description": "Integer parameter controlling trigger incidence per cell for key worker prophylaxis.",
+    "format": "%i",
+    "name": "Trigger incidence per cell for key worker prophylaxis",
+    "required": false,
+    "source_lines": [
+      2203
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.KeyWorkerProphTimeStartBase",
+    "category": "Vaccination and prophylaxis",
+    "default": "USHRT_MAX/P.TimeStepsPerDay",
+    "description": "Floating point parameter controlling key worker prophylaxis start time.",
+    "format": "%lf",
+    "name": "Key worker prophylaxis start time",
+    "required": false,
+    "source_lines": [
+      2204
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.KeyWorkerProphDuration",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Duration, in model time units unless otherwise stated, for key worker prophylaxis.",
+    "format": "%lf",
+    "name": "Duration of key worker prophylaxis",
+    "required": false,
+    "source_lines": [
+      2205
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.KeyWorkerProphRenewalDuration",
+    "category": "Vaccination and prophylaxis",
+    "default": "P.KeyWorkerProphDuration",
+    "description": "Floating point parameter controlling time interval from start of key worker prophylaxis before policy restarted.",
+    "format": "%lf",
+    "name": "Time interval from start of key worker prophylaxis before policy restarted",
+    "required": false,
+    "source_lines": [
+      2206
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.KeyWorkerHouseProp",
+    "category": "Households",
+    "default": "0",
+    "description": "Fraction or probability assigned to key workers whose households are also treated as key workers.",
+    "format": "%lf",
+    "name": "Proportion of key workers whose households are also treated as key workers",
+    "required": false,
+    "source_lines": [
+      2209
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.KeyWorkerProphRadius",
+    "category": "Vaccination and prophylaxis",
+    "default": "0",
+    "description": "Lower bound used for radius for key worker prophylaxis.",
+    "format": "%lf",
+    "name": "Minimum radius for key worker prophylaxis",
+    "required": false,
+    "source_lines": [
+      2211
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.InfectionImportRate1",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Rate parameter controlling initial rate of importation of infections.",
+    "format": "%lf",
+    "name": "Initial rate of importation of infections",
+    "required": false,
+    "source_lines": [
+      2218
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.InfectionImportRate2",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Rate parameter controlling changed rate of importation of infections.",
+    "format": "%lf",
+    "name": "Changed rate of importation of infections",
+    "required": false,
+    "source_lines": [
+      2219
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.InfectionImportChangeTime",
+    "category": "Core simulation control",
+    "default": "1e10",
+    "description": "Model time controlling when time when infection rate changes occurs.",
+    "format": "%lf",
+    "name": "Time when infection rate changes",
+    "required": false,
+    "source_lines": [
+      2220
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoImportsViaAirports",
+    "category": "Places, travel, and mixing groups",
+    "default": "0",
+    "description": "Integer parameter controlling imports via air travel.",
+    "format": "%i",
+    "name": "Imports via air travel",
+    "required": false,
+    "source_lines": [
+      2221
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DurImportTimeProfile",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Vector or matrix parameter defining the length of importation time profile provided.",
+    "format": "%i",
+    "name": "Length of importation time profile provided",
+    "required": false,
+    "source_lines": [
+      2222
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ImportInfectionTimeProfile",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Vector or matrix parameter defining the daily importation time profile.",
+    "format": "%lf",
+    "name": "Daily importation time profile",
+    "required": true,
+    "source_lines": [
+      2226
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoImportToSpecLocation",
+    "category": "Seeding and importation",
+    "default": "0",
+    "description": "Integer parameter controlling import to specific location.",
+    "format": "%i",
+    "name": "Import to specific location",
+    "required": false,
+    "source_lines": [
+      2229
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.ImportLocation",
+    "category": "Seeding and importation",
+    "default": null,
+    "description": "Floating point parameter controlling location for imported cases.",
+    "format": "%lf",
+    "name": "Location for imported cases",
+    "required": false,
+    "source_lines": [
+      2230
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoRecordInfEvents",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Integer parameter controlling record infection events.",
+    "format": "%i",
+    "name": "Record infection events",
+    "required": false,
+    "source_lines": [
+      2236
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxInfEvents",
+    "category": "Outputs and diagnostics",
+    "default": "1000",
+    "description": "Integer parameter controlling max number of infection events to record.",
+    "format": "%i",
+    "name": "Max number of infection events to record",
+    "required": false,
+    "source_lines": [
+      2239
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RecordInfEventsPerRun",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Integer parameter controlling record infection events per run.",
+    "format": "%i",
+    "name": "Record infection events per run",
+    "required": false,
+    "source_lines": [
+      2240
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.LimitNumInfections",
+    "category": "Core simulation control",
+    "default": "0",
+    "description": "Integer parameter controlling limit number of infections.",
+    "format": "%i",
+    "name": "Limit number of infections",
+    "required": false,
+    "source_lines": [
+      2247
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxNumInfections",
+    "category": "Core simulation control",
+    "default": "60000",
+    "description": "Integer parameter controlling max number of infections.",
+    "format": "%i",
+    "name": "Max number of infections",
+    "required": false,
+    "source_lines": [
+      2250
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.PropCrossBorderInf",
+    "category": "Administrative units and countries",
+    "default": "1",
+    "description": "Fraction or probability assigned to infections allowed across country borders.",
+    "format": "%lf",
+    "name": "Proportion of infections allowed across country borders",
+    "required": false,
+    "source_lines": [
+      2253
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoOriginDestinationMatrix",
+    "category": "Outputs and diagnostics",
+    "default": "0",
+    "description": "Toggle or setting controlling whether origin destination matrix is written to output files.",
+    "format": "%i",
+    "name": "Output origin destination matrix",
+    "required": false,
+    "source_lines": [
+      2259
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.DoRoadDistanceEffect",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies distance road effect.",
+    "format": "%i",
+    "name": "Do distance road effect",
+    "required": false,
+    "source_lines": [
+      2263
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RoadAccessDistance",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1",
+    "description": "Scale parameter for distance scaling for road accessibility.",
+    "format": "%lf",
+    "name": "Distance scaling for road accessibility",
+    "required": false,
+    "source_lines": [
+      2264
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.DoRoadPopEffect",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "0",
+    "description": "Toggle controlling whether the model applies population road effect.",
+    "format": "%i",
+    "name": "Do population road effect",
+    "required": false,
+    "source_lines": [
+      2265
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.RoadAccessPop",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "1",
+    "description": "Scale parameter for population scaling for road accessibility.",
+    "format": "%lf",
+    "name": "Population scaling for road accessibility",
+    "required": false,
+    "source_lines": [
+      2266
+    ],
+    "type": "floating point"
+  },
+  {
+    "c_target": "P.MaxRoadType",
+    "category": "Spatial grid, kernels, and maps",
+    "default": "2",
+    "description": "Upper bound used for road type to consider.",
+    "format": "%i",
+    "name": "Maximum road type to consider",
+    "required": false,
+    "source_lines": [
+      2267
+    ],
+    "type": "integer"
+  },
+  {
+    "c_target": "P.MaxRoadNeighbour",
+    "category": "Vaccination and prophylaxis",
+    "default": "2",
+    "description": "Upper bound used for cells neighbouring road.",
+    "format": "%i",
+    "name": "Maximum cells neighbouring road",
+    "required": false,
+    "source_lines": [
+      2268
+    ],
+    "type": "integer"
+  }
+]

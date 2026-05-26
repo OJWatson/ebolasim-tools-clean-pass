@@ -1,0 +1,16 @@
+# ebolasim-tools patch: 0007-std-min-compat
+# Summary: Use std::min for a C++ Linux compatibility build.
+# Target files: SpatialSim.c
+# Model logic change: no
+# Compile only: true
+--- a/SpatialSim.c
++++ b/SpatialSim.c
+@@ -7738,7 +7738,7 @@
+ 
+ 						}
+ 						//vaccUsed = ((TimeSeries[(int)(P.VaccNewCoursesStartTime)].cumV + TimeSeries[(int)(P.VaccNewCoursesStartTime)].cumVG) - (TimeSeries[(int)(P.VaccNewCoursesStartTime-P.VaccNewCoursesInitDelay)].cumV + TimeSeries[(int)(P.VaccNewCoursesStartTime-P.VaccNewCoursesInitDelay)].cumVG));
+-						P.VaccMaxCourses += min(P.VaccNewCoursesInitBulk, vaccUsed);
++						P.VaccMaxCourses += std::min(P.VaccNewCoursesInitBulk, vaccUsed);
+ 						P.VaccNewCoursesStartTime += P.VaccNewCoursesInitDelay;
+ 					}
+ 				}

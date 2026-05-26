@@ -1,4 +1,4 @@
-"""Build concrete command lines for the legacy executable."""
+"""Build concrete command lines for the EbolaSim C model executable."""
 
 from __future__ import annotations
 
@@ -17,7 +17,7 @@ _FLAG_RE = re.compile(r"^/([^:]+):(.*)$")
 
 
 @dataclass(frozen=True)
-class LegacyArguments:
+class ModelArguments:
     parameter_file: str | None = None
     preparameter_file: str | None = None
     output_base: str | None = None
@@ -52,11 +52,11 @@ class LegacyArguments:
             args.append(f"/s:{self.school_file}")
         if self.r0_scale is not None:
             args.append(f"/R:{self.r0_scale}")
-        for key in sorted(self.clp):
-            args.append(f"/CLP{key}:{self.clp[key]}")
-        for key in sorted(self.extra_flags):
-            for value in self.extra_flags[key]:
-                args.append(f"/{key}:{value}")
+        for clp_index in sorted(self.clp):
+            args.append(f"/CLP{clp_index}:{self.clp[clp_index]}")
+        for flag_name in sorted(self.extra_flags):
+            for value in self.extra_flags[flag_name]:
+                args.append(f"/{flag_name}:{value}")
         args.extend(str(seed) for seed in self.seeds)
         args.extend(self.extra_positionals)
         return args
@@ -119,7 +119,7 @@ class CommandPlan:
         return json.dumps(self.to_dict(), indent=2 if pretty else None, sort_keys=True)
 
 
-def parse_legacy_args(arguments: Iterable[str]) -> LegacyArguments:
+def parse_model_args(arguments: Iterable[str]) -> ModelArguments:
     parameter_file = preparameter_file = output_base = density_file = None
     load_network_file = save_network_file = air_travel_file = school_file = r0_scale = None
     clp: dict[int, str] = {}
@@ -162,7 +162,7 @@ def parse_legacy_args(arguments: Iterable[str]) -> LegacyArguments:
             seeds.append(int(arg))
         except ValueError:
             extra_positionals.append(arg)
-    return LegacyArguments(
+    return ModelArguments(
         parameter_file=parameter_file,
         preparameter_file=preparameter_file,
         output_base=output_base,
@@ -181,7 +181,7 @@ def parse_legacy_args(arguments: Iterable[str]) -> LegacyArguments:
 
 def validate_argv(arguments: Iterable[str]) -> CommandValidation:
     args = [str(x) for x in arguments]
-    parsed = parse_legacy_args(args)
+    parsed = parse_model_args(args)
     errors: list[str] = []
     warnings: list[str] = []
     if not parsed.parameter_file:
@@ -241,11 +241,11 @@ def _resolve_path(value: str | Path | None, root: Path | None) -> str | None:
 
 def arguments_from_manifest(
     manifest: RunManifest, *, root: str | Path | None = None, output_base: str | Path | None = None
-) -> LegacyArguments:
+) -> ModelArguments:
     root_path = None if root is None else Path(root)
     network_mode = manifest.inputs.network_mode
     network_file = _resolve_path(manifest.inputs.network_file, root_path)
-    return LegacyArguments(
+    return ModelArguments(
         parameter_file=_resolve_path(manifest.inputs.parameter_file, root_path),
         preparameter_file=_resolve_path(manifest.inputs.preparameter_file, root_path),
         output_base=_resolve_path(output_base or manifest.outputs.output_base, root_path),
@@ -254,11 +254,11 @@ def arguments_from_manifest(
         save_network_file=network_file if network_mode == "save" else None,
         air_travel_file=_resolve_path(manifest.inputs.air_travel_file, root_path),
         school_file=_resolve_path(manifest.inputs.school_file, root_path),
-        r0_scale=manifest.legacy_args.r0_scale,
-        clp=dict(manifest.legacy_args.clp),
+        r0_scale=manifest.model_args.r0_scale,
+        clp=dict(manifest.model_args.clp),
         seeds=list(manifest.seeds),
-        extra_flags={k: list(v) for k, v in manifest.legacy_args.extra_flags.items()},
-        extra_positionals=list(manifest.legacy_args.extra_positionals),
+        extra_flags={k: list(v) for k, v in manifest.model_args.extra_flags.items()},
+        extra_positionals=list(manifest.model_args.extra_positionals),
     )
 
 
@@ -296,9 +296,9 @@ def build_command_plan(
 __all__ = [
     "CommandPlan",
     "CommandValidation",
-    "LegacyArguments",
+    "ModelArguments",
     "arguments_from_manifest",
     "build_command_plan",
-    "parse_legacy_args",
+    "parse_model_args",
     "validate_argv",
 ]

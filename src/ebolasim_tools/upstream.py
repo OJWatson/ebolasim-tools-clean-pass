@@ -1,4 +1,4 @@
-"""Pinned upstream source lock and fetch helpers."""
+"""Pinned upstream C model source lock and fetch helpers."""
 
 from __future__ import annotations
 
@@ -16,6 +16,7 @@ from typing import Any
 import yaml
 
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+REQUIRED_UPSTREAM_SOURCE_FILES = ("SpatialSim.c", "SpatialSim.h", "binio.cpp", "binio.h")
 
 
 @dataclass(frozen=True)
@@ -72,10 +73,12 @@ def default_upstream_lock_path() -> Path:
     if env:
         return Path(env)
     module_root = Path(__file__).resolve().parents[2]
-    repo_lock = module_root / "legacy-src" / "upstream.lock.yml"
+    repo_lock = module_root / "model-src" / "upstream.lock.yml"
     if repo_lock.exists():
         return repo_lock
-    packaged_lock = Path(__file__).resolve().parent / "legacy_patches" / "upstream.lock.yml"
+    packaged_lock = (
+        Path(__file__).resolve().parents[1] / "ebolasim" / "_patches" / "upstream.lock.yml"
+    )
     if packaged_lock.exists():
         return packaged_lock
     return repo_lock
@@ -89,18 +92,42 @@ def read_upstream_lock(lock_path: str | Path | None = None) -> UpstreamLock:
     upstream = payload.get("upstream")
     if not isinstance(upstream, dict):
         raise ValueError(f"upstream lock missing top-level 'upstream' mapping: {path}")
+
+    def required_text(key: str) -> str:
+        if key not in upstream:
+            raise ValueError(f"upstream lock missing upstream.{key}: {path}")
+        value = upstream[key]
+        if not isinstance(value, str):
+            raise ValueError(
+                f"upstream lock upstream.{key} must be a string in {path}; "
+                f"got {type(value).__name__}"
+            )
+        text = value.strip()
+        if not text:
+            raise ValueError(f"upstream lock upstream.{key} cannot be empty: {path}")
+        return text
+
+    schema_version = payload.get("schema_version", 1)
+    if not isinstance(schema_version, int):
+        raise ValueError(f"upstream lock schema_version must be an integer: {path}")
+    notes = payload.get("notes", [])
+    if notes is None:
+        notes = []
+    if not isinstance(notes, list):
+        raise ValueError(f"upstream lock notes must be a list when present: {path}")
+    strip_prefix_value = upstream.get("strip_prefix")
+    if strip_prefix_value is not None and not isinstance(strip_prefix_value, str):
+        raise ValueError(f"upstream lock upstream.strip_prefix must be a string: {path}")
     lock = UpstreamLock(
-        schema_version=int(payload.get("schema_version", 1)),
-        name=str(upstream["name"]),
-        repository=str(upstream["repository"]),
-        ref_type=str(upstream["ref_type"]),
-        ref=str(upstream["ref"]),
-        archive_url=str(upstream["archive_url"]),
-        archive_sha256=str(upstream["archive_sha256"]).lower(),
-        strip_prefix=(
-            None if upstream.get("strip_prefix") is None else str(upstream.get("strip_prefix"))
-        ),
-        notes=[str(item) for item in payload.get("notes", [])],
+        schema_version=schema_version,
+        name=required_text("name"),
+        repository=required_text("repository"),
+        ref_type=required_text("ref_type"),
+        ref=required_text("ref"),
+        archive_url=required_text("archive_url"),
+        archive_sha256=required_text("archive_sha256").lower(),
+        strip_prefix=None if strip_prefix_value is None else strip_prefix_value.strip(),
+        notes=[str(item) for item in notes],
     )
     if lock.ref_type not in {"commit", "tag", "release"}:
         raise ValueError(f"unsupported ref_type in upstream lock: {lock.ref_type}")
@@ -137,6 +164,10 @@ def _resolve_source_dir(extract_dir: Path, strip_prefix: str | None) -> Path | N
     return None
 
 
+def _missing_required_source_files(source_dir: Path) -> list[str]:
+    return [name for name in REQUIRED_UPSTREAM_SOURCE_FILES if not (source_dir / name).is_file()]
+
+
 def fetch_upstream_source(
     *,
     output_dir: str | Path = "build/upstream-source",
@@ -164,12 +195,12 @@ def fetch_upstream_source(
     if not diagnostics:
         request = urllib.request.Request(
             lock.archive_url,
-            headers={"User-Agent": "ebolasim-tools-upstream-fetch"},
+            headers={"User-Agent": "ebolasim-source-fetch"},
         )
         with urllib.request.urlopen(request, timeout=timeout) as response:  # noqa: S310
             archive_path.write_bytes(response.read())
     archive_sha256 = _sha256(archive_path) if archive_path.exists() else ""
-    if archive_sha256 != lock.archive_sha256:
+    if not diagnostics and archive_sha256 != lock.archive_sha256:
         diagnostics.append(
             "archive SHA256 mismatch "
             f"(expected {lock.archive_sha256}, got {archive_sha256 or 'missing'})"
@@ -184,6 +215,13 @@ def fetch_upstream_source(
                 "could not resolve extracted source directory "
                 "(set strip_prefix in upstream.lock.yml)"
             )
+        else:
+            missing = _missing_required_source_files(source_dir)
+            if missing:
+                diagnostics.append(
+                    "extracted source directory is missing required files: " + ", ".join(missing)
+                )
+                source_dir = None
     metadata_path = output / "upstream_fetch.json"
     result = UpstreamFetchResult(
         ok=not diagnostics,
@@ -204,6 +242,7 @@ def fetch_upstream_source(
 __all__ = [
     "UpstreamFetchResult",
     "UpstreamLock",
+    "REQUIRED_UPSTREAM_SOURCE_FILES",
     "default_upstream_lock_path",
     "fetch_upstream_source",
     "read_upstream_lock",

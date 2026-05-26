@@ -1,4 +1,4 @@
-"""Build the legacy C/C++ executable on Linux."""
+"""Build the upstream EbolaSim C/C++ executable on Linux."""
 
 from __future__ import annotations
 
@@ -193,7 +193,7 @@ def _timeout_stream(value: str | bytes | None) -> str:
 def build_model(
     source_dir: str | Path,
     *,
-    build_dir: str | Path = "build/legacy-linux",
+    build_dir: str | Path = "build/model-linux",
     target: str = "ebola-spatial-linux",
     country: str = "COUNTRY_WA",
     compiler: str | None = None,
@@ -207,7 +207,7 @@ def build_model(
     extra_ldflags: Sequence[str] = (),
     overwrite: bool = False,
 ) -> BuildResult:
-    """Patch and compile the legacy source, returning captured build metadata."""
+    """Patch and compile the upstream source, returning captured build metadata."""
 
     source = Path(source_dir)
     build = Path(build_dir)

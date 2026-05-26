@@ -1,4 +1,4 @@
-"""Helpers for packaging and resolving bundled legacy executables."""
+"""Helpers for packaging and resolving bundled C model executables."""
 
 from __future__ import annotations
 

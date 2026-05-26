@@ -2,9 +2,9 @@ from ebolasim_tools.build import build_command, build_model, inspect_source
 from ebolasim_tools.patches import copy_source_tree, read_patch_inventory
 
 
-def test_patch_inventory_contains_six_patches():
+def test_patch_inventory_contains_seven_patches():
     inventory = read_patch_inventory()
-    assert len(inventory.patches) == 6
+    assert len(inventory.patches) == 7
     assert inventory.patches[0].file.endswith(".patch")
     assert any(not patch.compile_only for patch in inventory.patches)
 
@@ -23,7 +23,7 @@ def test_inspect_source_ok_for_minimal_tree(tmp_path):
     assert report.missing == []
 
 
-def test_build_command_contains_legacy_sources(tmp_path):
+def test_build_command_contains_model_sources(tmp_path):
     cmd = build_command(source_dir=tmp_path, executable=tmp_path / "exe", country="WA")
     assert "g++" == cmd[0]
     assert "-DUNIX" in cmd

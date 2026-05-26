@@ -1,4 +1,4 @@
-"""Portable run manifests for the legacy ebolasim executable."""
+"""Internal execution manifests for the EbolaSim C model executable."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ from typing import Any
 import yaml
 
 MANIFEST_SCHEMA_VERSION = 1
-DEFAULT_ENGINE = "legacy_exec"
+DEFAULT_ENGINE = "c_model"
 DEFAULT_COUNTRY = "COUNTRY_WA"
 DEFAULT_SEEDS = [98798150, 729101, 1234567, 7654321]
 
@@ -88,7 +88,7 @@ class ManifestOutputs:
 
 
 @dataclass(frozen=True)
-class ManifestLegacyArgs:
+class ManifestModelArgs:
     r0_scale: str | None = "1.0"
     clp: dict[int, str] = field(default_factory=lambda: {1: "0", 2: "0"})
     extra_flags: dict[str, list[str]] = field(default_factory=dict)
@@ -105,12 +105,12 @@ class ManifestLegacyArgs:
         )
 
     @classmethod
-    def from_dict(cls, data: Mapping[str, Any] | None) -> ManifestLegacyArgs:
+    def from_dict(cls, data: Mapping[str, Any] | None) -> ManifestModelArgs:
         if not data:
             return cls()
         raw_clp = data.get("CLP", data.get("clp", {}))
         if not isinstance(raw_clp, Mapping):
-            raise ValueError("legacy_args.CLP must be a mapping")
+            raise ValueError("model_args.CLP must be a mapping")
         return cls(
             r0_scale=None if data.get("r0_scale") is None else str(data.get("r0_scale")),
             clp={int(k): str(v) for k, v in raw_clp.items()},
@@ -150,7 +150,7 @@ class RunManifest:
     threads: int | None = 1
     paramset: int | None = None
     executable: str | None = "ebola-spatial-linux"
-    legacy_args: ManifestLegacyArgs = field(default_factory=ManifestLegacyArgs)
+    model_args: ManifestModelArgs = field(default_factory=ManifestModelArgs)
     seeds: list[int] = field(default_factory=lambda: list(DEFAULT_SEEDS))
     source: ManifestSource = field(default_factory=ManifestSource)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -166,7 +166,7 @@ class RunManifest:
                 "executable": self.executable,
                 "inputs": self.inputs.to_dict(),
                 "outputs": self.outputs.to_dict(),
-                "legacy_args": self.legacy_args.to_dict(),
+                "model_args": self.model_args.to_dict(),
                 "seeds": list(self.seeds),
                 "source": self.source.to_dict(),
                 "metadata": self.metadata,
@@ -175,16 +175,18 @@ class RunManifest:
 
     @classmethod
     def from_dict(cls, data: Mapping[str, Any]) -> RunManifest:
+        threads = data.get("threads")
+        paramset = data.get("paramset")
         return cls(
             schema_version=int(data.get("schema_version", MANIFEST_SCHEMA_VERSION)),
             engine=str(data.get("engine", DEFAULT_ENGINE)),
             country=normalise_country(data.get("country")),
-            threads=None if data.get("threads") is None else int(data.get("threads")),
-            paramset=None if data.get("paramset") is None else int(data.get("paramset")),
+            threads=None if threads is None else int(threads),
+            paramset=None if paramset is None else int(paramset),
             executable=None if data.get("executable") is None else str(data.get("executable")),
             inputs=ManifestInputs.from_dict(data["inputs"]),
             outputs=ManifestOutputs.from_dict(data["outputs"]),
-            legacy_args=ManifestLegacyArgs.from_dict(data.get("legacy_args")),
+            model_args=ManifestModelArgs.from_dict(data.get("model_args")),
             seeds=[int(x) for x in data.get("seeds", DEFAULT_SEEDS)],
             source=ManifestSource.from_dict(data.get("source")),
             metadata=dict(data.get("metadata", {})),
@@ -240,7 +242,7 @@ __all__ = [
     "DEFAULT_SEEDS",
     "MANIFEST_SCHEMA_VERSION",
     "ManifestInputs",
-    "ManifestLegacyArgs",
+    "ManifestModelArgs",
     "ManifestOutputs",
     "ManifestSource",
     "RunManifest",

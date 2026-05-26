@@ -1,7 +1,16 @@
 from pathlib import Path
 
-from ebolasim_tools import run_model, summarise_outputs, write_tiny_example
-from ebolasim_tools.outputs import find_output_files, plot_output_timeseries, read_output_table
+import pytest
+
+from ebolasim_tools.bundled import BundledBinary
+from ebolasim_tools.examples import write_tiny_example
+from ebolasim_tools.outputs import (
+    find_output_files,
+    plot_output_timeseries,
+    read_output_table,
+    summarise_outputs,
+)
+from ebolasim_tools.run import run_model
 
 
 def make_fake_executable(path: Path) -> Path:
@@ -45,6 +54,74 @@ def test_run_model_with_fake_executable(tmp_path):
     assert Path(result.stderr_path).is_file()
     assert result.output_summary is not None
     assert result.output_summary["total_incidence"] == 1.0
+
+
+def test_run_model_uses_bundled_executable_when_exe_omitted(tmp_path, monkeypatch):
+    example = write_tiny_example(tmp_path / "tiny")
+    exe = make_fake_executable(tmp_path / "bundled_exec.py")
+
+    def fake_resolve_bundled_executable():
+        return BundledBinary(
+            ok=True,
+            platform_id="linux-x86_64",
+            target="ebola-spatial-linux",
+            path=exe.as_posix(),
+            diagnostics=[],
+        )
+
+    monkeypatch.setattr(
+        "ebolasim_tools.run.resolve_bundled_executable", fake_resolve_bundled_executable
+    )
+
+    result = run_model(example.save_manifest, root=example.root, run_dir=tmp_path / "run")
+
+    assert result.ok
+    assert result.command[0] == exe.as_posix()
+    assert any("using bundled executable" in item for item in result.diagnostics)
+
+
+def test_run_model_explicit_executable_takes_precedence(tmp_path, monkeypatch):
+    example = write_tiny_example(tmp_path / "tiny")
+    exe = make_fake_executable(tmp_path / "explicit_exec.py")
+
+    def unexpected_resolve():
+        raise AssertionError("bundled executable should not be resolved")
+
+    monkeypatch.setattr("ebolasim_tools.run.resolve_bundled_executable", unexpected_resolve)
+
+    result = run_model(
+        example.save_manifest,
+        executable=exe,
+        root=example.root,
+        run_dir=tmp_path / "run",
+    )
+
+    assert result.ok
+    assert result.command[0] == exe.as_posix()
+
+
+def test_run_model_without_exe_fails_clearly_when_bundle_missing(tmp_path, monkeypatch):
+    example = write_tiny_example(tmp_path / "tiny")
+
+    def fake_resolve_bundled_executable():
+        return BundledBinary(
+            ok=False,
+            platform_id="linux-x86_64",
+            target="ebola-spatial-linux",
+            path=None,
+            diagnostics=["bundled executable not found for linux-x86_64"],
+        )
+
+    monkeypatch.setattr(
+        "ebolasim_tools.run.resolve_bundled_executable", fake_resolve_bundled_executable
+    )
+
+    result = run_model(example.save_manifest, root=example.root, run_dir=tmp_path / "run")
+
+    assert not result.ok
+    assert result.classification == "execution_failed"
+    assert any("pass executable/--exe" in item for item in result.diagnostics)
+    assert "pass executable/--exe" in Path(result.stderr_path).read_text(encoding="utf-8")
 
 
 def test_run_model_dry_run(tmp_path):
@@ -100,10 +177,7 @@ def test_read_output_table_and_summary(tmp_path):
 
 
 def test_plot_output_timeseries_if_matplotlib_available(tmp_path):
-    try:
-        import matplotlib  # noqa: F401
-    except Exception:
-        return
+    pytest.importorskip("matplotlib")
     csv = tmp_path / "out.csv"
     csv.write_text("t,I\n0,0\n1,2\n", encoding="utf-8")
     out = plot_output_timeseries(csv, tmp_path / "plot.png")

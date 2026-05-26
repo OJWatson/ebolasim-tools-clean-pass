@@ -1,90 +1,120 @@
-# ebolasim-tools
+# ebolasim
 
-A lightweight Python wrapper for the legacy file-based `ebola-spatial` C/C++ model.
+Python interface for running the EbolaSim C model from exact C-model parameter
+files.
 
-This package deliberately treats the model as an external executable. It helps with the surrounding workflow:
+The package does not rewrite the model. It gives users a small Python API for
+creating parameter files, running the compiled executable, reading outputs,
+plotting trajectories, and comparing scenarios. Maintainer tools fetch the
+pinned upstream source, apply the package patch set, compile the Linux x86_64
+executable, and bundle it into release wheels.
 
-- apply the small Linux portability patch set;
-- compile the legacy source into a Linux executable;
-- read and write legacy parameter files;
-- create a tiny simulator-compatible example bundle;
-- write portable run manifests;
-- build the exact legacy command line;
-- run the executable with captured stdout, stderr and metadata;
-- summarise CSV outputs;
-- inspect density and saved-network binary headers.
+## Install And Develop With uv
 
-It does not redistribute the original model source. CI/release automation fetches a pinned public upstream
-archive, applies this package's patch set, compiles the Linux executable, and bundles that executable in
-release artifacts and platform wheels.
+```bash
+uv sync --extra dev --extra docs --extra plot
+uv run pytest -q
+uv run mkdocs build --strict
+uv build
+```
+
+For a fresh wheel smoke test:
+
+```bash
+uv build
+uv venv build/wheel-smoke --python 3.11
+uv pip install --python build/wheel-smoke/bin/python dist/*.whl
+build/wheel-smoke/bin/python -c "import ebolasim as es; print(es.resolve_executable(required=False))"
+```
 
 ## Quickstart
 
-```bash
-python -m pip install -e .
-
-# Show lock metadata for the pinned public upstream source.
-ebolasim upstream show --pretty
-
-# Fetch and verify the pinned upstream source archive.
-ebolasim upstream fetch --out build/upstream --pretty
-
-# Build the original model source on Linux (either fetched or user-provided).
-# Use result.source_dir from `ebolasim upstream fetch` output.
-ebolasim build /path/to/fetched/source --out build/linux --overwrite --pretty
-
-# Generate a small example input bundle.
-ebolasim example tiny examples/tiny --overwrite --pretty
-
-# Inspect the command without running.
-ebolasim command examples/tiny/manifest-save.yml --exe build/linux/ebola-spatial-linux --pretty
-
-# Run the compiled executable against the tiny example.
-ebolasim run examples/tiny/manifest-save.yml \
-  --exe build/linux/ebola-spatial-linux \
-  --root examples/tiny \
-  --out runs/tiny-save \
-  --timeout 30 \
-  --pretty
-
-# Summarise generated outputs.
-ebolasim outputs summary examples/tiny/outputs/save --pretty
-
-# Check whether this installation already includes a bundled executable.
-ebolasim bundled --pretty
-```
-
-## Public Python API
+Use the exact parameter names accepted by the C model:
 
 ```python
-from ebolasim_tools import build_model, write_tiny_example, run_model, summarise_outputs
+import ebolasim as es
 
-build = build_model("/path/to/source", build_dir="build/linux", overwrite=True)
-example = write_tiny_example("examples/tiny", overwrite=True)
-run = run_model(example.save_manifest, executable=build.executable, root=example.root, run_dir="runs/tiny")
-summary = summarise_outputs("examples/tiny/outputs/save")
+pars = es.demo_pars().set({
+    "Population size": 2400,
+    "Number of realisations": 20,
+    "Sampling time": 90,
+    "Reproduction number": 1.6,
+    "Initial number of infecteds": 1,
+    "Output incidence by administrative unit": 1,
+    "Output age file": 1,
+})
+
+sim = es.Sim(pars, label="baseline", outdir="runs/baseline")
+sim.run()
+print(sim.summary)
+sim.plot()
 ```
 
-## CI and release build pipeline
+Compare scenarios:
 
-`tools/ci/build_release_bundle.py` is the canonical make-like pipeline used by GitHub Actions:
+```python
+scenario = pars.copy().set({
+    "Reproduction number": 2.0,
+    "Include contact tracing": 1,
+})
 
-1. fetch the pinned upstream archive from `legacy-src/upstream.lock.yml`;
-2. verify source archive SHA256 and extract source;
-3. apply bundled patches and compile `ebola-spatial-linux`;
-4. run a seeded tiny simulation smoke check;
-5. stage the executable as package data under `src/ebolasim_tools/_bundled/<platform>/`;
-6. write reproducibility metadata and checksums to `dist/release-bundle/`.
+baseline = es.Sim(pars, label="baseline", outdir="runs/baseline").run()
+higher_r0 = es.Sim(scenario, label="higher_r0", outdir="runs/higher_r0").run()
 
-The CI workflow reruns this bundle build twice and compares binary SHA256 values for reproducibility.
+rows = es.compare_results([baseline, higher_r0])
+es.plot_compare([baseline, higher_r0])
+```
 
-## Remaining completion plan
+Inspect the command for cluster submission without running:
 
-The outstanding steps to finish this workstream are tracked in `docs/ci-release-completion-plan.md`.
+```python
+sim = es.Sim(
+    es.demo_pars({"Number of realisations": 100}),
+    outdir="runs/cluster_job",
+    threads=4,
+)
+print(sim.command().shell_command)
+sim.write_script("runs/cluster_job/submit.sh")
+```
 
-## What changed in this package pass
+## Command Line
 
-The previous phase-specific command set has been removed from the public package. The maintained surface is now the user workflow: build, patch, parameters, manifests, commands, runs, outputs, binary inspection and examples.
+The CLI also uses exact C-model names:
 
-Historical phase artefacts and generated run folders are not included in the source package. The useful
-Linux patch set is preserved under `legacy-src/patches` and as package data.
+```bash
+uv run ebolasim params write parameters.txt \
+  --set "Population size=2400" \
+  --set "Number of realisations=20" \
+  --set "Sampling time=90"
+
+uv run ebolasim command --out runs/demo --threads 4 \
+  --set "Population size=2400" \
+  --set "Number of realisations=20" \
+  --set "Sampling time=90"
+
+uv run ebolasim run --out runs/demo --threads 4 --pretty \
+  --set "Population size=24" \
+  --set "Number of realisations=1" \
+  --set "Sampling time=7"
+```
+
+Release wheels can include a bundled Linux x86_64 executable. If no bundled
+executable is available for your platform, pass `exe=...` in Python or `--exe`
+on the command line.
+
+## Maintainer Source Pipeline
+
+```bash
+uv run ebolasim source show --pretty
+uv run ebolasim source fetch --out build/upstream --pretty
+uv run ebolasim source build build/upstream/extract/ebolasim_public-... \
+  --out build/linux \
+  --overwrite
+uv run python tools/ci/build_release_bundle.py --overwrite
+```
+
+The release pipeline fetches the pinned upstream source from
+`model-src/upstream.lock.yml`, verifies SHA256, applies the bundled Linux patch
+set, compiles `ebola-spatial-linux`, runs a small `ebolasim.Sim` smoke check,
+stages the binary under `src/ebolasim/_bundled/<platform>/`, and writes
+provenance metadata and checksums.

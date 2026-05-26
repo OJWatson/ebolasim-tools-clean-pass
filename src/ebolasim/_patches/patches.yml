@@ -1,0 +1,41 @@
+phase: 28
+purpose: Linux compile patches plus Windows saved-network binary compatibility for the upstream C model executable
+patches:
+  - id: 0001-portability-headers
+    file: 0001-portability-headers.patch
+    source_files: [SpatialSim.h]
+    model_logic_change: false
+    compile_only: true
+  - id: 0002-variadic-error-macro
+    file: 0002-variadic-error-macro.patch
+    source_files: [SpatialSim.h]
+    model_logic_change: false
+    compile_only: true
+  - id: 0003-std-max-compat
+    file: 0003-std-max-compat.patch
+    source_files: [SpatialSim.c]
+    model_logic_change: false
+    compile_only: true
+  - id: 0004-windows-network-binary-compat
+    file: 0004-windows-network-binary-compat.patch
+    source_files: [SpatialSim.c]
+    model_logic_change: false
+    compile_only: false
+    compatibility_fix: windows_saved_network_long32
+  - id: 0005-const-char-input-names
+    file: 0005-const-char-input-names.patch
+    source_files: [SpatialSim.c]
+    model_logic_change: false
+    compile_only: true
+    compatibility_fix: linux_cpp_const_correctness
+  - id: 0006-output-header-tab-escape
+    file: 0006-output-header-tab-escape.patch
+    source_files: [SpatialSim.c]
+    model_logic_change: false
+    compile_only: false
+    compatibility_fix: output_header_tab_escape
+  - id: 0007-std-min-compat
+    file: 0007-std-min-compat.patch
+    source_files: [SpatialSim.c]
+    model_logic_change: false
+    compile_only: true

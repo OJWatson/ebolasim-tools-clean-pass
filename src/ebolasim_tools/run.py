@@ -1,4 +1,4 @@
-"""Subprocess runner for the legacy executable."""
+"""Subprocess runner for the EbolaSim C model executable."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
+from .bundled import resolve_bundled_executable
 from .command import build_command_plan
 from .manifest import RunManifest, read_manifest
 from .outputs import summarise_outputs
@@ -36,6 +37,7 @@ class RunResult:
     output_summary: dict[str, Any] | None
     stdout_tail: list[str] = field(default_factory=list)
     stderr_tail: list[str] = field(default_factory=list)
+    diagnostics: list[str] = field(default_factory=list)
     python: str = field(default_factory=lambda: sys.version.split()[0])
     platform: str = field(default_factory=platform.platform)
 
@@ -71,6 +73,8 @@ def classify_run(
     if timed_out:
         return "timed_out"
     if returncode is None:
+        if stderr:
+            return "execution_failed"
         return "not_executed"
     if returncode != 0:
         if "Unable to find parameter" in stderr:
@@ -93,7 +97,7 @@ def run_model(
     threads: int | None = None,
     dry_run: bool = False,
 ) -> RunResult:
-    """Run the legacy executable from a manifest and capture reproducibility metadata."""
+    """Run the C model executable from a manifest and capture reproducibility metadata."""
 
     run_manifest, manifest_path = _resolve_manifest(manifest)
     scenario_root = (
@@ -106,9 +110,22 @@ def run_model(
     stdout_path = work / "stdout.log"
     stderr_path = work / "stderr.log"
     metadata_path = work / "run_metadata.json"
+    effective_executable = executable
+    diagnostics: list[str] = []
+    if effective_executable is None:
+        bundled = resolve_bundled_executable()
+        if bundled.ok and bundled.path:
+            effective_executable = bundled.path
+            diagnostics.append(f"using bundled executable: {bundled.path}")
+        else:
+            diagnostics.extend(bundled.diagnostics)
+            diagnostics.append(
+                "no executable was supplied; pass executable/--exe or install a "
+                "platform wheel that includes the bundled executable"
+            )
     plan = build_command_plan(
         run_manifest,
-        executable=executable,
+        executable=effective_executable,
         root=scenario_root,
         working_directory=scenario_root,
         threads=threads,
@@ -121,31 +138,37 @@ def run_model(
     returncode: int | None = None
     timed_out = False
     if not dry_run:
-        try:
-            proc = subprocess.run(
-                plan.command,
-                cwd=scenario_root,
-                env=env,
-                text=True,
-                capture_output=True,
-                timeout=timeout,
-                check=False,
-            )
-            stdout = proc.stdout
-            stderr = proc.stderr
-            returncode = proc.returncode
-        except subprocess.TimeoutExpired as exc:
-            timed_out = True
-            stdout = (
-                exc.stdout
-                if isinstance(exc.stdout, str)
-                else (exc.stdout or b"").decode("utf-8", errors="replace")
-            )
-            stderr = (
-                exc.stderr
-                if isinstance(exc.stderr, str)
-                else (exc.stderr or b"").decode("utf-8", errors="replace")
-            )
+        if effective_executable is None:
+            stderr = "\n".join(diagnostics)
+        else:
+            try:
+                proc = subprocess.run(
+                    plan.command,
+                    cwd=scenario_root,
+                    env=env,
+                    text=True,
+                    capture_output=True,
+                    timeout=timeout,
+                    check=False,
+                )
+                stdout = proc.stdout
+                stderr = proc.stderr
+                returncode = proc.returncode
+            except subprocess.TimeoutExpired as exc:
+                timed_out = True
+                stdout = (
+                    exc.stdout
+                    if isinstance(exc.stdout, str)
+                    else (exc.stdout or b"").decode("utf-8", errors="replace")
+                )
+                stderr = (
+                    exc.stderr
+                    if isinstance(exc.stderr, str)
+                    else (exc.stderr or b"").decode("utf-8", errors="replace")
+                )
+            except OSError as exc:
+                stderr = f"failed to execute C model: {exc}"
+                diagnostics.append(stderr)
     elapsed = time.monotonic() - start
     stdout_path.write_text(stdout, encoding="utf-8")
     stderr_path.write_text(stderr, encoding="utf-8")
@@ -175,6 +198,7 @@ def run_model(
         output_summary=summary,
         stdout_tail=_tail(stdout),
         stderr_tail=_tail(stderr),
+        diagnostics=diagnostics,
     )
     metadata_path.write_text(result.to_json(pretty=True) + "\n", encoding="utf-8")
     return result

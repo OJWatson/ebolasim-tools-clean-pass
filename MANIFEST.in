@@ -1,0 +1,6 @@
+prune ignore
+prune artifacts
+prune model-src/original
+prune model-src/linux
+prune src/ebolasim/_bundled
+prune src/ebolasim_tools/_bundled

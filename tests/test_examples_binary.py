@@ -3,9 +3,9 @@ from pathlib import Path
 
 import pytest
 
-from ebolasim_tools import read_manifest, write_tiny_example
 from ebolasim_tools.binary import inspect_density_header, inspect_network_header, write_density_file
-from ebolasim_tools.examples import TinyExampleSpec, tiny_parameters
+from ebolasim_tools.examples import TinyExampleSpec, tiny_parameters, write_tiny_example
+from ebolasim_tools.manifest import read_manifest
 
 
 def test_write_tiny_example_creates_expected_files(tmp_path):

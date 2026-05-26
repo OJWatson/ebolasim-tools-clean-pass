@@ -1,4 +1,4 @@
-"""Read, summarise and optionally plot legacy model outputs."""
+"""Read, summarise and optionally plot EbolaSim output CSV files."""
 
 from __future__ import annotations
 

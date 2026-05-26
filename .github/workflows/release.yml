@@ -17,44 +17,87 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v8
         with:
           python-version: "3.11"
+          enable-cache: true
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install -e .[dev]
-          python -m pip install build
+        run: uv sync --frozen --extra dev --extra docs --extra plot
 
       - name: Validate upstream lock is pinned
         run: |
-          python - <<'PY'
-          from ebolasim_tools.upstream import read_upstream_lock
-          lock = read_upstream_lock("legacy-src/upstream.lock.yml")
+          uv run python - <<'PY'
+          from ebolasim.build import read_source_lock
+          lock = read_source_lock("model-src/upstream.lock.yml")
           if lock.is_placeholder:
               raise SystemExit(
-                  "legacy-src/upstream.lock.yml still has placeholder values. "
+                  "model-src/upstream.lock.yml still has placeholder values. "
                   "Pin the public upstream repository, ref, archive URL, and SHA256."
               )
           print(lock.to_json(pretty=True))
           PY
 
+      - name: Validate release tag matches package version
+        run: |
+          uv run python - <<'PY'
+          import os
+          import tomllib
+          from pathlib import Path
+          from ebolasim import __version__
+
+          event_name = os.environ["GITHUB_EVENT_NAME"]
+          tag = os.environ.get("GITHUB_REF_NAME", "")
+          if event_name == "release":
+              tag = os.environ.get("GITHUB_EVENT_RELEASE_TAG_NAME", tag)
+          if not tag.startswith("v"):
+              raise SystemExit(f"release tag must start with 'v': {tag}")
+          pyproject = tomllib.loads(Path("pyproject.toml").read_text(encoding="utf-8"))
+          package_version = pyproject["project"]["version"]
+          expected = f"v{package_version}"
+          if tag != expected:
+              raise SystemExit(f"release tag {tag} does not match pyproject version {expected}")
+          if __version__ != package_version:
+              raise SystemExit(
+                  f"package __version__ {__version__} does not match pyproject {package_version}"
+              )
+          print(f"release tag {tag} matches package version {package_version}")
+          PY
+        env:
+          GITHUB_EVENT_RELEASE_TAG_NAME: ${{ github.event.release.tag_name }}
+
       - name: Build verified release bundle
         run: |
-          python tools/ci/build_release_bundle.py \
+          uv run python tools/ci/build_release_bundle.py \
             --overwrite \
             --workdir build/release \
             --bundle-dir dist/release-bundle \
-            --package-root src/ebolasim_tools
+            --package-root src/ebolasim
 
       - name: Build wheel and sdist
-        run: python -m build
+        run: uv build
+
+      - name: Verify installed wheel resolves and runs bundled executable
+        run: |
+          uv venv .venv-wheel --python 3.11
+          uv pip install --python .venv-wheel/bin/python dist/*.whl
+          .venv-wheel/bin/python - <<'PY'
+          from ebolasim import resolve_executable
+
+          print(resolve_executable())
+          PY
+          .venv-wheel/bin/ebolasim run \
+            --out build/release-wheel-smoke/run \
+            --set "Population size=24" \
+            --set "Number of realisations=1" \
+            --set "Sampling time=7" \
+            --timeout 30 \
+            --pretty
 
       - name: Package release bundle
         run: |
-          python - <<'PY'
+          uv run python - <<'PY'
           from pathlib import Path
           import tarfile
 

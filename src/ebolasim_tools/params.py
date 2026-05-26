@@ -1,6 +1,6 @@
-"""Read and write legacy ebolasim parameter files.
+"""Read and write EbolaSim C model parameter files.
 
-The legacy model uses a simple bracketed text format::
+The upstream C model uses a simple bracketed text format::
 
     [Parameter name]
     value line
@@ -20,7 +20,7 @@ from typing import Any
 
 
 class ParameterFormatError(ValueError):
-    """Raised when a legacy parameter file cannot be parsed."""
+    """Raised when a C model parameter file cannot be parsed."""
 
 
 def _normalise_value(value: Any) -> str:
@@ -33,7 +33,7 @@ def _normalise_value(value: Any) -> str:
 
 @dataclass(frozen=True)
 class ParameterEntry:
-    """One named legacy parameter value."""
+    """One named C model parameter value."""
 
     name: str
     value: str
@@ -47,7 +47,7 @@ class ParameterEntry:
 
 
 class ParameterSet(MutableMapping[str, str]):
-    """Ordered mapping for legacy bracketed parameter files."""
+    """Ordered mapping for bracketed C model parameter files."""
 
     def __init__(self, values: dict[str, Any] | Iterable[tuple[str, Any]] | None = None) -> None:
         self._values: OrderedDict[str, str] = OrderedDict()
@@ -175,7 +175,7 @@ def tiny_parameter_set(
     realisations: int = 1,
     reproduction_number: float = 4.0,
 ) -> ParameterSet:
-    """Return a small legacy parameter set that can drive the tiny example."""
+    """Return a small parameter set that can drive the compact demo example."""
 
     age_distribution = " ".join("0.0588235294" for _ in range(17))
     values: list[tuple[str, Any]] = [

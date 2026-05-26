@@ -1,4 +1,4 @@
-"""Small binary probes for legacy density and saved-network files."""
+"""Small binary probes for C model density and saved-network files."""
 
 from __future__ import annotations
 
@@ -13,11 +13,11 @@ DENSITY_HEADER = struct.Struct("<II")
 DENSITY_RECORD = struct.Struct("<dddii")
 NETWORK_WINDOWS_HEADER = struct.Struct("<iii")
 NETWORK_LINUX_LONG64_HEADER = struct.Struct("<iqq")
-MAX_PLAUSIBLE_LEGACY_SEED = 2_147_483_647
+MAX_PLAUSIBLE_SEED = 2_147_483_647
 
 
 class BinaryFormatError(ValueError):
-    """Raised when a legacy binary probe cannot read the requested file."""
+    """Raised when a C model binary probe cannot read the requested file."""
 
 
 @dataclass(frozen=True)
@@ -149,8 +149,8 @@ def inspect_network_header(path: str | Path) -> NetworkHeader:
         )
         linux_plausible = (
             1 <= npt_l <= 64
-            and 0 <= seed1_l <= MAX_PLAUSIBLE_LEGACY_SEED
-            and 0 <= seed2_l <= MAX_PLAUSIBLE_LEGACY_SEED
+            and 0 <= seed1_l <= MAX_PLAUSIBLE_SEED
+            and 0 <= seed2_l <= MAX_PLAUSIBLE_SEED
         )
     if linux_plausible:
         detected = "linux_long_i64"

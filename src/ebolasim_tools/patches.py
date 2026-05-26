@@ -1,4 +1,4 @@
-"""Patch inventory and application helpers for the legacy C/C++ source."""
+"""Patch inventory and application helpers for the upstream C/C++ source."""
 
 from __future__ import annotations
 
@@ -71,7 +71,7 @@ class PatchApplication:
 def bundled_patch_dir() -> Path:
     """Return the directory containing bundled patch files."""
 
-    return Path(__file__).resolve().parent / "legacy_patches"
+    return Path(__file__).resolve().parents[1] / "ebolasim" / "_patches"
 
 
 def read_patch_inventory(patch_dir: str | Path | None = None) -> PatchInventory:
@@ -106,7 +106,7 @@ def copy_source_tree(
 
 
 def normalise_patch_target_line_endings(source_dir: str | Path) -> None:
-    """Convert known legacy text source files in a copied tree to LF endings."""
+    """Convert known C/C++ source files in a copied tree to LF endings."""
 
     root = Path(source_dir)
     for pattern in ("*.c", "*.h", "*.cpp", "*.hpp"):  # keep this to source-like files only

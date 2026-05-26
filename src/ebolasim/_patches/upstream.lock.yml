@@ -1,0 +1,12 @@
+schema_version: 1
+upstream:
+  name: ebolasim_public
+  repository: https://github.com/mrc-ide/ebolasim_public
+  ref_type: commit
+  ref: "8d68035c86a0016dec0577a3926adc1919dd4be4"
+  archive_url: https://github.com/mrc-ide/ebolasim_public/archive/8d68035c86a0016dec0577a3926adc1919dd4be4.tar.gz
+  archive_sha256: "d6d1db84763f654eabcff21ce8c2ced2efa92c575c05821d743739ed68267be6"
+  strip_prefix: ebolasim_public-8d68035c86a0016dec0577a3926adc1919dd4be4
+notes:
+  - Keep this package-data lock file in sync with model-src/upstream.lock.yml.
+  - Archive SHA256 computed from the GitHub commit tarball on 2026-05-25.

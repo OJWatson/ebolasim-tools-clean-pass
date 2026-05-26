@@ -3,6 +3,7 @@ import io
 import tarfile
 from pathlib import Path
 
+import pytest
 import yaml
 
 from ebolasim_tools.bundled import (
@@ -57,6 +58,54 @@ def test_read_upstream_lock(tmp_path):
     assert not loaded.is_placeholder
 
 
+def test_repo_locks_parse_and_stay_in_sync():
+    repo_lock = read_upstream_lock("model-src/upstream.lock.yml")
+    package_lock = read_upstream_lock("src/ebolasim/_patches/upstream.lock.yml")
+
+    assert not repo_lock.is_placeholder
+    assert not package_lock.is_placeholder
+    assert repo_lock.to_dict() | {"notes": []} == package_lock.to_dict() | {"notes": []}
+    assert isinstance(repo_lock.ref, str)
+    assert isinstance(repo_lock.archive_sha256, str)
+
+
+def test_placeholder_lock_values_parse_when_quoted(tmp_path):
+    lock = tmp_path / "placeholder.lock.yml"
+    _write_lock(
+        lock,
+        "https://github.com/PLACEHOLDER/ebolasim_public/archive/0.tar.gz",
+        "0" * 64,
+        "ebolasim_public-0000000000000000000000000000000000000000",
+    )
+    loaded = read_upstream_lock(lock)
+    assert loaded.is_placeholder
+    assert loaded.archive_sha256 == "0" * 64
+
+
+def test_read_upstream_lock_rejects_non_string_scalars(tmp_path):
+    lock = tmp_path / "bad.lock.yml"
+    lock.write_text(
+        yaml.safe_dump(
+            {
+                "schema_version": 1,
+                "upstream": {
+                    "name": "ebolasim_public",
+                    "repository": "https://example.invalid/ebolasim_public",
+                    "ref_type": "commit",
+                    "ref": 0,
+                    "archive_url": "file:///tmp/upstream.tar.gz",
+                    "archive_sha256": "a" * 64,
+                },
+            },
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="upstream.ref must be a string"):
+        read_upstream_lock(lock)
+
+
 def test_fetch_upstream_source_from_file_url(tmp_path):
     tarball = tmp_path / "upstream.tar.gz"
     sha = _make_tarball(tarball)
@@ -84,6 +133,28 @@ def test_fetch_upstream_source_hash_mismatch_is_reported(tmp_path):
     assert not result.ok
     assert result.source_dir is None
     assert any("SHA256 mismatch" in item for item in result.diagnostics)
+
+
+def test_fetch_upstream_source_validates_required_source_files(tmp_path):
+    tarball = tmp_path / "upstream.tar.gz"
+    with tarfile.open(tarball, "w:gz") as archive:
+        info = tarfile.TarInfo(name="upstream-src/SpatialSim.c")
+        data = b"int main(){return 0;}\n"
+        info.size = len(data)
+        archive.addfile(info, io.BytesIO(data))
+    lock = tmp_path / "upstream.lock.yml"
+    _write_lock(
+        lock,
+        tarball.resolve().as_uri(),
+        hashlib.sha256(tarball.read_bytes()).hexdigest(),
+        "upstream-src",
+    )
+
+    result = fetch_upstream_source(output_dir=tmp_path / "fetch", lock_path=lock, overwrite=True)
+
+    assert not result.ok
+    assert result.source_dir is None
+    assert any("missing required files" in item for item in result.diagnostics)
 
 
 def test_stage_and_resolve_bundled_executable(tmp_path):

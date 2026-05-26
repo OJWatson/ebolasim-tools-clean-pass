@@ -1,7 +1,19 @@
-site_name: ebolasim-tools
+site_name: ebolasim
+theme:
+  name: material
+plugins:
+  - search
+  - mkdocs-jupyter:
+      execute: true
+      include_source: true
+      include:
+        - "*.ipynb"
+        - "**/*.ipynb"
+      ignore_h1_titles: false
 nav:
-  - Home: index.md
-  - Building on Linux: building-linux.md
-  - CI/Release Completion Plan: ci-release-completion-plan.md
-  - Parameter files: parameters.md
-  - Development history: history.md
+  - Getting started: index.ipynb
+  - Parameters: parameters.ipynb
+  - Ebola2 validation:
+      - Overview: vignettes/ebola2/comparison.ipynb
+      - Evidence summary: vignettes/ebola2/evidence/comparison_summary.md
+  - Maintainers: maintainers.ipynb
